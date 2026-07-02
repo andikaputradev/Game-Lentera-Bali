@@ -777,38 +777,121 @@
     .btn-ar { background: #2563eb; }
 
     /* ============================================================
-       MODUL REAL-TIME BONUS KAMERA AR (AUGMENTED REALITY)
+       MODUL DUNIA BUDAYA 3D (THREE.JS + KAMERA + SENSOR 360)
+       Logika permainan ada di file terpisah: world3d.js
        ============================================================ */
     .ar-overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: #000; z-index: 50; display: none; flex-direction: column;
       justify-content: space-between; align-items: center; color: white;
     }
+    /* Cadangan tanpa kamera: langit senja magis */
+    .ar-overlay.w3d-sky-fallback {
+      background: linear-gradient(to bottom, #1a1440 0%, #4527a0 35%, #e65100 78%, #ffb74d 100%);
+    }
     .ar-video-stream {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       object-fit: cover; z-index: 51;
     }
-    .ar-3d-element-layer {
+    #w3d-canvas-holder {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      z-index: 52; pointer-events: none; display: flex; justify-content: center; align-items: center;
+      z-index: 52; touch-action: none;
     }
-    
-    /* UPDATE: Memperbesar ukuran gambar AR agar tampak melayang lebih besar & imersif */
-    .ar-floating-lantern {
-      width: 260px; /* Ukuran diperbesar dari 140px */
-      height: auto;
-      animation: arFloat 4s ease-in-out infinite alternate;
-      filter: drop-shadow(0 0 30px #facc15);
+    #w3d-canvas-holder canvas { width: 100% !important; height: 100% !important; display: block; }
+
+    .w3d-hud {
+      position: relative; z-index: 55; background: rgba(58, 29, 4, 0.88);
+      padding: 10px 14px; border-radius: 14px; border: 2.5px solid #facc15;
+      margin-top: 12px; text-align: center; max-width: 88%;
+      pointer-events: none;
     }
-    @keyframes arFloat {
-      0% { transform: translateY(-20px) rotate(-6deg) scale(1); }
-      100% { transform: translateY(20px) rotate(6deg) scale(1.08); }
+    .w3d-hud h3 { font-size: 0.95rem; color: #facc15; }
+    .w3d-hud p { font-size: 0.7rem; color: #eee; margin-top: 3px; }
+    .w3d-target {
+      margin-top: 7px; background: linear-gradient(to bottom, #7c2d12, #3a1d04);
+      border: 2px solid #facc15; border-radius: 12px; padding: 5px 14px;
+      font-size: 0.95rem; font-weight: 900; color: #facc15;
+      text-shadow: 1px 1px 0 #000;
+      animation: w3dPulse 1.6s ease-in-out infinite;
     }
-    .ar-hud-ui {
-      position: relative; z-index: 55; background: rgba(58, 29, 4, 0.85);
-      padding: 12px; border-radius: 14px; border: 2.5px solid #facc15;
-      margin-top: 15px; text-align: center; max-width: 85%;
+    @keyframes w3dPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    .w3d-progress { display: flex; gap: 6px; justify-content: center; margin-top: 8px; }
+    .w3d-slot {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px dashed rgba(255,255,255,0.6); background: rgba(0,0,0,0.35);
+      display: flex; justify-content: center; align-items: center;
+      font-size: 0.85rem; color: rgba(255,255,255,0.5);
     }
+    .w3d-slot.filled { border-style: solid; border-color: #22c55e; box-shadow: 0 0 8px #22c55e; color: #fff; }
+    .w3d-bonus { margin-top: 6px; font-size: 0.78rem; color: #4ade80; font-weight: bold; }
+
+    #w3d-radar {
+      position: absolute; top: 46%; left: 50%; transform: translateX(-50%);
+      z-index: 56; width: 64px; height: 64px; display: none;
+      justify-content: center; align-items: center;
+      font-size: 2.2rem; color: #facc15; pointer-events: none;
+      text-shadow: 0 0 12px #000;
+    }
+    #w3d-gyro-btn {
+      position: absolute; bottom: 110px; left: 50%; transform: translateX(-50%);
+      z-index: 56; display: none; padding: 10px 18px;
+      font-family: inherit; font-weight: bold; font-size: 0.85rem;
+      background: linear-gradient(to bottom, #2563eb, #1e40af); color: #fff;
+      border: 2px solid #93c5fd; border-radius: 24px; cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .w3d-toast {
+      position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+      z-index: 60; opacity: 0; pointer-events: none; max-width: 88%;
+      font-size: 1.25rem; font-weight: 900; color: #facc15; text-align: center;
+      text-shadow: 2px 2px 0 #000, 0 0 18px rgba(250,204,21,0.9);
+    }
+    .w3d-toast.show { animation: w3dToastPop 1.5s ease forwards; }
+    @keyframes w3dToastPop {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+      20% { opacity: 1; transform: translate(-50%, -50%) scale(1.12); }
+      75% { opacity: 1; transform: translate(-50%, -58%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -85%) scale(0.92); }
+    }
+
+    /* Kartu Pusaka: jendela ilmu tiap benda budaya */
+    #w3d-card {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 65; display: none; justify-content: center; align-items: center;
+      background: rgba(0,0,0,0.55); padding: 16px;
+    }
+    .w3d-card-box {
+      background: linear-gradient(to bottom, #fff8e7, #ffe9c2);
+      border: 4px solid #facc15; border-radius: 20px;
+      width: 100%; max-width: 340px; padding: 18px; text-align: center;
+      color: #3a1d04; box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      animation: w3dCardIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes w3dCardIn {
+      0% { transform: scale(0.4) rotate(-6deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+    .w3d-card-box .card-label { font-size: 0.65rem; letter-spacing: 2px; color: #b45309; font-weight: bold; }
+    .w3d-card-box .card-emoji { font-size: 2.2rem; margin: 2px 0; }
+    .w3d-card-box h2 { color: #7c2d12; font-size: 1.3rem; }
+    .w3d-card-box .card-arti { font-size: 0.8rem; color: #92400e; font-style: italic; margin-bottom: 8px; }
+    .w3d-card-box img {
+      width: 100%; max-height: 120px; object-fit: cover;
+      border-radius: 12px; border: 3px solid #d97706; margin-bottom: 8px;
+    }
+    .w3d-card-box .card-fakta {
+      font-size: 0.78rem; line-height: 1.45; text-align: left;
+      background: rgba(255,255,255,0.7); border-left: 4px solid #facc15;
+      padding: 8px 10px; border-radius: 8px; margin-bottom: 12px;
+    }
+    .w3d-card-box button {
+      width: 100%; padding: 11px; font-family: inherit; font-size: 0.9rem;
+      font-weight: bold; color: #fff; border: none; border-radius: 12px;
+      background: linear-gradient(to bottom, #22c55e, #15803d); cursor: pointer;
+      box-shadow: 0 4px 0 #14532d;
+    }
+    .w3d-card-box button:active { transform: translateY(3px); box-shadow: 0 1px 0 #14532d; }
     
     /* UPDATE: Kontrol Navigasi AR Row Buttons */
     .ar-action-controls {
@@ -902,7 +985,12 @@
       #page-main .btn-option { min-height: 36px; font-size: 0.75rem; padding: 6px; }
       #page-main .quiz-visual-box { max-height: 160px; }
       
-      #page-main .ar-floating-lantern { width: 190px; } /* Skala landscape disesuaikan */
+      /* Skala HUD Dunia 3D di layar mendatar */
+      #page-main .w3d-hud { padding: 6px 12px; margin-top: 8px; }
+      #page-main .w3d-hud h3 { font-size: 0.8rem; }
+      #page-main .w3d-target { font-size: 0.8rem; padding: 4px 10px; margin-top: 4px; }
+      #page-main .w3d-slot { width: 22px; height: 22px; font-size: 0.7rem; }
+      #page-main .w3d-card-box img { max-height: 90px; }
       #page-main .ar-action-controls { padding-bottom: 12px; }
     }
 
@@ -1023,7 +1111,7 @@
   </div>
 
   <div class="footer-banner">
-    <h3>Selesaikan tingkatan materi untuk membuka fitur Kamera AR Budaya Spasial!</h3>
+    <h3>Selesaikan tiap level untuk menjelajahi Dunia Budaya 3D di sekelilingmu! 🌏</h3>
     <button class="btn-materi" onclick="navigateTo('materi')">📖 Materi Belajar</button>
   </div>
 </div>
@@ -1071,7 +1159,7 @@
       <h2>🎉 LEVEL SELESAI! 🎉</h2>
       <p>Bagus sekali! Seluruh soal pada tingkat ini berhasil dikerjakan.</p>
       <div style="font-size:1.1rem; font-weight:bold; margin:10px 0; color:#facc15;">Skor: <span id="final-score-val">0</span></div>
-      <button class="btn-popup btn-ar" onclick="startARMode()">📷 Bonus Kamera AR Budaya</button>
+      <button class="btn-popup btn-ar" onclick="startWorld3D()">🌏 Jelajahi Dunia Budaya 3D!</button>
       <button class="btn-popup btn-continue" onclick="saveAndExitQuiz()">Simpan &amp; Kembali</button>
     </div>
   </div>
@@ -1087,15 +1175,31 @@
   </div>
 
   <div class="ar-overlay" id="ar-overlay">
-    <video class="ar-video-stream" id="ar-video" autoplay playsinline></video>
-    
-    <div class="ar-hud-ui">
-      <h3 style="color:#facc15;" id="ar-hud-title">BONUS AR SPASIAL</h3>
-      <p style="font-size:0.75rem; color:#eee; margin-top:4px;">Arahkan kamera ke lingkunganmu dan lihat objek warisan budaya Bali melayang!</p>
+    <video class="ar-video-stream" id="ar-video" autoplay playsinline muted></video>
+    <div id="w3d-canvas-holder"></div>
+
+    <div class="w3d-hud">
+      <h3 id="w3d-title">🌏 DUNIA BUDAYA 3D</h3>
+      <p id="w3d-desc">Putar badanmu ke segala arah, cari benda budaya, lalu sentuh!</p>
+      <div class="w3d-target">🎯 Cari: <span id="w3d-target-name">...</span></div>
+      <div class="w3d-progress" id="w3d-progress"></div>
+      <div class="w3d-bonus">⭐ Bonus Petualangan: +<span id="w3d-bonus-val">0</span></div>
     </div>
 
-    <div class="ar-3d-element-layer">
-      <img id="ar-floating-img" src="AR1.png" class="ar-floating-lantern" alt="Objek AR" />
+    <div id="w3d-radar">➤</div>
+    <button id="w3d-gyro-btn">🧭 Aktifkan Sensor Gerak</button>
+    <div class="w3d-toast" id="w3d-toast"></div>
+
+    <div id="w3d-card">
+      <div class="w3d-card-box">
+        <div class="card-label">✦ KARTU PUSAKA ✦</div>
+        <div class="card-emoji" id="w3d-card-emoji">🛕</div>
+        <h2 id="w3d-card-nama">...</h2>
+        <div class="card-arti" id="w3d-card-arti">...</div>
+        <img id="w3d-card-foto" src="" alt="Foto benda budaya" />
+        <div class="card-fakta" id="w3d-card-fakta">...</div>
+        <button onclick="closeW3DCard()">✨ Simpan ke Museum &amp; Lanjut!</button>
+      </div>
     </div>
 
     <div class="ar-action-controls">
@@ -1207,16 +1311,15 @@
 
   let selectedLeftNode = null;
   let activeLevelMatches = [];
-  let connectedMatches = []; 
+  let connectedMatches = [];
   let canvas, ctx;
-  let localVideoStream = null;
 
   function navigateTo(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById('page-' + pageId);
     if (target) target.classList.add('active');
 
-    if (pageId !== 'main') { closeARMode(); }
+    if (pageId !== 'main') { closeWorld3D(); }
 
     if (pageId === 'play') updatePlayDashboard();
     if (pageId === 'peta') renderMapProgress();
@@ -1573,60 +1676,22 @@
   }
 
   // ================================================================
-  //  MODUL FITUR BONUS LIVE STREAMING KAMERA AR SPASIAL
+  //  MODE DUNIA BUDAYA 3D
+  //  Seluruh logika (adegan 3D, sensor gyro, Kartu Pusaka) berada
+  //  di world3d.js. Fungsi startWorld3D() & closeWorld3D() berasal
+  //  dari file tersebut.
   // ================================================================
-  function startARMode() {
-    const arOverlay = document.getElementById('ar-overlay');
-    const video = document.getElementById('ar-video');
-    const arImg = document.getElementById('ar-floating-img');
-    const nextBtn = document.getElementById('btn-ar-next-action');
-    
-    if (arImg) {
-      arImg.src = "AR" + currentLevel + ".png";
-    }
 
-    // UPDATE: Set label tombol Next Level secara dinamis berdasarkan progres level
-    if (currentLevel >= 3) {
-      nextBtn.innerText = "Simpan & Selesai Kuis 🏁";
-    } else {
-      nextBtn.innerText = "Level Selanjutnya →";
-    }
-
-    arOverlay.style.display = 'flex';
-
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-        .then(stream => {
-          localVideoStream = stream;
-          video.srcObject = stream;
-          video.play().catch(() => {});
-        })
-        .catch(err => {
-          console.log("Akses kamera tidak diizinkan atau tidak didukung:", err);
-        });
-    }
-  }
-
-  function closeARMode() {
-    const video = document.getElementById('ar-video');
-    if (localVideoStream) {
-      localVideoStream.getTracks().forEach(track => track.stop());
-      localVideoStream = null;
-    }
-    video.srcObject = null;
-    document.getElementById('ar-overlay').style.display = 'none';
-  }
-
-  // UPDATE: Fungsi penanganan aksi tombol navigasi baru di AR
+  // Fungsi penanganan aksi tombol navigasi di Dunia 3D
   function exitARToMap() {
     saveProgressState();
-    closeARMode();
+    closeWorld3D();
     navigateTo('peta');
   }
 
   function proceedToNextLevel() {
     saveProgressState();
-    closeARMode();
+    closeWorld3D();
     
     if (currentLevel < 3) {
       // Otomatis lanjut ke tingkatan level berikutnya
@@ -1680,6 +1745,10 @@
     }
   }, { once: true });
 </script>
+
+<!-- Mesin 3D & mode Dunia Budaya 3D -->
+<script src="three.min.js"></script>
+<script src="world3d.js"></script>
 
 </body>
 </html>

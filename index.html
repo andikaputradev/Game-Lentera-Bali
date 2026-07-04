@@ -735,7 +735,7 @@
     .match-node.selected { background: #fef08a; border-color: #eab308; }
     .match-node.matched { background: #dcfce7; border-color: #22c55e; cursor: default; }
     
-    .match-node-text { font-size: 0.75rem; font-weight: bold; color: #321602; width: 100%; text-align: center; }
+    .match-node-text { font-size: 0.75rem; font-weight: bold; color: #321602; width: 100%; text-align: center; line-height: 1.3; }
     .match-node-img-box { width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; }
     .match-node-img { max-height: 100%; max-width: 100%; object-fit: contain; }
     
@@ -777,48 +777,24 @@
     .btn-ar { background: #2563eb; }
 
     /* ============================================================
-       MODUL REAL-TIME BONUS KAMERA AR (AUGMENTED REALITY)
+       MODUL INTERAKTIF BONUS KAMERA AR (VIRTUAL TOUR 360)
        ============================================================ */
     .ar-overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: #000; z-index: 50; display: none; flex-direction: column;
       justify-content: space-between; align-items: center; color: white;
     }
-    .ar-video-stream {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      object-fit: cover; z-index: 51;
-    }
-    .ar-3d-element-layer {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      z-index: 52; pointer-events: none; display: flex; justify-content: center; align-items: center;
-    }
-    
-    /* UPDATE: Memperbesar ukuran gambar AR agar tampak melayang lebih besar & imersif */
-    .ar-floating-lantern {
-      width: 260px; /* Ukuran diperbesar dari 140px */
-      height: auto;
-      animation: arFloat 4s ease-in-out infinite alternate;
-      filter: drop-shadow(0 0 30px #facc15);
-    }
-    @keyframes arFloat {
-      0% { transform: translateY(-20px) rotate(-6deg) scale(1); }
-      100% { transform: translateY(20px) rotate(6deg) scale(1.08); }
-    }
     .ar-hud-ui {
-      position: relative; z-index: 55; background: rgba(58, 29, 4, 0.85);
-      padding: 12px; border-radius: 14px; border: 2.5px solid #facc15;
-      margin-top: 15px; text-align: center; max-width: 85%;
+      position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
+      z-index: 55; background: rgba(58, 29, 4, 0.9);
+      padding: 10px 16px; border-radius: 14px; border: 2.5px solid #facc15;
+      text-align: center; width: 90%; max-width: 440px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.5);
     }
-    
-    /* UPDATE: Kontrol Navigasi AR Row Buttons */
     .ar-action-controls {
-      position: relative;
-      z-index: 55;
-      width: 100%;
-      max-width: 480px;
-      display: flex;
-      gap: 12px;
-      padding: 15px 20px 25px 20px;
+      position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
+      z-index: 55; width: 90%; max-width: 480px;
+      display: flex; gap: 12px; padding: 0;
     }
     .btn-ar-nav {
       flex: 1;
@@ -901,9 +877,7 @@
       #page-main .question-text { max-height: 80px; font-size: 0.85rem; padding: 8px; }
       #page-main .btn-option { min-height: 36px; font-size: 0.75rem; padding: 6px; }
       #page-main .quiz-visual-box { max-height: 160px; }
-      
-      #page-main .ar-floating-lantern { width: 190px; } /* Skala landscape disesuaikan */
-      #page-main .ar-action-controls { padding-bottom: 12px; }
+      #page-main .ar-action-controls { bottom: 10px; }
     }
 
     /* Responsive Portrait Mode */
@@ -1071,7 +1045,7 @@
       <h2>🎉 LEVEL SELESAI! 🎉</h2>
       <p>Bagus sekali! Seluruh soal pada tingkat ini berhasil dikerjakan.</p>
       <div style="font-size:1.1rem; font-weight:bold; margin:10px 0; color:#facc15;">Skor: <span id="final-score-val">0</span></div>
-      <button class="btn-popup btn-ar" onclick="startARMode()">📷 Bonus Kamera AR Budaya</button>
+      <button class="btn-popup btn-ar" onclick="startARMode()">📷 Bonus Fitur Ruang AR Budaya</button>
       <button class="btn-popup btn-continue" onclick="saveAndExitQuiz()">Simpan &amp; Kembali</button>
     </div>
   </div>
@@ -1087,15 +1061,11 @@
   </div>
 
   <div class="ar-overlay" id="ar-overlay">
-    <video class="ar-video-stream" id="ar-video" autoplay playsinline></video>
+    <iframe id="ar-frame" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 51;" allow="gyroscope; accelerometer; magnetometer;"></iframe>
     
     <div class="ar-hud-ui">
-      <h3 style="color:#facc15;" id="ar-hud-title">BONUS AR SPASIAL</h3>
-      <p style="font-size:0.75rem; color:#eee; margin-top:4px;">Arahkan kamera ke lingkunganmu dan lihat objek warisan budaya Bali melayang!</p>
-    </div>
-
-    <div class="ar-3d-element-layer">
-      <img id="ar-floating-img" src="AR1.png" class="ar-floating-lantern" alt="Objek AR" />
+      <h3 style="color:#facc15;" id="ar-hud-title">BONUS BUDAYA SPASIAL INTERAKTIF</h3>
+      <p style="font-size:0.75rem; color:#eee; margin-top:4px;">Gunakan gestur geser pada layar untuk mengeksplorasi simulasi ruang warisan kebudayaan Bali secara 360°!</p>
     </div>
 
     <div class="ar-action-controls">
@@ -1158,7 +1128,7 @@
       { type: "text-to-image", text: "Mebakti", img: "cocokparah5.png" },
       { type: "text-to-image", text: "Pura Tanah Lot", img: "cocokparah4.png" }
     ],
-    2: [ // PAWONGAN
+    2: [ // PAWONGAN (UPDATE SOAL MENCOCOKKAN PANJANG / CECIMPEDAN)
       { q: "Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....", o: ["Sugih", "Uyut", "Lacur", "Adung"], c: 3, img: "pawo1.png" },
       { q: "Rai demen masilihang teken timpale ane sing ngelah. Ento bacakan Solah ane....", o: ["Melah", "Jele", "Mayus", "Lengit"], c: 0, img: "pawo2.png" },
       { q: "Rerama sesuai maang pitutur. Pitutur rerama patut....", o: ["Resepang", "Kelidin", "Saruin", "Kalahin"], c: 0, img: "pawo3.png" },
@@ -1169,11 +1139,11 @@
       { q: "Tusing dadi lengit tulungin rerama magarapan. Lengit len raosne....", o: ["Jemet", "Seleg", "Mayus", "Anteng"], c: 2, img: "pawo8.png" },
       { q: "Yening ada timpal ane ulung patutne....", o: ["Kalahin", "Tolih", "Kedekin", "Tulungin"], c: 3, img: "pawo9.png" },
       { q: "Tresna asih metimpal. Tresna asih solah ane....", o: ["Melah", "Corah", "Jele", "Gedeg"], c: 0, img: "pawo10.png" },
-      { type: "text-to-image", text: "Pajeng", img: "cocokpawo1.png" },
-      { type: "text-to-image", text: "Galeng", img: "cocokpawo2.png" },
-      { type: "text-to-image", text: "Klepon", img: "cocokpawo3.jpeg" },
-      { type: "text-to-image", text: "Matan ai", img: "cocokpawo4.jpg" },
-      { type: "text-to-image", text: "Kuping (Telinga)", img: "cocokpawo5.jpg" }
+      { type: "text-to-image", text: "Apaké memené sélélegang pianakné jekjekang?", img: "cocokpawo1.png", answerLabel: "Pajeng (Payung)" },
+      { type: "text-to-image", text: "Apaké di petengné ia mokoh, yén tengainé ia berag?", img: "cocokpawo2.png", answerLabel: "Galeng (Bantal)" },
+      { type: "text-to-image", text: "Apaké macelep malakar baas ketan, di tengahné madaging gula bali?", img: "cocokpawo3.jpeg", answerLabel: "Klepon" },
+      { type: "text-to-image", text: "Apaké anak cerik majalan ngaliwatin pasih tusing dadi belus?", img: "cocokpawo4.jpg", answerLabel: "Matan ai" },
+      { type: "text-to-image", text: "Apaké tolih ngejoh-ngejohang?", img: "cocokpawo5.jpg", answerLabel: "Kuping (Telinga)" }
     ],
     3: [ // PALEMAHAN
       { q: "Contoh sane ngamargiang pelestarian alam inggih punika ....", o: ["Ngutang luhu ring tukad", "Nanem entik-entikan", "Nembak kedis", "Ngusak alas"], c: 1, img: "paleh1.png" },
@@ -1194,6 +1164,13 @@
     ]
   };
 
+  // LINK KONEKSI AR SPASIAL VIRTUAL TOUR 360 BERDASARKAN TINGKAT LEVEL
+  const arDatabaseLinks = {
+    1: "https://viewer.virtualtoureasy.com/?r=3xVcYDfAtJ",
+    2: "https://viewer.virtualtoureasy.com/?r=YvLu3pVjMd",
+    3: "https://viewer.virtualtoureasy.com/?r=TTbPZ8ajNS"
+  };
+
   // ================================================================
   //  SISTEM UTAMA GAME CONTROLLER
   // ================================================================
@@ -1209,7 +1186,6 @@
   let activeLevelMatches = [];
   let connectedMatches = []; 
   let canvas, ctx;
-  let localVideoStream = null;
 
   function navigateTo(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1426,6 +1402,8 @@
     const instrText = document.getElementById('matching-instruction-text');
     if (currentLevel === 3) {
       instrText.innerText = "Hubungkan Gambar di Kiri dengan Gambar yang Sesuai di Kanan!";
+    } else if (currentLevel === 2) {
+      instrText.innerText = "Hubungkan Cecimpedan (Teka-teki) di Kiri dengan Gambar & Jawaban di Kanan!";
     } else {
       instrText.innerText = "Hubungkan Kata di Kiri dengan Gambar yang Sesuai di Kanan!";
     }
@@ -1439,7 +1417,7 @@
       return { type: d.type, text: d.text, leftImg: d.leftImg, originalIdx: i };
     });
     let rightSideData = activeLevelMatches.map((d, i) => {
-      return { img: d.img, originalIdx: i };
+      return { img: d.img, label: d.answerLabel || d.text, originalIdx: i };
     });
     
     rightSideData.sort(() => Math.random() - 0.5);
@@ -1465,7 +1443,16 @@
       node.className = 'match-node';
       node.dataset.side = 'right';
       node.dataset.id = item.originalIdx;
-      node.innerHTML = `<div class="match-node-img-box"><img src="${item.img}" class="match-node-img"></div><div class="match-dot"></div>`;
+      
+      // Update Struktural: Menyusun layout menjadi vertikal (flex-direction: column) jika level 2
+      let htmlContent = `<div class="match-node-img-box"><img src="${item.img}" class="match-node-img"></div>`;
+      if (currentLevel === 2) {
+        node.style.flexDirection = 'column';
+        htmlContent += `<div class="match-node-text" style="font-size: 0.7rem; margin-top: 5px; font-weight: bold; color: #542c0e; text-align: center;">${item.label}</div>`;
+      }
+      htmlContent += `<div class="match-dot"></div>`;
+      
+      node.innerHTML = htmlContent;
       node.onclick = () => handleMatchingClick(node);
       rightCol.appendChild(node);
     });
@@ -1562,10 +1549,6 @@
     });
   }
 
-  function deleteProgressData() {
-    // Sesi internal cleanup state jika dibutuhkan
-  }
-
   function endLevelKuis() {
     clearInterval(timerInterval);
     document.getElementById('final-score-val').innerText = score;
@@ -1573,19 +1556,18 @@
   }
 
   // ================================================================
-  //  MODUL FITUR BONUS LIVE STREAMING KAMERA AR SPASIAL
+  //  MODUL INTEGRASI 360 INTERACTIVE REAL-TIME BONUS LINK AR
   // ================================================================
   function startARMode() {
     const arOverlay = document.getElementById('ar-overlay');
-    const video = document.getElementById('ar-video');
-    const arImg = document.getElementById('ar-floating-img');
+    const arFrame = document.getElementById('ar-frame');
     const nextBtn = document.getElementById('btn-ar-next-action');
     
-    if (arImg) {
-      arImg.src = "AR" + currentLevel + ".png";
+    // Memasukkan URL link Virtual Tour 360 secara dinamis sesuai level aktif
+    if (arFrame) {
+      arFrame.src = arDatabaseLinks[currentLevel] || "";
     }
 
-    // UPDATE: Set label tombol Next Level secara dinamis berdasarkan progres level
     if (currentLevel >= 3) {
       nextBtn.innerText = "Simpan & Selesai Kuis 🏁";
     } else {
@@ -1593,31 +1575,16 @@
     }
 
     arOverlay.style.display = 'flex';
-
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-        .then(stream => {
-          localVideoStream = stream;
-          video.srcObject = stream;
-          video.play().catch(() => {});
-        })
-        .catch(err => {
-          console.log("Akses kamera tidak diizinkan atau tidak didukung:", err);
-        });
-    }
   }
 
   function closeARMode() {
-    const video = document.getElementById('ar-video');
-    if (localVideoStream) {
-      localVideoStream.getTracks().forEach(track => track.stop());
-      localVideoStream = null;
+    const arFrame = document.getElementById('ar-frame');
+    if (arFrame) {
+      arFrame.src = ""; // Mengosongkan iframe agar tidak memakan memori saat ditutup
     }
-    video.srcObject = null;
     document.getElementById('ar-overlay').style.display = 'none';
   }
 
-  // UPDATE: Fungsi penanganan aksi tombol navigasi baru di AR
   function exitARToMap() {
     saveProgressState();
     closeARMode();
@@ -1629,12 +1596,10 @@
     closeARMode();
     
     if (currentLevel < 3) {
-      // Otomatis lanjut ke tingkatan level berikutnya
       const nextLvl = currentLevel + 1;
       const categories = { 2: "Pawongan", 3: "Palemahan" };
       selectLevel(nextLvl, categories[nextLvl]);
     } else {
-      // Jika sudah tamat level 3, arahkan ke dashboard peta utama
       navigateTo('peta');
     }
   }
@@ -1646,7 +1611,6 @@
     }
     const prevScore = parseInt(localStorage.getItem('totalScore')) || 0;
     localStorage.setItem('totalScore', prevScore + score);
-    // Reset internal score agar tidak terakumulasi ganda saat submit ulang
     score = 0; 
   }
 

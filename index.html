@@ -1060,18 +1060,16 @@
     </div>
   </div>
 
-  <div class="ar-overlay" id="ar-overlay">
-    <div class="ar-hud-ui" style="color: #fff; font-size: 0.85rem; font-weight: bold;">
-       Gunakan perangkat gyroscope / usap layar untuk Virtual Tour 360°
-    </div>
-    
-    <iframe id="ar-frame" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 51;" allow="gyroscope; accelerometer; magnetometer;"></iframe>
-
-    <div class="ar-action-controls">
-      <button class="btn-ar-nav btn-ar-back" onclick="exitARToMap()">← Halaman Level</button>
-      <button class="btn-ar-nav btn-ar-next" id="btn-ar-next-action" onclick="proceedToNextLevel()">Level Selanjutnya →</button>
-    </div>
+<div class="ar-overlay" id="ar-overlay">
+  <iframe id="ar-frame" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 51;" allow="gyroscope; accelerometer; magnetometer;"></iframe>
+  
+  <div class="ar-action-controls">
+    <button class="btn-ar-nav btn-ar-back" onclick="exitARToMap()">← Halaman Level</button>
+    <button class="btn-ar-nav btn-ar-next" id="btn-ar-next-action" onclick="proceedToNextLevel()">Level Selanjutnya →</button>
   </div>
+</div>
+
+
 </div> <div id="page-materi" class="page">
   <div class="header-nav">
     <div class="title-badge"><h1>📖 Pustaka Tri Hita Karana</h1></div>

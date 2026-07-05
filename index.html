@@ -112,7 +112,7 @@
       0%, 100% { transform: translateX(-50%) scale(1); }
       50% { transform: translateX(-50%) scale(1.05); }
     }
-    
+
     .character {
       position: absolute;
       bottom: 0;
@@ -124,7 +124,7 @@
     }
     #page-login #putu { left: 8%; animation: floatChar 4s ease-in-out infinite; }
     #page-login #niluh { right: 8%; animation: floatChar 4s ease-in-out infinite 2s; }
-    
+
     @keyframes floatChar {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
@@ -201,7 +201,7 @@
       align-items: center;
       padding: 20px;
     }
-    
+
     #page-play .logo-container {
       position: absolute;
       top: 4%;
@@ -227,7 +227,7 @@
 
     #page-play #putu { left: 16%; animation: floatChar 4s ease-in-out infinite; }
     #page-play #niluh { right: 16%; animation: floatChar 4s ease-in-out infinite 2s; }
-    
+
     #page-play .controls-container {
       position: absolute;
       bottom: 12%;
@@ -285,7 +285,7 @@
       border-bottom: 8px solid transparent;
       margin-left: 4px;
     }
-    
+
     #page-play .top-right-group {
       position: absolute;
       top: 4%;
@@ -315,7 +315,7 @@
       background-position: center;
       padding: 20px;
     }
-    
+
     #page-peta .top-left-hud {
       position: absolute;
       top: 4%;
@@ -345,7 +345,7 @@
       right: 4%;
       z-index: 25;
     }
-    
+
     #page-peta .map-scroll-viewport {
       width: 100%;
       height: calc(100% - 135px);
@@ -371,7 +371,7 @@
       position: relative;
       padding: 20px 0;
     }
-    
+
     /* Garis Jalan Ilustrasi Belakang Lampu Lurus */
     #page-peta .map-grid-container::before {
       content: '';
@@ -396,7 +396,7 @@
       transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     #page-peta .category-card:not(.locked):hover { transform: scale(1.1); }
-    
+
     #page-peta .category-card:nth-child(1) { align-self: center; margin-left: 0; }
     #page-peta .category-card:nth-child(2) { align-self: center; }
     #page-peta .category-card:nth-child(3) { align-self: center; margin-right: 0; }
@@ -557,7 +557,7 @@
       position: relative;
       overflow: hidden;
     }
-    
+
     .ornamen-top {
       position: absolute;
       top: 4px; 
@@ -592,7 +592,7 @@
       width: 100%;
       align-items: center;
     }
-    
+
     #page-main .quiz-left-panel {
       flex: 1.2;
       display: flex;
@@ -625,7 +625,7 @@
       max-width: 90%;
       object-fit: contain;
     }
-    
+
     #page-main .question-text {
       color: #271202;
       font-size: 0.75rem;
@@ -734,11 +734,11 @@
     .match-node:active { transform: scale(0.98); }
     .match-node.selected { background: #fef08a; border-color: #eab308; }
     .match-node.matched { background: #dcfce7; border-color: #22c55e; cursor: default; }
-    
+
     .match-node-text { font-size: 0.75rem; font-weight: bold; color: #321602; width: 100%; text-align: center; line-height: 1.3; }
     .match-node-img-box { width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; }
     .match-node-img { max-height: 100%; max-width: 100%; object-fit: contain; }
-    
+
     .match-dot {
       width: 12px;
       height: 12px;
@@ -856,7 +856,7 @@
       #page-login .input-group label { font-size: 0.7rem; margin-bottom: 2px; }
       #page-login .input-group input, #page-login .input-group select { padding: 6px 10px; font-size: 0.85rem; }
       #page-login .btn-submit { padding: 8px; font-size: 0.95rem; }
-      
+
       #page-play .logo-container { width: 16%; max-width: 110px; top: 2%; }
       #page-play .character { width: 12%; max-height: 48vh; bottom: 0; }
       #page-play #putu { left: 18%; }
@@ -885,7 +885,7 @@
       #page-login .logo-container { width: 40%; top: 6%; }
       #page-login .character { width: 25%; max-height: 25vh; }
       #page-login .form-card { margin-top: 40px; }
-      
+
       #page-play .logo-container { width: 48%; max-width: 220px; top: 14%; }
       #page-play .character { width: 32%; max-height: 28vh; bottom: 22%; }
       #page-play .controls-container { bottom: 6%; }
@@ -948,9 +948,9 @@
     <div class="profile-name" id="display-name">PEMAIN</div>
     <div class="profile-class" id="display-class">KELAS -</div>
   </div>
-  
+
   <div class="logo-container"><img src="logogame.png" alt="Logo" class="logo-game" /></div>
-  
+
   <img src="karakterputu.png" alt="Putu" id="putu" class="character" />
   <div class="controls-container">
     <div class="btn-circle" onclick="navigateTo('peta')"><div class="inner-circle-white"><div class="icon-map-marker"></div></div></div>
@@ -971,7 +971,7 @@
       <div class="profile-class" id="peta-class">KELAS -</div>
     </div>
   </div>
-  
+
   <div class="top-right-hud">
     <div class="mute-btn" onclick="toggleMusic()">🔊</div>
   </div>
@@ -1015,7 +1015,7 @@
 
   <div class="quiz-container">
     <div class="ornamen-top"></div>
-    
+
     <div class="quiz-content-layout" id="standard-quiz-layout">
       <div class="quiz-left-panel">
         <div class="question-text" id="question-label">Memuat Soal...</div>
@@ -1060,17 +1060,19 @@
     </div>
   </div>
 
-<div class="ar-overlay" id="ar-overlay">
-  <iframe id="ar-frame" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 51;" allow="gyroscope; accelerometer; magnetometer;"></iframe>
-  
-  <div class="ar-action-controls">
-    <button class="btn-ar-nav btn-ar-back" onclick="exitARToMap()">← Halaman Level</button>
-    <button class="btn-ar-nav btn-ar-next" id="btn-ar-next-action" onclick="proceedToNextLevel()">Level Selanjutnya →</button>
+  <div class="ar-overlay" id="ar-overlay">
+    <div class="ar-hud-ui" style="color: #fff; font-size: 0.85rem; font-weight: bold;">
+       Gunakan perangkat gyroscope / usap layar untuk Virtual Tour 360°
+    </div>
+    
+    <iframe id="ar-frame" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 51;" allow="gyroscope; accelerometer; magnetometer;"></iframe>
+
+    <div class="ar-action-controls">
+      <button class="btn-ar-nav btn-ar-back" onclick="exitARToMap()">← Halaman Level</button>
+      <button class="btn-ar-nav btn-ar-next" id="btn-ar-next-action" onclick="proceedToNextLevel()">Level Selanjutnya →</button>
+    </div>
   </div>
-</div>
-
-
-<div id="page-materi" class="page">
+</div> <div id="page-materi" class="page">
   <div class="header-nav">
     <div class="title-badge"><h1>📖 Pustaka Tri Hita Karana</h1></div>
     <div class="btn-back" onclick="navigateTo('peta')">←</div>
@@ -1231,7 +1233,7 @@
     e.preventDefault();
     const name = document.getElementById('player-name').value.trim();
     const cls = document.getElementById('player-class').value;
-    
+
     localStorage.setItem('playerName', name);
     localStorage.setItem('playerClass', cls);
     if (!localStorage.getItem('unlockedLevel')) localStorage.setItem('unlockedLevel', '1');
@@ -1243,7 +1245,7 @@
   function updatePlayDashboard() {
     const name = localStorage.getItem('playerName') || 'Pemain';
     const cls = localStorage.getItem('playerClass') || '1';
-    
+
     document.getElementById('display-name').innerText = name.toUpperCase();
     document.getElementById('display-class').innerText = 'KELAS ' + cls;
     document.getElementById('player-score').innerText = localStorage.getItem('totalScore') || '0';
@@ -1258,7 +1260,7 @@
   function renderMapProgress() {
     const name = localStorage.getItem('playerName') || 'PEMAIN';
     const cls = localStorage.getItem('playerClass') || '1';
-    
+
     document.getElementById('peta-name').innerText = name.toUpperCase();
     document.getElementById('peta-class').innerText = 'KELAS ' + cls;
 
@@ -1295,10 +1297,10 @@
     const catName = currentLevel === 1 ? 'PARAHYANGAN' : currentLevel === 2 ? 'PAWONGAN' : 'PALEMAHAN';
     document.getElementById('level-title').innerText = 'KATEGORI: ' + catName;
     document.getElementById('live-score').innerText = score;
-    
+
     document.getElementById('reward-popup').style.display = 'none';
     document.getElementById('gameover-popup').style.display = 'none';
-    
+
     updateHeartsUI();
     displayQuestion();
   }
@@ -1414,7 +1416,7 @@
     let rightSideData = activeLevelMatches.map((d, i) => {
       return { img: d.img, label: d.answerLabel || d.text, originalIdx: i };
     });
-    
+
     rightSideData.sort(() => Math.random() - 0.5);
 
     leftSideData.forEach((item) => {
@@ -1422,13 +1424,13 @@
       node.className = 'match-node';
       node.dataset.side = 'left';
       node.dataset.id = item.originalIdx;
-      
+
       if (item.type === "image-to-image") {
         node.innerHTML = `<div class="match-node-img-box"><img src="${item.leftImg}" class="match-node-img"></div><div class="match-dot"></div>`;
       } else {
         node.innerHTML = `<div class="match-node-text">${item.text}</div><div class="match-dot"></div>`;
       }
-      
+
       node.onclick = () => handleMatchingClick(node);
       leftCol.appendChild(node);
     });
@@ -1438,15 +1440,14 @@
       node.className = 'match-node';
       node.dataset.side = 'right';
       node.dataset.id = item.originalIdx;
-      
-      // Update Struktural: Menyusun layout menjadi vertikal (flex-direction: column) jika level 2
+
       let htmlContent = `<div class="match-node-img-box"><img src="${item.img}" class="match-node-img"></div>`;
       if (currentLevel === 2) {
         node.style.flexDirection = 'column';
         htmlContent += `<div class="match-node-text" style="font-size: 0.7rem; margin-top: 5px; font-weight: bold; color: #542c0e; text-align: center;">${item.label}</div>`;
       }
       htmlContent += `<div class="match-dot"></div>`;
-      
+
       node.innerHTML = htmlContent;
       node.onclick = () => handleMatchingClick(node);
       rightCol.appendChild(node);
@@ -1557,8 +1558,7 @@
     const arOverlay = document.getElementById('ar-overlay');
     const arFrame = document.getElementById('ar-frame');
     const nextBtn = document.getElementById('btn-ar-next-action');
-    
-    // Memasukkan URL link Virtual Tour 360 secara dinamis sesuai level aktif
+
     if (arFrame) {
       arFrame.src = arDatabaseLinks[currentLevel] || "";
     }
@@ -1575,7 +1575,7 @@
   function closeARMode() {
     const arFrame = document.getElementById('ar-frame');
     if (arFrame) {
-      arFrame.src = ""; // Mengosongkan iframe agar tidak memakan memori saat ditutup
+      arFrame.src = ""; 
     }
     document.getElementById('ar-overlay').style.display = 'none';
   }
@@ -1589,7 +1589,7 @@
   function proceedToNextLevel() {
     saveProgressState();
     closeARMode();
-    
+
     if (currentLevel < 3) {
       const nextLvl = currentLevel + 1;
       const categories = { 2: "Pawongan", 3: "Palemahan" };

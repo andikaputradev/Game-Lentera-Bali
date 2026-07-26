@@ -1029,7 +1029,7 @@
     </div>
 
     <div class="matching-game-layout" id="matching-quiz-layout">
-      <div class="matching-header" id="matching-instruction-text">Hubungkan Kata di Kiri dengan Gambar yang Sesuai di Kanan!</div>
+      <div class="matching-header" id="matching-instruction-text">Adungang kruna sareng gambar ring samping mangda patut</div>
       <div class="matching-board" id="matching-board-area">
         <canvas class="matching-canvas" id="matching-canvas"></canvas>
         <div class="matching-column left-side" id="match-left-col"></div>
@@ -1125,7 +1125,7 @@
     ],
     2: [ // PAWONGAN (UPDATE SOAL MENCOCOKKAN PANJANG / CECIMPEDAN)
       { q: "Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....", o: ["Sugih", "Uyut", "Lacur", "Adung"], c: 3, img: "pawo1.png" },
-      { q: "Rai demen masilihang teken timpale ane sing ngelah. Ento bacakan Solah ane....", o: ["Melah", "Jele", "Mayus", "Lengit"], c: 0, img: "pawo2.png" },
+      { q: "Rai demen masilihang teken timpale ane sing ngelah. Ento bacakan Solah ane....", o: ["Becik", "Jele", "Mayus", "Lengit"], c: 0, img: "pawo2.png" },
       { q: "Rerama sesai maang pitutur. Pitutur rerama patut....", o: ["Resepang", "Kelidin", "Saruin", "Kalahin"], c: 0, img: "pawo3.png" },
       { q: "Putu Budi ngelah cita-cita dadi dokter. Dadi dokter geginane tuah....", o: ["Nyampur ubad", "Ngubadin anak gelem", "Menahin montor", "Ngae wewangunan"], c: 1, img: "pawo4.png" },
       { q: "Ngomong sareng guru patut nganggen basa sane....", o: ["Kasar", "Alus tur sopan", "Keras", "Sengit"], c: 1, img: "pawo5.png" },
@@ -1396,11 +1396,11 @@
 
     const instrText = document.getElementById('matching-instruction-text');
     if (currentLevel === 3) {
-      instrText.innerText = "Hubungkan Gambar di Kiri dengan Gambar yang Sesuai di Kanan!";
+      instrText.innerText = "Adungang aksara bali sareng gambar ring samping mangda patut";
     } else if (currentLevel === 2) {
-      instrText.innerText = "Hubungkan Cecimpedan (Teka-teki) di Kiri dengan Gambar & Jawaban di Kanan!";
+      instrText.innerText = "Adungang cecimpedan sareng gambar rimg samping mangda patut";
     } else {
-      instrText.innerText = "Hubungkan Kata di Kiri dengan Gambar yang Sesuai di Kanan!";
+      instrText.innerText = "Adungang kruna sareng gambar ring samping mangda patut";
     }
 
     const leftCol = document.getElementById('match-left-col');

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Lentera Bali - Petualangan Tri Hita Karana</title>
+  <title>Lentera Bali - Belajar Basa Bali Menjaga Harmoni</title>
   <style>
     /* ============================================================
        RESET & BASE LAYER
@@ -144,9 +144,15 @@
     }
     #page-login .form-card h2 {
       font-size: 1.2rem;
-      margin-bottom: 12px;
+      margin-bottom: 4px;
       color: #facc15;
       text-shadow: 2px 2px 0px #321602;
+    }
+    #page-login .form-card p.sub-title {
+      font-size: 0.7rem;
+      color: #e5a96b;
+      margin-bottom: 12px;
+      font-weight: bold;
     }
     #page-login .input-group {
       margin-bottom: 10px;
@@ -230,12 +236,13 @@
 
     #page-play .controls-container {
       position: absolute;
-      bottom: 12%;
+      bottom: 10%;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 30px;
+      gap: 20px;
       z-index: 10;
+      align-items: center;
     }
     #page-play .btn-circle {
       width: 60px;
@@ -284,6 +291,27 @@
       border-left: 14px solid #fff;
       border-bottom: 8px solid transparent;
       margin-left: 4px;
+    }
+
+    /* Tombol Papan Skor di Menu Utama */
+    .btn-leaderboard {
+      background: linear-gradient(to bottom, #facc15, #ca8a04);
+      border: 2.5px solid #542c0e;
+      border-radius: 20px;
+      padding: 8px 16px;
+      color: #321602;
+      font-weight: 900;
+      font-size: 0.8rem;
+      cursor: pointer;
+      box-shadow: 0 4px 0px #321602, 0 4px 8px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .btn-leaderboard:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0px #321602;
     }
 
     #page-play .top-right-group {
@@ -360,7 +388,6 @@
     #page-peta .map-scroll-viewport::-webkit-scrollbar { width: 6px; }
     #page-peta .map-scroll-viewport::-webkit-scrollbar-thumb { background: rgba(84,44,14,0.5); border-radius: 10px; }
 
-    /* Layout Jalan Lurus di Tengah */
     #page-peta .map-grid-container {
       width: 100%;
       max-width: 500px;
@@ -372,7 +399,6 @@
       padding: 20px 0;
     }
 
-    /* Garis Jalan Ilustrasi Belakang Lampu Lurus */
     #page-peta .map-grid-container::before {
       content: '';
       position: absolute;
@@ -763,10 +789,10 @@
     }
     .popup-box {
       background: #3a1d04; border: 4px solid #facc15; border-radius: 20px;
-      padding: 24px; width: 100%; max-width: 360px; text-align: center; color: #fff;
+      padding: 24px; width: 100%; max-width: 420px; text-align: center; color: #fff;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-    .popup-box h2 { color: #facc15; margin-bottom: 12px; font-size: 1.2rem; text-shadow: 2px 2px 0px #000; }
+    .popup-box h2 { color: #facc15; margin-bottom: 8px; font-size: 1.2rem; text-shadow: 2px 2px 0px #000; }
     .btn-popup {
       width: 100%; padding: 10px; font-family: inherit; font-size: 0.9rem;
       font-weight: bold; color: #fff; border-radius: 10px; cursor: pointer; margin-top: 10px; border: none;
@@ -777,19 +803,90 @@
     .btn-ar { background: #2563eb; }
 
     /* ============================================================
+       STYLES UNTUK POPUP PAPAN SKOR & RANGKING
+       ============================================================ */
+    .leaderboard-box {
+      max-width: 480px;
+      width: 100%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .leaderboard-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #b0703c;
+      padding-bottom: 6px;
+    }
+    .lb-tab {
+      flex: 1;
+      padding: 8px 4px;
+      background: #542c0e;
+      border: 1px solid #b0703c;
+      color: #e5a96b;
+      font-weight: bold;
+      font-size: 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .lb-tab.active {
+      background: #facc15;
+      color: #321602;
+      border-color: #fff;
+    }
+    .lb-content {
+      overflow-y: auto;
+      max-height: 260px;
+      margin-bottom: 12px;
+    }
+    .lb-content::-webkit-scrollbar { width: 5px; }
+    .lb-content::-webkit-scrollbar-thumb { background: #facc15; border-radius: 4px; }
+    
+    .lb-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      text-align: left;
+    }
+    .lb-table th {
+      background: #542c0e;
+      color: #facc15;
+      padding: 8px;
+      border-bottom: 2px solid #b0703c;
+      font-size: 0.75rem;
+    }
+    .lb-table td {
+      padding: 8px;
+      border-bottom: 1px solid rgba(176,112,60,0.4);
+      color: #fff;
+    }
+    .lb-table tr.my-score-row {
+      background: rgba(250, 204, 21, 0.2);
+      font-weight: bold;
+    }
+    .rank-badge {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 50%;
+      font-weight: bold;
+      font-size: 0.75rem;
+    }
+    .rank-1 { background: #facc15; color: #321602; }
+    .rank-2 { background: #e2e8f0; color: #1e293b; }
+    .rank-3 { background: #ca8a04; color: #fff; }
+    .rank-other { background: #542c0e; color: #e5a96b; }
+
+    /* ============================================================
        MODUL INTERAKTIF BONUS KAMERA AR (VIRTUAL TOUR 360)
        ============================================================ */
     .ar-overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: #000; z-index: 50; display: none; flex-direction: column;
       justify-content: space-between; align-items: center; color: white;
-    }
-    .ar-hud-ui {
-      position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
-      z-index: 55; background: rgba(58, 29, 4, 0.9);
-      padding: 10px 16px; border-radius: 14px; border: 2.5px solid #facc15;
-      text-align: center; width: 90%; max-width: 440px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.5);
     }
     .ar-action-controls {
       position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
@@ -828,22 +925,27 @@
       background-position: center;
       padding: 15px 25px;
     }
-    #page-materi .header-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    #page-materi .title-badge { background: rgba(84,44,14,0.95); border: 2.5px solid #b0703c; border-radius: 12px; padding: 6px 16px; color: #fff; display: flex; align-items: center; gap: 8px; }
-    #page-materi .title-badge h1 { font-size: 0.95rem; color: #facc15; }
-    #page-materi .btn-back { width: 38px; height: 38px; border-radius: 50%; border: 2px solid #e5a96b; background: linear-gradient(to bottom, #b0703c, #542c0e); display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; }
+    #page-materi .header-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    #page-materi .title-badge { background: rgba(84,44,14,0.95); border: 2.5px solid #b0703c; border-radius: 12px; padding: 6px 16px; color: #fff; display: flex; flex-direction: column; }
+    #page-materi .title-badge h1 { font-size: 0.9rem; color: #facc15; }
+    #page-materi .title-badge span { font-size: 0.65rem; color: #e5a96b; font-weight: bold; }
+    #page-materi .btn-back { width: 38px; height: 38px; border-radius: 50%; border: 2px solid #e5a96b; background: linear-gradient(to bottom, #b0703c, #542c0e); display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; font-weight: bold; }
     #page-materi .main-layout { display: flex; gap: 20px; height: calc(100% - 65px); }
-    #page-materi .sidebar-tabs { width: 25%; display: flex; flex-direction: column; gap: 8px; }
-    #page-materi .tab-button { background: rgba(58,29,4,0.9); border: 2px solid #542c0e; border-radius: 10px; padding: 10px; color: #fff; text-align: left; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
+    #page-materi .sidebar-tabs { width: 28%; display: flex; flex-direction: column; gap: 8px; }
+    #page-materi .tab-button { background: rgba(58,29,4,0.9); border: 2px solid #542c0e; border-radius: 10px; padding: 10px; color: #fff; text-align: left; cursor: pointer; font-weight: bold; font-size: 0.75rem; }
     #page-materi .tab-button.active { background: #b0703c; border-color: #facc15; }
-    #page-materi .content-board { width: 75%; background: rgba(255,255,255,0.95); border: 4px solid #542c0e; border-radius: 16px; padding: 18px; overflow-y: auto; color: #321602; }
+    #page-materi .content-board { width: 72%; background: rgba(255,255,255,0.95); border: 4px solid #542c0e; border-radius: 16px; padding: 18px; overflow-y: auto; color: #321602; }
     #page-materi .content-board::-webkit-scrollbar { width: 6px; }
     #page-materi .content-board::-webkit-scrollbar-thumb { background: #542c0e; border-radius: 6px; }
     #page-materi .materi-section { display: none; }
     #page-materi .materi-section.active { display: block; }
-    #page-materi h2 { color: #542c0e; margin-bottom: 5px; font-size: 1.1rem; }
-    #page-materi h3 { font-size: 0.7rem; text-transform: uppercase; margin-bottom: 10px; }
-    #page-materi p { margin-bottom: 10px; font-size: 0.8rem; line-height: 1.5; text-align: justify; }
+    #page-materi h2 { color: #542c0e; margin-bottom: 4px; font-size: 1.1rem; }
+    #page-materi h3.subtitle { color: #854d0e; font-size: 0.8rem; margin-bottom: 12px; border-bottom: 1.5px dashed #b0703c; padding-bottom: 4px; }
+    #page-materi .materi-block { background: rgba(254, 240, 138, 0.3); border-left: 4px solid #ca8a04; padding: 8px 12px; margin-bottom: 10px; border-radius: 6px; }
+    #page-materi .materi-block-title { font-weight: bold; font-size: 0.8rem; color: #713f12; margin-bottom: 4px; text-transform: uppercase; }
+    #page-materi ul { list-style-type: square; margin-left: 18px; font-size: 0.8rem; color: #321602; }
+    #page-materi li { margin-bottom: 4px; line-height: 1.4; }
+    #page-materi p { font-size: 0.8rem; line-height: 1.5; color: #321602; margin-bottom: 8px; }
 
     /* ============================================================
        RESPONSIVE RULES - OPTIMASI MODE LANDSCAPE (HP MENDATAR)
@@ -851,7 +953,7 @@
     @media screen and (orientation: landscape) {
       #page-login .logo-container { width: 10%; max-width: 65px; top: 4%; }
       #page-login .form-card { max-width: 420px; padding: 12px 20px; }
-      #page-login .form-card h2 { font-size: 1.1rem; margin-bottom: 6px; }
+      #page-login .form-card h2 { font-size: 1.1rem; margin-bottom: 2px; }
       #page-login .input-group { margin-bottom: 6px; }
       #page-login .input-group label { font-size: 0.7rem; margin-bottom: 2px; }
       #page-login .input-group input, #page-login .input-group select { padding: 6px 10px; font-size: 0.85rem; }
@@ -861,7 +963,7 @@
       #page-play .character { width: 12%; max-height: 48vh; bottom: 0; }
       #page-play #putu { left: 18%; }
       #page-play #niluh { right: 18%; }
-      #page-play .controls-container { bottom: 6%; gap: 40px; }
+      #page-play .controls-container { bottom: 6%; gap: 20px; }
       #page-play .btn-circle { width: 54px; height: 54px; }
 
       #page-peta .map-scroll-viewport { margin-top: 60px; height: calc(100% - 120px); }
@@ -888,7 +990,7 @@
 
       #page-play .logo-container { width: 48%; max-width: 220px; top: 14%; }
       #page-play .character { width: 32%; max-height: 28vh; bottom: 22%; }
-      #page-play .controls-container { bottom: 6%; }
+      #page-play .controls-container { bottom: 6%; flex-wrap: wrap; justify-content: center; }
 
       #page-peta .map-scroll-viewport { align-items: flex-start; margin-top: 85px; height: calc(100% - 150px); }
       #page-peta .map-grid-container { max-width: 280px; padding-bottom: 20px; }
@@ -922,6 +1024,7 @@
   <img src="karakterputu.png" alt="Putu" id="putu" class="character" />
   <div class="form-card">
     <h2>LENTERA BALI</h2>
+    <p class="sub-title">Belajar Bahasa Bali Menjaga Harmoni</p>
     <form id="login-form">
       <div class="input-group">
         <label>NAMA PENGGUNA</label>
@@ -953,12 +1056,13 @@
 
   <img src="karakterputu.png" alt="Putu" id="putu" class="character" />
   <div class="controls-container">
-    <div class="btn-circle" onclick="navigateTo('peta')"><div class="inner-circle-white"><div class="icon-map-marker"></div></div></div>
-    <div class="btn-circle" onclick="startAutoGame()"><div class="inner-circle-green"><div class="icon-play-triangle"></div></div></div>
+    <div class="btn-circle" onclick="navigateTo('peta')" title="Pilih Level"><div class="inner-circle-white"><div class="icon-map-marker"></div></div></div>
+    <div class="btn-circle" onclick="startAutoGame()" title="Mulai Bermain"><div class="inner-circle-green"><div class="icon-play-triangle"></div></div></div>
+    <button class="btn-leaderboard" onclick="openLeaderboardModal()">🏆 Rangking</button>
   </div>
   <img src="karakterniluh.png" alt="Ni Luh" id="niluh" class="character" />
   <div class="top-right-group">
-    <div class="badge-star">🏆 <span id="player-score">0</span></div>
+    <div class="badge-star">🏆 Highscore: <span id="player-score">0</span></div>
     <div class="mute-btn" onclick="toggleMusic()">🔊</div>
   </div>
 </div>
@@ -1044,7 +1148,7 @@
     <div class="popup-box">
       <h2>🎉 LEVEL SELESAI! 🎉</h2>
       <p>Bagus sekali! Seluruh soal pada tingkat ini berhasil dikerjakan.</p>
-      <div style="font-size:1.1rem; font-weight:bold; margin:10px 0; color:#facc15;">Skor: <span id="final-score-val">0</span></div>
+      <div style="font-size:1.1rem; font-weight:bold; margin:10px 0; color:#facc15;">Skor Sesi Ini: <span id="final-score-val">0</span></div>
       <button class="btn-popup btn-ar" onclick="startARMode()">📷 Bonus Fitur Ruang AR Budaya</button>
       <button class="btn-popup btn-continue" onclick="saveAndExitQuiz()">Simpan &amp; Kembali</button>
     </div>
@@ -1060,42 +1164,134 @@
     </div>
   </div>
 
-<div class="ar-overlay" id="ar-overlay">
-  <iframe id="ar-frame" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 51;" allow="gyroscope; accelerometer; magnetometer;"></iframe>
-  
-  <div class="ar-action-controls">
-    <button class="btn-ar-nav btn-ar-back" onclick="exitARToMap()">← Halaman Level</button>
-    <button class="btn-ar-nav btn-ar-next" id="btn-ar-next-action" onclick="proceedToNextLevel()">Level Selanjutnya →</button>
+  <div class="ar-overlay" id="ar-overlay">
+    <iframe id="ar-frame" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 51;" allow="gyroscope; accelerometer; magnetometer;"></iframe>
+    
+    <div class="ar-action-controls">
+      <button class="btn-ar-nav btn-ar-back" onclick="exitARToMap()">← Halaman Level</button>
+      <button class="btn-ar-nav btn-ar-next" id="btn-ar-next-action" onclick="proceedToNextLevel()">Level Selanjutnya →</button>
+    </div>
   </div>
 </div>
 
+<!-- MODAL RANGKING & PAPAN SKOR -->
+<div class="popup-overlay" id="leaderboard-modal">
+  <div class="popup-box leaderboard-box">
+    <h2>🏆 PAPAN SKOR & RANGKING 🏆</h2>
+    
+    <div class="leaderboard-tabs">
+      <button class="lb-tab active" id="lbtab-global" onclick="switchLeaderboardTab('global')">Rangking Global</button>
+      <button class="lb-tab" id="lbtab-personal" onclick="switchLeaderboardTab('personal')">Skor Saya & Riwayat</button>
+    </div>
 
-</div> <div id="page-materi" class="page">
+    <div class="lb-content" id="lb-content-area">
+      <!-- Tabel di-render secara dinamis oleh JS -->
+    </div>
+
+    <button class="btn-popup" style="background:#4b5563;" onclick="closeLeaderboardModal()">Tutup</button>
+  </div>
+</div>
+
+<div id="page-materi" class="page">
   <div class="header-nav">
-    <div class="title-badge"><h1>📖 Pustaka Tri Hita Karana</h1></div>
+    <div class="title-badge">
+      <h1>BELAJAR BASA BALI Ngamargiang Harmoni Ring Jagat</h1>
+      <span>Tri Hita Karana Tiga Unsur Ngamargiang Kehidupan Ring Jagat Bali</span>
+    </div>
     <div class="btn-back" onclick="navigateTo('peta')">←</div>
   </div>
   <div class="main-layout">
     <div class="sidebar-tabs">
-      <button class="tab-button active" id="tab-1" onclick="switchMateri(1)">1. Parahyangan</button>
-      <button class="tab-button" id="tab-2" onclick="switchMateri(2)">2. Pawongan</button>
-      <button class="tab-button" id="tab-3" onclick="switchMateri(3)">3. Palemahan</button>
+      <button class="tab-button active" id="tab-1" onclick="switchMateri(1)">1. PARAHYANGAN</button>
+      <button class="tab-button" id="tab-2" onclick="switchMateri(2)">2. PAWONGAN</button>
+      <button class="tab-button" id="tab-3" onclick="switchMateri(3)">3. PALEMAHAN</button>
     </div>
     <div class="content-board">
       <div class="materi-section active" id="mat-1">
-        <h2>Parahyangan (Hubungan Manusia dengan Tuhan)</h2>
-        <h3 class="pillar-parahyangan" style="display:inline-block; padding:2px 6px; color:#fff;">Religi &amp; Tempat Suci</h3>
-        <p>Parahyangan mengatur keharmonisan hubungan manusia dengan Sang Hyang Widhi Wasa (Tuhan). Implementasinya meliputi ibadah suci di Pura, pembuatan sesajen harian (Canang Sari), pendirian penjor suci saat Galungan, serta prosesi penyucian diri secara massal ke segara (pantai) sebelum catur brata penyepian yang dinamakan upacara Melasti.</p>
+        <h2>PARAHYANGAN</h2>
+        <h3 class="subtitle">Harmoni sareng Ida Sang Hyang Widhi</h3>
+        
+        <div class="materi-block">
+          <div class="materi-block-title">Kosakata &amp; Ungkapan</div>
+          <ul>
+            <li><strong>Sembahyang</strong> = Mebakti</li>
+            <li><strong>Doa</strong> = Puja</li>
+            <li><strong>Pura</strong> = Kahyangan</li>
+            <li><strong>Sesajen</strong> = Banten</li>
+            <li><strong>Syukur</strong> = Ngaturang Bakti</li>
+          </ul>
+        </div>
+
+        <div class="materi-block">
+          <div class="materi-block-title">Conto Lengkara</div>
+          <p>• Ring pura irage ngaturang bakti.</p>
+          <p>• Ngaturang canang wujud bakti miwah rasa syukur.</p>
+        </div>
+
+        <div class="materi-block">
+          <div class="materi-block-title">Aksi Nyata</div>
+          <p>Ngaturang bakti, ngaturang banten, lan ngayah ring pura.</p>
+        </div>
       </div>
+
       <div class="materi-section" id="mat-2">
-        <h2>Pawongan (Hubungan Manusia dengan Sesama)</h2>
-        <h3 class="pillar-pawongan" style="display:inline-block; padding:2px 6px; color:#fff;">Sosial, Bahasa &amp; Perilaku</h3>
-        <p>Pawongan menekankan kerukunan hidup antarmanusia (adung). Wujudnya berupa tindakan tolong-menolong (saling tulungin), gotong royong kebersihan kelas, menghormati nasehat orang tua (pitutur rerama), serta penerapan etika komunikasi menggunakan Basa Alus saat berbicara kepada guru atau orang tua demi memelihara kesopanan.</p>
+        <h2>PAWONGAN</h2>
+        <h3 class="subtitle">Harmoni sareng sesama</h3>
+
+        <div class="materi-block">
+          <div class="materi-block-title">Kosakata &amp; Ungkapan</div>
+          <ul>
+            <li><strong>Persaudaraan</strong> = Pasawitran</li>
+            <li><strong>Tolong menolong</strong> = Saling tulungin</li>
+            <li><strong>Bagus</strong> = Becik</li>
+            <li><strong>Hati</strong> = Manah</li>
+            <li><strong>Berperilaku</strong> = Maparilaksana</li>
+          </ul>
+        </div>
+
+        <div class="materi-block">
+          <div class="materi-block-title">Conto Lengkara</div>
+          <p>• Saling asah asih, saling tulungin.</p>
+          <p>• Maparilaksana becik ngeranayang rahayu.</p>
+        </div>
+
+        <div class="materi-block">
+          <div class="materi-block-title">Aksi Nyata</div>
+          <p>Ngayah bareng, ngajaga pasawitran, lan saling tulungin nilai asah asih.</p>
+        </div>
       </div>
+
       <div class="materi-section" id="mat-3">
-        <h2>Palemahan (Hubungan Manusia dengan Alam)</h2>
-        <h3 class="pillar-palemahan" style="display:inline-block; padding:2px 6px; color:#fff;">Lingkungan &amp; Sistem Irigasi</h3>
-        <p>Palemahan mengajarkan manusia untuk merawat dan melestarikan alam lingkungan sekitar. Contoh konkretnya meliputi aksi pembersihan saluran air (got), menanam vegetasi pohon, menghemat pemakaian air bersih, serta melestarikan Subak—organisasi irigasi tradisional Bali yang dipimpin oleh Pekaseh untuk pembagian air sawah secara adil.</p>
+        <h2>PALEMAHAN</h2>
+        <h3 class="subtitle">Harmoni sareng Alam</h3>
+
+        <div class="materi-block">
+          <div class="materi-block-title">Kosakata &amp; Ungkapan</div>
+          <ul>
+            <li><strong>Palemahan</strong> = Alam</li>
+            <li><strong>Bersih</strong> = Resik</li>
+            <li><strong>Sampah</strong> = Luhu</li>
+            <li><strong>Air</strong> = Toya</li>
+            <li><strong>Lestarikan</strong> = Ngelestariang</li>
+          </ul>
+        </div>
+
+        <div class="materi-block">
+          <div class="materi-block-title">Conto Lengkara</div>
+          <p>• Palemahan sane resik pastika pacang sehat.</p>
+          <p>• Nandur taru, nyelamatang generasi selanturnyane.</p>
+        </div>
+
+        <div class="materi-block">
+          <div class="materi-block-title">Aksi Nyata</div>
+          <p>Nandur taru, ngirit toya, lan ngutang luhu ring ganah luhune.</p>
+        </div>
+
+        <div style="margin-top: 15px; font-style: italic; background: #fef08a; padding: 10px; border-radius: 8px; border: 1px solid #eab308; font-size:0.75rem;">
+          <p style="margin:0; font-weight:bold; color:#713f12;">Yening tiga unsur punika kalaksanayang, jagat Bali ajeg lestari lan rahayu.</p>
+          <p style="margin:0; color:#854d0e;">Rajin Belajar Basa Bali, Ngajaga Budaya Bali miwah Alam Bali.</p>
+          <p style="margin:0; font-weight:bold; color:#15803d; margin-top:4px;">Tri Hita Karana = Jalan nuju kehidupan sane seimbang, harmonis lan bahagia</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1103,68 +1299,79 @@
 
 <script>
   // ================================================================
-  //  DATABASE SOAL LENTERA BALI (10 PG + 5 Cocokkan Gambar Per Level)
+  //  DATABASE SOAL LENTERA BALI DENGAN MATERI TERBARU
   // ================================================================
   const quizDatabase = {
     1: [ // PARAHYANGAN
-      { q: "Wewidangan utawi genah suci anggen umat Hindu maturan kawastanin...", o: ["Pura", "Bale banjar", "Sekolah", "Pasar"], c: 0, img: "parah1.png" },
-      { q: "Tuhan ring agama Hindu kawastanin...", o: ["Sang Hyang Widhi Wasa", "Ratu Gede", "Jero Gede", "Mpu"], c: 0, img: "parah2.png" },
-      { q: "Umat Hindu nunas ica ring Sang Hyang Widhi antuk ngaturang...", o: ["Sesajen miwah banten", "Pipis miwah perhiasan", "Batik miwah anduk", "Sepatu miwah tas"], c: 0, img: "parah3.png" },
-      { q: "Manusia patut bakti miwah suksma ring Ida Sang Hyang Widhi Wasa santukan...", o: ["Ida sane ngasilang keneh", "Ida sane ngaturang banten", "Ida sane nyiptayang jagat miwah manusa", "Ida sane mekarya pura"], c: 2, img: "parah4.png" },
-      { q: "Rerahinan Saraswati, umat Hindu ngaturang banten ring...", o: ["Lontar miwah buku", "Beras miwah taluh", "Ayam miwah bebek", "Candi miwah arca"], c: 0, img: "parah5.png" },
-      { q: "Upacara penyucian ke segara sane kalaksanayang olih umat Hindu sedurung Nyepi kawastanin...", o: ["Melasti", "Mepandes", "Mabyakala", "Matur piuning"], c: 0, img: "parah6.png" },
-      { q: "Sarana upacara sane malakar don nyuh medaging bunga, kaanggen ngaturang banten ring sang hyang widhi inggih punika...", o: ["Tamas", "Canang", "Tumpeng", "Lamak"], c: 1, img: "parah7.png" },
-      { q: "Ngaturang banten saiban utawi ajengan nasi semengan kawastanin...", o: ["Maturan", "Melukat", "Ngejot", "Melasti"], c: 2, img: "parah8.png" },
-      { q: "Genah palinggihan Sang Hyang Widhi Wasa ring pura inggih punika...", o: ["Padmasana", "Bale kulkul", "Wantilan", "Lumbung"], c: 0, img: "parah9.png" },
-      { q: "Rerahinan Galungan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin...", o: ["Penjor", "Tamiang", "Sate", "Lawar"], c: 0, img: "parah10.png" },
-      { type: "text-to-image", text: "Pura Besakih", img: "cocokparah1.png" },
-      { type: "text-to-image", text: "Penjor", img: "cocokparah3.png" },
-      { type: "text-to-image", text: "Canang", img: "cocokparah2.png" },
-      { type: "text-to-image", text: "Mebakti", img: "cocokparah5.png" },
-      { type: "text-to-image", text: "Pura Tanah Lot", img: "cocokparah4.png" }
+      { q: "Sembahyang ring basa Bali kawastanin...", o: ["Mebakti", "Puja", "Banten", "Ngayah"], c: 0, img: "parah1.png" },
+      { q: "Kruna 'Doa' ring basa Bali tegesne...", o: ["Puja", "Banten", "Kahyangan", "Sembahyang"], c: 0, img: "parah2.png" },
+      { q: "Pura kawastanin taler antuk...", o: ["Kahyangan", "Pasawitran", "Palemahan", "Banten"], c: 0, img: "parah3.png" },
+      { q: "Sarana upacara utawi sesajen kawastanin...", o: ["Banten", "Puja", "Kahyangan", "Ngayah"], c: 0, img: "parah4.png" },
+      { q: "Rasa syukur ring Ida Sang Hyang Widhi kawujudang antuk...", o: ["Ngaturang Bakti", "Saling tulungin", "Nandur taru", "Ngutang luhu"], c: 0, img: "parah5.png" },
+      { q: "Ring pura irage ngaturang...", o: ["Bakti", "Luhu", "Becik", "Manah"], c: 0, img: "parah6.png" },
+      { q: "Ngaturang canang inggih punika wujud bakti miwah rasa...", o: ["Syukur", "Adung", "Resik", "Sehat"], c: 0, img: "parah7.png" },
+      { q: "Ring sor puniki Aksi Nyata Parahyangan, sajaba...", o: ["Ngutang luhu ring tukad", "Ngaturang bakti", "Ngaturang banten", "Ngayah ring pura"], c: 0, img: "parah8.png" },
+      { q: "Parahyangan inggih punika ngamargiang harmoni sareng...", o: ["Ida Sang Hyang Widhi", "Sesama manusa", "Alam lingkungan", "Kedis miwah buron"], c: 0, img: "parah9.png" },
+      { q: "Yadnya, Saling Asah Asih, lan Ngajaga Alam Dumogi Ngamargiang Kebahagiaan Sane...", o: ["Lestari", "Becik", "Resik", "Rahayu"], c: 0, img: "parah10.png" },
+      { type: "text-to-image", text: "Sembahyang", img: "cocokparah1.png", answerLabel: "Mebakti" },
+      { type: "text-to-image", text: "Doa", img: "cocokparah2.png", answerLabel: "Puja" },
+      { type: "text-to-image", text: "Pura", img: "cocokparah3.png", answerLabel: "Kahyangan" },
+      { type: "text-to-image", text: "Sesajen", img: "cocokparah4.png", answerLabel: "Banten" },
+      { type: "text-to-image", text: "Syukur", img: "cocokparah5.png", answerLabel: "Ngaturang Bakti" }
     ],
-    2: [ // PAWONGAN (UPDATE SOAL MENCOCOKKAN PANJANG / CECIMPEDAN)
-      { q: "Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....", o: ["Sugih", "Uyut", "Lacur", "Adung"], c: 3, img: "pawo1.png" },
-      { q: "Rai demen masilihang teken timpale ane sing ngelah. Ento bacakan Solah ane....", o: ["Becik", "Jele", "Mayus", "Lengit"], c: 0, img: "pawo2.png" },
-      { q: "Rerama sesai maang pitutur. Pitutur rerama patut....", o: ["Resepang", "Kelidin", "Saruin", "Kalahin"], c: 0, img: "pawo3.png" },
-      { q: "Putu Budi ngelah cita-cita dadi dokter. Dadi dokter geginane tuah....", o: ["Nyampur ubad", "Ngubadin anak gelem", "Menahin montor", "Ngae wewangunan"], c: 1, img: "pawo4.png" },
-      { q: "Ngomong sareng guru patut nganggen basa sane....", o: ["Kasar", "Alus tur sopan", "Keras", "Sengit"], c: 1, img: "pawo5.png" },
-      { q: "Ring waktu mebersih kelas, iraga patut....", o: ["Gotong royong", "Melaib", "Nyingakin kemawon", "Macepuk"], c: 0, img: "pawo6.png" },
-      { q: "Pianakne ane pertama suba ngajahin di SD. Anak ane geginane ngajahin di sekolah madan...", o: ["Guru", "Satpam", "Pengacara", "Polisi"], c: 0, img: "pawo7.png" },
-      { q: "Tusing dadi lengit nulungin rerama magarapan. Lengit len raosne....", o: ["Jemet", "Seleg", "Mayus", "Anteng"], c: 2, img: "pawo8.png" },
-      { q: "Yening ada timpal ane ulung patutne....", o: ["Kalahin", "Tolih", "Kedekin", "Tulungin"], c: 3, img: "pawo9.png" },
-      { q: "Tresna asih metimpal. Tresna asih solah ane....", o: ["Melah", "Corah", "Jele", "Gedeg"], c: 0, img: "pawo10.png" },
-      { type: "text-to-image", text: "Apaké balé gedé matampul abesik?", img: "cocokpawo1.png", answerLabel: "Pajeng (Payung)" },
-      { type: "text-to-image", text: "Apaké ngamah acepok betek sesai?", img: "cocokpawo2.png", answerLabel: "Galeng (Bantal)" },
-      { type: "text-to-image", text: "Apaké anak cenik ngemu getih?", img: "cocokpawo3.jpeg", answerLabel: "Klepon" },
-      { type: "text-to-image", text: "Apaké menék bajang, tuun tua?", img: "cocokpawo4.jpg", answerLabel: "Matan ai" },
-      { type: "text-to-image", text: "Apaké tolih ngejoh-ngejohang?", img: "cocokpawo5.jpg", answerLabel: "Kuping (Telinga)" }
+    2: [ // PAWONGAN
+      { q: "Pawongan inggih punika ngamargiang harmoni sareng...", o: ["Sesama manusa", "Ida Sang Hyang Widhi", "Alam lingkungan", "Pura"], c: 0, img: "pawo1.png" },
+      { q: "Kruna 'Persaudaraan' ring basa Bali inggih punika...", o: ["Pasawitran", "Palemahan", "Parahyangan", "Banten"], c: 0, img: "pawo2.png" },
+      { q: "Tolong menolong ring basa Bali kawastanin...", o: ["Saling tulungin", "Maparilaksana", "Ngaturang bakti", "Ngelestariang"], c: 0, img: "pawo3.png" },
+      { q: "Bagus ring basa Bali tegesne...", o: ["Becik", "Resik", "Rahayu", "Manah"], c: 0, img: "pawo4.png" },
+      { q: "Basa Bali saking kruna 'Hati' inggih punika...", o: ["Manah", "Toya", "Luhu", "Taru"], c: 0, img: "pawo5.png" },
+      { q: "Berperilaku ring basa Bali kawastanin...", o: ["Maparilaksana", "Pasawitran", "Ngayah", "Sembahyang"], c: 0, img: "pawo6.png" },
+      { q: "Lengkara sane patut inggih punika: Saling asah asih, saling...", o: ["Tulungin", "Nandur", "Ngutang", "Sembahyang"], c: 0, img: "pawo7.png" },
+      { q: "Maparilaksana becik ngeranayang...", o: ["Rahayu", "Luhu", "Toya", "Pura"], c: 0, img: "pawo8.png" },
+      { q: "Mewantu timpal sane keni kesusahan kalebet aksi nyata...", o: ["Pawongan", "Parahyangan", "Palemahan", "Pura"], c: 0, img: "pawo9.png" },
+      { q: "Aksi nyata Pawongan inggih punika Ngayah bareng, ngajaga pasawitran, lan saling tulungin nilai...", o: ["Asah asih", "Banten", "Taru", "Luhu"], c: 0, img: "pawo10.png" },
+      { type: "text-to-image", text: "Persaudaraan", img: "cocokpawo1.png", answerLabel: "Pasawitran" },
+      { type: "text-to-image", text: "Tolong menolong", img: "cocokpawo2.png", answerLabel: "Saling tulungin" },
+      { type: "text-to-image", text: "Bagus", img: "cocokpawo3.jpeg", answerLabel: "Becik" },
+      { type: "text-to-image", text: "Hati", img: "cocokpawo4.jpg", answerLabel: "Manah" },
+      { type: "text-to-image", text: "Berperilaku", img: "cocokpawo5.jpg", answerLabel: "Maparilaksana" }
     ],
     3: [ // PALEMAHAN
-      { q: "Contoh sane ngamargiang pelestarian alam inggih punika ....", o: ["Ngutang luhu ring tukad", "Nanem entik-entikan", "Nembak kedis", "Ngusak alas"], c: 1, img: "paleh1.png" },
-      { q: "Ngutang luu patutné di....", o: ["Tukad", "Sémér", "Got", "Tong sampah"], c: 3, img: "paleh2.png" },
-      { q: "Iraga patut nyaga kabresihan déwék lan lingkungan apang setata…", o: ["Seger", "Kual", "Kumel", "Daki"], c: 0, img: "paleh3.png" },
-      { q: "I Putu demen nyampat di natahe. Nyampat kruna lingganyane…", o: ["Sampat", "Sampate", "Nyampat", "Nyampatang"], c: 0, img: "paleh4.png" },
-      { q: "Betén ené conto parilaksana hémat yéh…", o: ["ngematiang listrik yén suba tengai", "tusing ngidupang AC masan ujan", "negakin sepéda ka sekolah", "ngematiang kran yén suba suud manjus"], c: 3, img: "paleh5.png" },
-      { q: "Yên suba hémat énergi lakar ngranayang hemat…", o: ["Nasi", "Munyi", "Prabéya", "Bayu"], c: 2, img: "paleh6.png" },
-      { q: "Tiang ngubuh sampi di désa. Ngubuh patuh artiné…", o: ["Miara", "Ngebus", "Ngalih", "Madep"], c: 0, img: "paleh7.png" },
-      { q: "Iraga patutné... tekén ubuh-ubuhan.", o: ["Gedeg", "Sayang", "Pedih", "Tusing Demen"], c: 1, img: "paleh8.png" },
-      { q: "Apang entik-entikané tusing layu patut…", o: ["Tumbeg", "Abut", "Tunjel", "Siam"], c: 3, img: "paleh9.png" },
-      { q: "Pidan anaké ngebuhang tanah di cariké nganggon buron sampi. Di zaman jani anaké ngebuhang tanah di carike nganggon...", o: ["Traktor", "Kambing", "HP", "Robot"], c: 0, img: "paleh10.png" },
-      { type: "image-to-image", leftImg: "soalpaleh1.jpg", img: "cocokpaleh1.png" },
-      { type: "image-to-image", leftImg: "soalpaleh2.jpg", img: "cocokpaleh2.png" },
-      { type: "image-to-image", leftImg: "soalpaleh3.jpg", img: "cocokpaleh3.png" },
-      { type: "image-to-image", leftImg: "soalpaleh4.jpg", img: "cocokpaleh4.png" },
-      { type: "image-to-image", leftImg: "soalpaleh5.jpg", img: "cocokpaleh5.png" }
+      { q: "Palemahan inggih punika ngamargiang harmoni sareng...", o: ["Alam", "Ida Sang Hyang Widhi", "Sesama", "Pura"], c: 0, img: "paleh1.png" },
+      { q: "Kruna 'Bersih' ring basa Bali tegesne...", o: ["Resik", "Becik", "Rahayu", "Lestari"], c: 0, img: "paleh2.png" },
+      { q: "Sampah ring basa Bali kawastanin...", o: ["Luhu", "Toya", "Taru", "Banten"], c: 0, img: "paleh3.png" },
+      { q: "Air ring basa Bali kawastanin...", o: ["Toya", "Luhu", "Manah", "Puja"], c: 0, img: "paleh4.png" },
+      { q: "Kruna 'Lestarikan' ring basa Bali inggih punika...", o: ["Ngelestariang", "Maparilaksana", "Ngaturang", "Ngirit"], c: 0, img: "paleh5.png" },
+      { q: "Palemahan sane resik pastika pacang...", o: ["Sehat", "Uyut", "Daki", "Gelem"], c: 0, img: "paleh6.png" },
+      { q: "Nandur taru, nyelamatang generasi...", o: ["Selanturnyane", "Sane mangkin", "Pidan", "Mati"], c: 0, img: "paleh7.png" },
+      { q: "Conto aksi nyata Palemahan inggih punika...", o: ["Nandur taru & ngirit toya", "Ngaturang banten", "Mebakti ring pura", "Ngajaga pasawitran"], c: 0, img: "paleh8.png" },
+      { q: "Iraga patut ngutang luhu ring...", o: ["Ganah luhune", "Tukad", "Megiik", "Jalan"], c: 0, img: "paleh9.png" },
+      { q: "Tri Hita Karana inggih punika jalan nuju kehidupan sane...", o: ["Seimbang, harmonis lan bahagia", "Sugih lan berkuasa", "Mewa lan ramai", "Sederhana lan sepi"], c: 0, img: "paleh10.png" },
+      { type: "text-to-image", text: "Palemahan", img: "cocokpaleh1.png", answerLabel: "Alam" },
+      { type: "text-to-image", text: "Bersih", img: "cocokpaleh2.png", answerLabel: "Resik" },
+      { type: "text-to-image", text: "Sampah", img: "cocokpaleh3.png", answerLabel: "Luhu" },
+      { type: "text-to-image", text: "Air", img: "cocokpaleh4.png", answerLabel: "Toya" },
+      { type: "text-to-image", text: "Lestarikan", img: "cocokpaleh5.png", answerLabel: "Ngelestariang" }
     ]
   };
 
-  // LINK KONEKSI AR SPASIAL VIRTUAL TOUR 360 BERDASARKAN TINGKAT LEVEL
+  // LINK AR SPASIAL VIRTUAL TOUR 360
   const arDatabaseLinks = {
     1: "https://viewer.virtualtoureasy.com/?r=3xVcYDfAtJ",
     2: "https://viewer.virtualtoureasy.com/?r=YvLu3pVjMd",
     3: "https://viewer.virtualtoureasy.com/?r=TTbPZ8ajNS"
   };
+
+  // DUMMY DATA UNTUK PAPAN SKOR GLOBAL
+  const globalDummyLeaderboard = [
+    { name: "I Gede Made", classNum: "5", score: 320 },
+    { name: "Ni Luh Putu", classNum: "6", score: 295 },
+    { name: "Kadek Arta", classNum: "4", score: 270 },
+    { name: "Komang Ayu", classNum: "5", score: 250 },
+    { name: "I Wayan Agus", classNum: "6", score: 230 },
+    { name: "Ketut Rai", classNum: "3", score: 210 },
+    { name: "Nyoman Budi", classNum: "4", score: 180 }
+  ];
 
   // ================================================================
   //  SISTEM UTAMA GAME CONTROLLER
@@ -1246,7 +1453,9 @@
 
     document.getElementById('display-name').innerText = name.toUpperCase();
     document.getElementById('display-class').innerText = 'KELAS ' + cls;
-    document.getElementById('player-score').innerText = localStorage.getItem('totalScore') || '0';
+    
+    const highScore = localStorage.getItem('highScore') || '0';
+    document.getElementById('player-score').innerText = highScore;
   }
 
   function startAutoGame() {
@@ -1395,13 +1604,7 @@
     selectedLeftNode = null;
 
     const instrText = document.getElementById('matching-instruction-text');
-    if (currentLevel === 3) {
-      instrText.innerText = "Adungang aksara bali sareng gambar ring samping mangda patut";
-    } else if (currentLevel === 2) {
-      instrText.innerText = "Adungang cecimpedan sareng gambar rimg samping mangda patut";
-    } else {
-      instrText.innerText = "Adungang kruna sareng gambar ring samping mangda patut";
-    }
+    instrText.innerText = "Adungang kosakata Bahasa Bali lan tegesnyane ring samping mangda patut";
 
     const leftCol = document.getElementById('match-left-col');
     const rightCol = document.getElementById('match-right-col');
@@ -1423,11 +1626,7 @@
       node.dataset.side = 'left';
       node.dataset.id = item.originalIdx;
 
-      if (item.type === "image-to-image") {
-        node.innerHTML = `<div class="match-node-img-box"><img src="${item.leftImg}" class="match-node-img"></div><div class="match-dot"></div>`;
-      } else {
-        node.innerHTML = `<div class="match-node-text">${item.text}</div><div class="match-dot"></div>`;
-      }
+      node.innerHTML = `<div class="match-node-text">${item.text}</div><div class="match-dot"></div>`;
 
       node.onclick = () => handleMatchingClick(node);
       leftCol.appendChild(node);
@@ -1440,13 +1639,11 @@
       node.dataset.id = item.originalIdx;
 
       let htmlContent = `<div class="match-node-img-box"><img src="${item.img}" class="match-node-img"></div>`;
-      if (currentLevel === 2) {
-        node.style.flexDirection = 'column';
-        htmlContent += `<div class="match-node-text" style="font-size: 0.7rem; margin-top: 5px; font-weight: bold; color: #542c0e; text-align: center;">${item.label}</div>`;
-      }
+      htmlContent += `<div class="match-node-text" style="font-size: 0.75rem; margin-top: 4px; font-weight: bold; color: #542c0e; text-align: center;">${item.label}</div>`;
       htmlContent += `<div class="match-dot"></div>`;
 
       node.innerHTML = htmlContent;
+      node.style.flexDirection = 'column';
       node.onclick = () => handleMatchingClick(node);
       rightCol.appendChild(node);
     });
@@ -1597,13 +1794,38 @@
     }
   }
 
+  // ================================================================
+  //  LOGIKA PENYIMPANAN SKOR PRIBADI DAN RIWAYAT BENAR
+  // ================================================================
   function saveProgressState() {
     const unlocked = parseInt(localStorage.getItem('unlockedLevel')) || 1;
     if (currentLevel === unlocked && unlocked < 3) {
       localStorage.setItem('unlockedLevel', unlocked + 1);
     }
-    const prevScore = parseInt(localStorage.getItem('totalScore')) || 0;
-    localStorage.setItem('totalScore', prevScore + score);
+    
+    // Update High Score
+    const currentHighScore = parseInt(localStorage.getItem('highScore')) || 0;
+    if (score > currentHighScore) {
+      localStorage.setItem('highScore', score);
+    }
+
+    // Simpan Riwayat Skor Sesi Bermain
+    let history = JSON.parse(localStorage.getItem('scoreHistory')) || [];
+    const dateNow = new Date();
+    const formattedDate = dateNow.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) + ' ' + dateNow.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    
+    const catName = currentLevel === 1 ? 'Parahyangan' : currentLevel === 2 ? 'Pawongan' : 'Palemahan';
+    
+    history.unshift({
+      date: formattedDate,
+      level: catName,
+      score: score
+    });
+
+    // Simpan max 10 riwayat terakhir
+    if (history.length > 10) history = history.slice(0, 10);
+    localStorage.setItem('scoreHistory', JSON.stringify(history));
+
     score = 0; 
   }
 
@@ -1611,6 +1833,138 @@
     saveProgressState();
     document.getElementById('reward-popup').style.display = 'none';
     navigateTo('peta');
+  }
+
+  // ================================================================
+  //  MODUL PAPAN SKOR & RANGKING (GLOBAL & PRIBADI)
+  // ================================================================
+  function openLeaderboardModal() {
+    document.getElementById('leaderboard-modal').style.display = 'flex';
+    switchLeaderboardTab('global');
+  }
+
+  function closeLeaderboardModal() {
+    document.getElementById('leaderboard-modal').style.display = 'none';
+  }
+
+  function switchLeaderboardTab(tabType) {
+    document.getElementById('lbtab-global').classList.remove('active');
+    document.getElementById('lbtab-personal').classList.remove('active');
+
+    if (tabType === 'global') {
+      document.getElementById('lbtab-global').classList.add('active');
+      renderGlobalLeaderboard();
+    } else {
+      document.getElementById('lbtab-personal').classList.add('active');
+      renderPersonalLeaderboard();
+    }
+  }
+
+  function getCombinedGlobalData() {
+    const myName = localStorage.getItem('playerName') || 'Pemain';
+    const myClass = localStorage.getItem('playerClass') || '1';
+    const myHighScore = parseInt(localStorage.getItem('highScore')) || 0;
+
+    let list = [...globalDummyLeaderboard];
+    
+    // Masukkan data user jika ada highscore
+    const existingIdx = list.findIndex(item => item.isUser);
+    if (existingIdx !== -1) list.splice(existingIdx, 1);
+
+    list.push({
+      name: myName + " (Saya)",
+      classNum: myClass,
+      score: myHighScore,
+      isUser: true
+    });
+
+    // Urutkan dari skor tertinggi
+    list.sort((a, b) => b.score - a.score);
+    return list;
+  }
+
+  function renderGlobalLeaderboard() {
+    const data = getCombinedGlobalData();
+    const container = document.getElementById('lb-content-area');
+
+    let html = `
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th style="width:15%; text-align:center;">Pos</th>
+            <th>Pemain</th>
+            <th style="text-align:center;">Kelas</th>
+            <th style="text-align:right;">Highscore</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    data.forEach((item, index) => {
+      const rank = index + 1;
+      const rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : 'rank-other';
+      const rowStyle = item.isUser ? 'class="my-score-row"' : '';
+
+      html += `
+        <tr ${rowStyle}>
+          <td style="text-align:center;"><span class="rank-badge ${rankClass}">${rank}</span></td>
+          <td>${item.name}</td>
+          <td style="text-align:center;">Kelas ${item.classNum}</td>
+          <td style="text-align:right; font-weight:bold; color:#facc15;">${item.score}</td>
+        </tr>
+      `;
+    });
+
+    html += `</tbody></table>`;
+    container.innerHTML = html;
+  }
+
+  function renderPersonalLeaderboard() {
+    const myHighScore = parseInt(localStorage.getItem('highScore')) || 0;
+    const globalList = getCombinedGlobalData();
+    const myRank = globalList.findIndex(item => item.isUser) + 1;
+
+    const history = JSON.parse(localStorage.getItem('scoreHistory')) || [];
+    const container = document.getElementById('lb-content-area');
+
+    let html = `
+      <div style="background: rgba(84,44,14,0.6); padding:10px; border-radius:10px; border:1px solid #b0703c; margin-bottom:12px; text-align:left;">
+        <div style="font-size:0.8rem; color:#e5a96b;">Skor Tertinggi Anda: <b style="color:#facc15; font-size:1rem;">${myHighScore}</b></div>
+        <div style="font-size:0.8rem; color:#e5a96b; margin-top:2px;">Peringkat Rangking Global: <b style="color:#a3e635; font-size:0.9rem;">Urutan #${myRank}</b></div>
+      </div>
+      
+      <div style="font-size:0.8rem; font-weight:bold; color:#facc15; margin-bottom:6px; text-align:left;">Riwayat Sesi Bermain Sebelumnya:</div>
+    `;
+
+    if (history.length === 0) {
+      html += `<p style="font-size:0.75rem; color:#9ca3af; font-style:italic;">Belum ada riwayat permainan yang tersimpan.</p>`;
+    } else {
+      html += `
+        <table class="lb-table">
+          <thead>
+            <tr>
+              <th>Waktu</th>
+              <th>Tingkat</th>
+              <th style="text-align:right;">Skor</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      history.forEach(item => {
+        html += `
+          <tr>
+            <td style="font-size:0.7rem; color:#d1d5db;">${item.date}</td>
+            <td>${item.level}</td>
+            <td style="text-align:right; font-weight:bold; color:#facc15;">${item.score}</td>
+          </tr>
+        `;
+      });
+
+      html += `</tbody></table>`;
+    }
+
+    container.innerHTML = html;
   }
 
   function switchMateri(id) {

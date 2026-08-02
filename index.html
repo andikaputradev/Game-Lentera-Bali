@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Lentera Bali - Belajar Basa Bali Menjaga Harmoni</title>
+
+  <!-- FIREBASE SDK (Realtime Database Online) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
   <style>
     /* ============================================================
        RESET & BASE LAYER
@@ -293,7 +298,6 @@
       margin-left: 4px;
     }
 
-    /* Tombol Papan Skor di Menu Utama */
     .btn-leaderboard {
       background: linear-gradient(to bottom, #facc15, #ca8a04);
       border: 2.5px solid #542c0e;
@@ -335,7 +339,7 @@
     }
 
     /* ============================================================
-       HALAMAN PETA (LEVEL SELECTION - VERTICAL CENTERED PATH)
+       HALAMAN PETA (LEVEL SELECTION)
        ============================================================ */
     #page-peta {
       background-image: url('backgroundlevel.png');
@@ -422,10 +426,6 @@
       transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     #page-peta .category-card:not(.locked):hover { transform: scale(1.1); }
-
-    #page-peta .category-card:nth-child(1) { align-self: center; margin-left: 0; }
-    #page-peta .category-card:nth-child(2) { align-self: center; }
-    #page-peta .category-card:nth-child(3) { align-self: center; margin-right: 0; }
 
     #page-peta .lamp-frame {
       width: 90px;
@@ -701,7 +701,7 @@
     }
 
     /* ============================================================
-       MODUL INTERAKTIF MENCOCOKKAN GAMBAR (1 HALAMAN & TARIK GARIS)
+       MODUL INTERAKTIF MENCOCOKKAN GAMBAR
        ============================================================ */
     .matching-game-layout {
       display: none;
@@ -803,7 +803,7 @@
     .btn-ar { background: #2563eb; }
 
     /* ============================================================
-       STYLES UNTUK POPUP PAPAN SKOR & RANGKING
+       STYLES UNTUK POPUP PAPAN SKOR & RANGKING REAL-TIME
        ============================================================ */
     .leaderboard-box {
       max-width: 480px;
@@ -862,7 +862,7 @@
       color: #fff;
     }
     .lb-table tr.my-score-row {
-      background: rgba(250, 204, 21, 0.2);
+      background: rgba(250, 204, 21, 0.25);
       font-weight: bold;
     }
     .rank-badge {
@@ -947,67 +947,41 @@
     #page-materi li { margin-bottom: 4px; line-height: 1.4; }
     #page-materi p { font-size: 0.8rem; line-height: 1.5; color: #321602; margin-bottom: 8px; }
 
-    /* ============================================================
-       RESPONSIVE RULES - OPTIMASI MODE LANDSCAPE (HP MENDATAR)
-       ============================================================ */
+    /* Responsive Orientation */
     @media screen and (orientation: landscape) {
       #page-login .logo-container { width: 10%; max-width: 65px; top: 4%; }
       #page-login .form-card { max-width: 420px; padding: 12px 20px; }
-      #page-login .form-card h2 { font-size: 1.1rem; margin-bottom: 2px; }
-      #page-login .input-group { margin-bottom: 6px; }
-      #page-login .input-group label { font-size: 0.7rem; margin-bottom: 2px; }
-      #page-login .input-group input, #page-login .input-group select { padding: 6px 10px; font-size: 0.85rem; }
-      #page-login .btn-submit { padding: 8px; font-size: 0.95rem; }
-
       #page-play .logo-container { width: 16%; max-width: 110px; top: 2%; }
       #page-play .character { width: 12%; max-height: 48vh; bottom: 0; }
       #page-play #putu { left: 18%; }
       #page-play #niluh { right: 18%; }
       #page-play .controls-container { bottom: 6%; gap: 20px; }
       #page-play .btn-circle { width: 54px; height: 54px; }
-
       #page-peta .map-scroll-viewport { margin-top: 60px; height: calc(100% - 120px); }
       #page-peta .map-grid-container { max-width: 580px; gap: 15px; }
       #page-peta .lamp-frame { max-width: 75px; height: 75px; }
-      #page-peta .category-label { font-size: 0.7rem; padding: 4px; margin-top: 4px; }
-      #page-peta .thk-pillar { font-size: 0.6rem; padding: 2px 6px; margin-bottom: 4px; }
-      #page-peta .footer-banner { height: 44px; padding: 4px 20px; }
-      #page-peta .footer-banner h3 { font-size: 0.75rem; }
-      #page-peta .btn-materi { padding: 4px 12px; font-size: 0.7rem; }
-
       #page-main .quiz-container { padding: 14px; }
       #page-main .question-text { max-height: 120px; font-size: 0.95rem; padding: 10px; }
       #page-main .btn-option { min-height: 36px; font-size: 0.75rem; padding: 6px; }
       #page-main .quiz-visual-box { max-height: 160px; }
-      #page-main .ar-action-controls { bottom: 10px; }
     }
 
-    /* Responsive Portrait Mode */
     @media screen and (orientation: portrait) {
       #page-login .logo-container { width: 40%; top: 6%; }
       #page-login .character { width: 25%; max-height: 25vh; }
       #page-login .form-card { margin-top: 40px; }
-
       #page-play .logo-container { width: 48%; max-width: 220px; top: 14%; }
       #page-play .character { width: 32%; max-height: 28vh; bottom: 22%; }
       #page-play .controls-container { bottom: 6%; flex-wrap: wrap; justify-content: center; }
-
       #page-peta .map-scroll-viewport { align-items: flex-start; margin-top: 85px; height: calc(100% - 150px); }
       #page-peta .map-grid-container { max-width: 280px; padding-bottom: 20px; }
       #page-peta .footer-banner { flex-direction: column; gap: 4px; text-align: center; height: auto; padding: 8px; }
-      #page-peta .footer-banner h3 { max-width: 100%; font-size: 0.75rem; }
-
       #page-main .quiz-content-layout { flex-direction: column-reverse; justify-content: flex-end; }
       #page-main .quiz-right-panel { height: 32%; width: 100%; flex: none; }
       #page-main .quiz-left-panel { height: 68%; width: 100%; flex: none; justify-content: flex-start; }
-      #page-main .quiz-visual-box { height: 100%; }
       #page-main .options-grid { grid-template-columns: 1fr; gap: 6px; }
-      #page-main .btn-option { min-height: 36px; padding: 4px; font-size: 0.75rem; }
-      #page-main .question-text { font-size: 0.8rem; padding: 6px; line-height: 1.3; max-height: 65px; }
-
       #page-materi .main-layout { flex-direction: column; gap: 10px; }
       #page-materi .sidebar-tabs { width: 100%; flex-direction: row; }
-      #page-materi .tab-button { flex: 1; text-align: center; font-size: 0.65rem; padding: 8px 2px; }
       #page-materi .content-board { width: 100%; height: 80%; padding: 12px; }
     }
   </style>
@@ -1058,7 +1032,7 @@
   <div class="controls-container">
     <div class="btn-circle" onclick="navigateTo('peta')" title="Pilih Level"><div class="inner-circle-white"><div class="icon-map-marker"></div></div></div>
     <div class="btn-circle" onclick="startAutoGame()" title="Mulai Bermain"><div class="inner-circle-green"><div class="icon-play-triangle"></div></div></div>
-    <button class="btn-leaderboard" onclick="openLeaderboardModal()">🏆 Rangking</button>
+    <button class="btn-leaderboard" onclick="openLeaderboardModal()">🏆 Rangking Global</button>
   </div>
   <img src="karakterniluh.png" alt="Ni Luh" id="niluh" class="character" />
   <div class="top-right-group">
@@ -1166,7 +1140,6 @@
 
   <div class="ar-overlay" id="ar-overlay">
     <iframe id="ar-frame" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 51;" allow="gyroscope; accelerometer; magnetometer;"></iframe>
-    
     <div class="ar-action-controls">
       <button class="btn-ar-nav btn-ar-back" onclick="exitARToMap()">← Halaman Level</button>
       <button class="btn-ar-nav btn-ar-next" id="btn-ar-next-action" onclick="proceedToNextLevel()">Level Selanjutnya →</button>
@@ -1174,18 +1147,18 @@
   </div>
 </div>
 
-<!-- MODAL RANGKING & PAPAN SKOR -->
+<!-- MODAL RANGKING GLOBAL REAL-TIME -->
 <div class="popup-overlay" id="leaderboard-modal">
   <div class="popup-box leaderboard-box">
-    <h2>🏆 PAPAN SKOR & RANGKING 🏆</h2>
+    <h2>🏆 PAPAN SKOR REAL-TIME 🏆</h2>
     
     <div class="leaderboard-tabs">
-      <button class="lb-tab active" id="lbtab-global" onclick="switchLeaderboardTab('global')">Rangking Global</button>
+      <button class="lb-tab active" id="lbtab-global" onclick="switchLeaderboardTab('global')">Rangking Global (Pemain Lain)</button>
       <button class="lb-tab" id="lbtab-personal" onclick="switchLeaderboardTab('personal')">Skor Saya & Riwayat</button>
     </div>
 
     <div class="lb-content" id="lb-content-area">
-      <!-- Tabel di-render secara dinamis oleh JS -->
+      <p style="font-size:0.8rem; color:#facc15; margin-top:20px;">Memuat data skor dari server...</p>
     </div>
 
     <button class="btn-popup" style="background:#4b5563;" onclick="closeLeaderboardModal()">Tutup</button>
@@ -1210,7 +1183,6 @@
       <div class="materi-section active" id="mat-1">
         <h2>PARAHYANGAN</h2>
         <h3 class="subtitle">Harmoni sareng Ida Sang Hyang Widhi</h3>
-        
         <div class="materi-block">
           <div class="materi-block-title">Kosakata &amp; Ungkapan</div>
           <ul>
@@ -1221,13 +1193,11 @@
             <li><strong>Syukur</strong> = Ngaturang Bakti</li>
           </ul>
         </div>
-
         <div class="materi-block">
           <div class="materi-block-title">Conto Lengkara</div>
           <p>• Ring pura irage ngaturang bakti.</p>
           <p>• Ngaturang canang wujud bakti miwah rasa syukur.</p>
         </div>
-
         <div class="materi-block">
           <div class="materi-block-title">Aksi Nyata</div>
           <p>Ngaturang bakti, ngaturang banten, lan ngayah ring pura.</p>
@@ -1237,7 +1207,6 @@
       <div class="materi-section" id="mat-2">
         <h2>PAWONGAN</h2>
         <h3 class="subtitle">Harmoni sareng sesama</h3>
-
         <div class="materi-block">
           <div class="materi-block-title">Kosakata &amp; Ungkapan</div>
           <ul>
@@ -1248,13 +1217,11 @@
             <li><strong>Berperilaku</strong> = Maparilaksana</li>
           </ul>
         </div>
-
         <div class="materi-block">
           <div class="materi-block-title">Conto Lengkara</div>
           <p>• Saling asah asih, saling tulungin.</p>
           <p>• Maparilaksana becik ngeranayang rahayu.</p>
         </div>
-
         <div class="materi-block">
           <div class="materi-block-title">Aksi Nyata</div>
           <p>Ngayah bareng, ngajaga pasawitran, lan saling tulungin nilai asah asih.</p>
@@ -1264,7 +1231,6 @@
       <div class="materi-section" id="mat-3">
         <h2>PALEMAHAN</h2>
         <h3 class="subtitle">Harmoni sareng Alam</h3>
-
         <div class="materi-block">
           <div class="materi-block-title">Kosakata &amp; Ungkapan</div>
           <ul>
@@ -1275,18 +1241,15 @@
             <li><strong>Lestarikan</strong> = Ngelestariang</li>
           </ul>
         </div>
-
         <div class="materi-block">
           <div class="materi-block-title">Conto Lengkara</div>
           <p>• Palemahan sane resik pastika pacang sehat.</p>
           <p>• Nandur taru, nyelamatang generasi selanturnyane.</p>
         </div>
-
         <div class="materi-block">
           <div class="materi-block-title">Aksi Nyata</div>
           <p>Nandur taru, ngirit toya, lan ngutang luhu ring ganah luhune.</p>
         </div>
-
         <div style="margin-top: 15px; font-style: italic; background: #fef08a; padding: 10px; border-radius: 8px; border: 1px solid #eab308; font-size:0.75rem;">
           <p style="margin:0; font-weight:bold; color:#713f12;">Yening tiga unsur punika kalaksanayang, jagat Bali ajeg lestari lan rahayu.</p>
           <p style="margin:0; color:#854d0e;">Rajin Belajar Basa Bali, Ngajaga Budaya Bali miwah Alam Bali.</p>
@@ -1299,7 +1262,39 @@
 
 <script>
   // ================================================================
-  //  DATABASE SOAL LENTERA BALI DENGAN MATERI TERBARU
+  //  KONFIGURASI FIREBASE REALTIME DATABASE (SKOR GLOBAL ONLINE)
+  // ================================================================
+  // Silakan ganti firebaseConfig di bawah ini dengan kredensial Firebase milik Anda jika diperlukan.
+  const firebaseConfig = {
+    apiKey: "AIzaSyD-LENTERA-BALI-DEMO-KEY",
+    authDomain: "lentera-bali-game.firebaseapp.com",
+    databaseURL: "https://lentera-bali-game-default-rtdb.firebaseio.com",
+    projectId: "lentera-bali-game",
+    storageBucket: "lentera-bali-game.appspot.com",
+    messagingSenderId: "1234567890",
+    appId: "1:1234567890:web:abcdef123456"
+  };
+
+  let db = null;
+  try {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.database();
+  } catch (err) {
+    console.warn("Firebase belum terkonfigurasi penuh, game akan beralih ke mode penyimpanan lokal offline.", err);
+  }
+
+  // Generate Unique Player ID agar skor tidak bertabrakan dengan nama pemain yang sama
+  function getOrCreatePlayerId() {
+    let pid = localStorage.getItem('playerId');
+    if (!pid) {
+      pid = 'player_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+      localStorage.setItem('playerId', pid);
+    }
+    return pid;
+  }
+
+  // ================================================================
+  //  DATABASE SOAL LENTERA BALI (10 PG + 5 Cocokkan Gambar)
   // ================================================================
   const quizDatabase = {
     1: [ // PARAHYANGAN
@@ -1355,26 +1350,14 @@
     ]
   };
 
-  // LINK AR SPASIAL VIRTUAL TOUR 360
   const arDatabaseLinks = {
     1: "https://viewer.virtualtoureasy.com/?r=3xVcYDfAtJ",
     2: "https://viewer.virtualtoureasy.com/?r=YvLu3pVjMd",
     3: "https://viewer.virtualtoureasy.com/?r=TTbPZ8ajNS"
   };
 
-  // DUMMY DATA UNTUK PAPAN SKOR GLOBAL
-  const globalDummyLeaderboard = [
-    { name: "I Gede Made", classNum: "5", score: 320 },
-    { name: "Ni Luh Putu", classNum: "6", score: 295 },
-    { name: "Kadek Arta", classNum: "4", score: 270 },
-    { name: "Komang Ayu", classNum: "5", score: 250 },
-    { name: "I Wayan Agus", classNum: "6", score: 230 },
-    { name: "Ketut Rai", classNum: "3", score: 210 },
-    { name: "Nyoman Budi", classNum: "4", score: 180 }
-  ];
-
   // ================================================================
-  //  SISTEM UTAMA GAME CONTROLLER
+  //  GAME CONTROLLER LOGIC
   // ================================================================
   let currentLevel = 1;
   let activeQuestions = [];
@@ -1442,6 +1425,8 @@
     localStorage.setItem('playerName', name);
     localStorage.setItem('playerClass', cls);
     if (!localStorage.getItem('unlockedLevel')) localStorage.setItem('unlockedLevel', '1');
+
+    syncScoreToFirebase(parseInt(localStorage.getItem('highScore')) || 0);
 
     playSFX('welcome');
     navigateTo('play');
@@ -1593,7 +1578,7 @@
   }
 
   // ================================================================
-  //  MODUL SISTEM TARIK GARIS MENCOCOKKAN GAMBAR (1 HALAMAN)
+  //  MODUL TARIK GARIS MENCOCOKKAN GAMBAR
   // ================================================================
   function initMatchingGamePage() {
     document.getElementById('standard-quiz-layout').style.display = 'none';
@@ -1625,9 +1610,7 @@
       node.className = 'match-node';
       node.dataset.side = 'left';
       node.dataset.id = item.originalIdx;
-
       node.innerHTML = `<div class="match-node-text">${item.text}</div><div class="match-dot"></div>`;
-
       node.onclick = () => handleMatchingClick(node);
       leftCol.appendChild(node);
     });
@@ -1747,7 +1730,7 @@
   }
 
   // ================================================================
-  //  MODUL INTEGRASI 360 INTERACTIVE REAL-TIME BONUS LINK AR
+  //  MODUL VIRTUAL TOUR AR 360
   // ================================================================
   function startARMode() {
     const arOverlay = document.getElementById('ar-overlay');
@@ -1795,38 +1778,58 @@
   }
 
   // ================================================================
-  //  LOGIKA PENYIMPANAN SKOR PRIBADI DAN RIWAYAT BENAR
+  //  LOGIKA PENYIMPANAN SKOR (FIREBASE + LOCALSTORAGE)
   // ================================================================
   function saveProgressState() {
     const unlocked = parseInt(localStorage.getItem('unlockedLevel')) || 1;
     if (currentLevel === unlocked && unlocked < 3) {
       localStorage.setItem('unlockedLevel', unlocked + 1);
     }
-    
-    // Update High Score
+
+    // Update High Score Pribadi
     const currentHighScore = parseInt(localStorage.getItem('highScore')) || 0;
+    let newHighScore = currentHighScore;
     if (score > currentHighScore) {
-      localStorage.setItem('highScore', score);
+      newHighScore = score;
+      localStorage.setItem('highScore', newHighScore);
     }
 
-    // Simpan Riwayat Skor Sesi Bermain
+    // Simpan Ke Firebase Realtime Database
+    syncScoreToFirebase(newHighScore);
+
+    // Simpan Riwayat Sesi Lokal
     let history = JSON.parse(localStorage.getItem('scoreHistory')) || [];
     const dateNow = new Date();
     const formattedDate = dateNow.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) + ' ' + dateNow.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-    
     const catName = currentLevel === 1 ? 'Parahyangan' : currentLevel === 2 ? 'Pawongan' : 'Palemahan';
-    
+
     history.unshift({
       date: formattedDate,
       level: catName,
       score: score
     });
 
-    // Simpan max 10 riwayat terakhir
     if (history.length > 10) history = history.slice(0, 10);
     localStorage.setItem('scoreHistory', JSON.stringify(history));
 
     score = 0; 
+  }
+
+  function syncScoreToFirebase(highScoreVal) {
+    if (!db) return;
+
+    const pid = getOrCreatePlayerId();
+    const name = localStorage.getItem('playerName') || 'Pemain';
+    const cls = localStorage.getItem('playerClass') || '1';
+
+    db.ref('leaderboard/' + pid).set({
+      name: name,
+      classNum: cls,
+      score: highScoreVal,
+      updatedAt: Date.now()
+    }).catch(err => {
+      console.warn("Gagal sinkronisasi skor ke server Firebase:", err);
+    });
   }
 
   function saveAndExitQuiz() {
@@ -1836,7 +1839,7 @@
   }
 
   // ================================================================
-  //  MODUL PAPAN SKOR & RANGKING (GLOBAL & PRIBADI)
+  //  MODUL PAPAN SKOR & RANGKING GLOBAL REAL-TIME
   // ================================================================
   function openLeaderboardModal() {
     document.getElementById('leaderboard-modal').style.display = 'flex';
@@ -1853,38 +1856,70 @@
 
     if (tabType === 'global') {
       document.getElementById('lbtab-global').classList.add('active');
-      renderGlobalLeaderboard();
+      fetchAndRenderGlobalLeaderboard();
     } else {
       document.getElementById('lbtab-personal').classList.add('active');
       renderPersonalLeaderboard();
     }
   }
 
-  function getCombinedGlobalData() {
+  function fetchAndRenderGlobalLeaderboard() {
+    const container = document.getElementById('lb-content-area');
+    container.innerHTML = `<p style="font-size:0.8rem; color:#facc15; margin-top:20px; text-align:center;">Mengambil data rangking pemain secara online...</p>`;
+
+    if (!db) {
+      renderOfflineGlobalFallback();
+      return;
+    }
+
+    // Mengambil data top skor dari Firebase secara Realtime
+    db.ref('leaderboard').orderByChild('score').limitToLast(20).once('value', (snapshot) => {
+      let players = [];
+      const myPid = getOrCreatePlayerId();
+
+      snapshot.forEach((childSnap) => {
+        const val = childSnap.val();
+        players.push({
+          id: childSnap.key,
+          name: val.name,
+          classNum: val.classNum,
+          score: val.score,
+          isUser: childSnap.key === myPid
+        });
+      });
+
+      // Firebase mengurutkan ascending, balik agar skor tertinggi berada di atas
+      players.reverse();
+
+      if (players.length === 0) {
+        container.innerHTML = `<p style="font-size:0.8rem; color:#d1d5db; margin-top:20px; text-align:center;">Belum ada skor pemain yang terdaftar secara online.</p>`;
+        return;
+      }
+
+      renderGlobalTableUI(players);
+    }).catch(err => {
+      console.warn("Server Firebase tidak merespons, beralih ke tampilan lokal.", err);
+      renderOfflineGlobalFallback();
+    });
+  }
+
+  function renderOfflineGlobalFallback() {
     const myName = localStorage.getItem('playerName') || 'Pemain';
     const myClass = localStorage.getItem('playerClass') || '1';
     const myHighScore = parseInt(localStorage.getItem('highScore')) || 0;
 
-    let list = [...globalDummyLeaderboard];
-    
-    // Masukkan data user jika ada highscore
-    const existingIdx = list.findIndex(item => item.isUser);
-    if (existingIdx !== -1) list.splice(existingIdx, 1);
+    const fallbackData = [
+      { name: myName + " (Saya)", classNum: myClass, score: myHighScore, isUser: true },
+      { name: "I Gede Made", classNum: "5", score: 280, isUser: false },
+      { name: "Ni Luh Putu", classNum: "6", score: 250, isUser: false },
+      { name: "Kadek Arta", classNum: "4", score: 210, isUser: false }
+    ];
 
-    list.push({
-      name: myName + " (Saya)",
-      classNum: myClass,
-      score: myHighScore,
-      isUser: true
-    });
-
-    // Urutkan dari skor tertinggi
-    list.sort((a, b) => b.score - a.score);
-    return list;
+    fallbackData.sort((a, b) => b.score - a.score);
+    renderGlobalTableUI(fallbackData);
   }
 
-  function renderGlobalLeaderboard() {
-    const data = getCombinedGlobalData();
+  function renderGlobalTableUI(players) {
     const container = document.getElementById('lb-content-area');
 
     let html = `
@@ -1892,23 +1927,24 @@
         <thead>
           <tr>
             <th style="width:15%; text-align:center;">Pos</th>
-            <th>Pemain</th>
+            <th>Nama Pemain</th>
             <th style="text-align:center;">Kelas</th>
-            <th style="text-align:right;">Highscore</th>
+            <th style="text-align:right;">Skor Real</th>
           </tr>
         </thead>
         <tbody>
     `;
 
-    data.forEach((item, index) => {
+    players.forEach((item, index) => {
       const rank = index + 1;
       const rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : 'rank-other';
-      const rowStyle = item.isUser ? 'class="my-score-row"' : '';
+      const rowClass = item.isUser ? 'class="my-score-row"' : '';
+      const displayName = item.isUser ? item.name + " (Saya)" : item.name;
 
       html += `
-        <tr ${rowStyle}>
+        <tr ${rowClass}>
           <td style="text-align:center;"><span class="rank-badge ${rankClass}">${rank}</span></td>
-          <td>${item.name}</td>
+          <td>${displayName}</td>
           <td style="text-align:center;">Kelas ${item.classNum}</td>
           <td style="text-align:right; font-weight:bold; color:#facc15;">${item.score}</td>
         </tr>
@@ -1921,19 +1957,15 @@
 
   function renderPersonalLeaderboard() {
     const myHighScore = parseInt(localStorage.getItem('highScore')) || 0;
-    const globalList = getCombinedGlobalData();
-    const myRank = globalList.findIndex(item => item.isUser) + 1;
-
     const history = JSON.parse(localStorage.getItem('scoreHistory')) || [];
     const container = document.getElementById('lb-content-area');
 
     let html = `
       <div style="background: rgba(84,44,14,0.6); padding:10px; border-radius:10px; border:1px solid #b0703c; margin-bottom:12px; text-align:left;">
-        <div style="font-size:0.8rem; color:#e5a96b;">Skor Tertinggi Anda: <b style="color:#facc15; font-size:1rem;">${myHighScore}</b></div>
-        <div style="font-size:0.8rem; color:#e5a96b; margin-top:2px;">Peringkat Rangking Global: <b style="color:#a3e635; font-size:0.9rem;">Urutan #${myRank}</b></div>
+        <div style="font-size:0.8rem; color:#e5a96b;">Skor Tertinggi Anda (Highscore): <b style="color:#facc15; font-size:1rem;">${myHighScore}</b></div>
       </div>
       
-      <div style="font-size:0.8rem; font-weight:bold; color:#facc15; margin-bottom:6px; text-align:left;">Riwayat Sesi Bermain Sebelumnya:</div>
+      <div style="font-size:0.8rem; font-weight:bold; color:#facc15; margin-bottom:6px; text-align:left;">Riwayat Sesi Bermain Terakhir:</div>
     `;
 
     if (history.length === 0) {

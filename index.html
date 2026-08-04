@@ -1577,8 +1577,8 @@
     document.getElementById('heart-container').innerText = heartStr || '💀';
   }
 
-  // ================================================================
-  //  MODUL TARIK GARIS MENCOCOKKAN GAMBAR
+   // ================================================================
+  //  MODUL SISTEM TARIK GARIS MENCOCOKKAN GAMBAR (1 HALAMAN)
   // ================================================================
   function initMatchingGamePage() {
     document.getElementById('standard-quiz-layout').style.display = 'none';
@@ -1589,7 +1589,13 @@
     selectedLeftNode = null;
 
     const instrText = document.getElementById('matching-instruction-text');
-    instrText.innerText = "Adungang kosakata Bahasa Bali lan tegesnyane ring samping mangda patut";
+    if (currentLevel === 3) {
+      instrText.innerText = "Adungang aksara bali sareng gambar ring samping mangda patut";
+    } else if (currentLevel === 2) {
+      instrText.innerText = "Adungang cecimpedan sareng gambar rimg samping mangda patut";
+    } else {
+      instrText.innerText = "Adungang kruna sareng gambar ring samping mangda patut";
+    }
 
     const leftCol = document.getElementById('match-left-col');
     const rightCol = document.getElementById('match-right-col');
@@ -1610,7 +1616,13 @@
       node.className = 'match-node';
       node.dataset.side = 'left';
       node.dataset.id = item.originalIdx;
-      node.innerHTML = `<div class="match-node-text">${item.text}</div><div class="match-dot"></div>`;
+
+      if (item.type === "image-to-image") {
+        node.innerHTML = `<div class="match-node-img-box"><img src="${item.leftImg}" class="match-node-img"></div><div class="match-dot"></div>`;
+      } else {
+        node.innerHTML = `<div class="match-node-text">${item.text}</div><div class="match-dot"></div>`;
+      }
+
       node.onclick = () => handleMatchingClick(node);
       leftCol.appendChild(node);
     });
@@ -1622,11 +1634,13 @@
       node.dataset.id = item.originalIdx;
 
       let htmlContent = `<div class="match-node-img-box"><img src="${item.img}" class="match-node-img"></div>`;
-      htmlContent += `<div class="match-node-text" style="font-size: 0.75rem; margin-top: 4px; font-weight: bold; color: #542c0e; text-align: center;">${item.label}</div>`;
+      if (currentLevel === 2) {
+        node.style.flexDirection = 'column';
+        htmlContent += `<div class="match-node-text" style="font-size: 0.7rem; margin-top: 5px; font-weight: bold; color: #542c0e; text-align: center;">${item.label}</div>`;
+      }
       htmlContent += `<div class="match-dot"></div>`;
 
       node.innerHTML = htmlContent;
-      node.style.flexDirection = 'column';
       node.onclick = () => handleMatchingClick(node);
       rightCol.appendChild(node);
     });

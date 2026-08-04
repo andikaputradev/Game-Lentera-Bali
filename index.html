@@ -1174,14 +1174,12 @@
     </div>
     <div class="btn-back" onclick="navigateTo('peta')">←</div>
   </div>
-  <div class="main-layout">
-    <div class="sidebar-tabs">
-      <button class="tab-button active" id="tab-1" onclick="switchMateri(1)">1. PARAHYANGAN</button>
-      <button class="tab-button" id="tab-2" onclick="switchMateri(2)">2. PAWONGAN</button>
-      <button class="tab-button" id="tab-3" onclick="switchMateri(3)">3. PALEMAHAN</button>
-    </div>
-    <div class="content-board">
-      <div class="materi-section active" id="mat-1">
+  
+  <div class="main-layout" style="height: calc(100% - 65px);">
+    <div class="content-board" style="width: 100%;">
+      
+      <!-- PARAHYANGAN -->
+      <div class="materi-section active" style="margin-bottom: 25px;">
         <h2>PARAHYANGAN</h2>
         <h3 class="subtitle">Harmoni sareng Ida Sang Hyang Widhi</h3>
         <div class="materi-block">
@@ -1205,7 +1203,10 @@
         </div>
       </div>
 
-      <div class="materi-section" id="mat-2">
+      <hr style="border: 0; border-top: 2px dashed #b0703c; margin: 20px 0;" />
+
+      <!-- PAWONGAN -->
+      <div class="materi-section active" style="margin-bottom: 25px;">
         <h2>PAWONGAN</h2>
         <h3 class="subtitle">Harmoni sareng sesama</h3>
         <div class="materi-block">
@@ -1229,7 +1230,10 @@
         </div>
       </div>
 
-      <div class="materi-section" id="mat-3">
+      <hr style="border: 0; border-top: 2px dashed #b0703c; margin: 20px 0;" />
+
+      <!-- PALEMAHAN -->
+      <div class="materi-section active">
         <h2>PALEMAHAN</h2>
         <h3 class="subtitle">Harmoni sareng Alam</h3>
         <div class="materi-block">
@@ -1251,12 +1255,15 @@
           <div class="materi-block-title">Aksi Nyata</div>
           <p>Nandur taru, ngirit toya, lan ngutang luhu ring ganah luhune.</p>
         </div>
-        <div style="margin-top: 15px; font-style: italic; background: #fef08a; padding: 10px; border-radius: 8px; border: 1px solid #eab308; font-size:0.75rem;">
-          <p style="margin:0; font-weight:bold; color:#713f12;">Yening tiga unsur punika kalaksanayang, jagat Bali ajeg lestari lan rahayu.</p>
-          <p style="margin:0; color:#854d0e;">Rajin Belajar Basa Bali, Ngajaga Budaya Bali miwah Alam Bali.</p>
-          <p style="margin:0; font-weight:bold; color:#15803d; margin-top:4px;">Tri Hita Karana = Jalan nuju kehidupan sane seimbang, harmonis lan bahagia</p>
-        </div>
       </div>
+
+      <!-- PENUTUP MATERI -->
+      <div style="margin-top: 20px; font-style: italic; background: #fef08a; padding: 12px; border-radius: 8px; border: 1.5px solid #eab308; font-size:0.8rem; text-align: center;">
+        <p style="margin:0; font-weight:bold; color:#713f12;">Yening tiga unsur punika kalaksanayang, jagat Bali ajeg lestari lan rahayu.</p>
+        <p style="margin:4px 0 0 0; color:#854d0e;">Rajin Belajar Basa Bali, Ngajaga Budaya Bali miwah Alam Bali.</p>
+        <p style="margin:4px 0 0 0; font-weight:bold; color:#15803d;">Tri Hita Karana = Jalan nuju kehidupan sane seimbang, harmonis lan bahagia</p>
+      </div>
+
     </div>
   </div>
 </div>

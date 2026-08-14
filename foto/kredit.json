@@ -62,13 +62,6 @@
   "lisensi": "CC BY-SA 4.0",
   "sumber": "https://commons.wikimedia.org/wiki/File:Gotong_Royong,_Kerja_Tanpa_Pamrih.jpg"
  },
- "guru-murid": {
-  "berkas": "guru-murid.jpg",
-  "judul": "Semangat Mengajar Guru Difabel.jpg",
-  "pemotret": "Achmad Fazeri",
-  "lisensi": "CC BY-SA 4.0",
-  "sumber": "https://commons.wikimedia.org/wiki/File:Semangat_Mengajar_Guru_Difabel.jpg"
- },
  "hemat-listrik": {
   "berkas": "hemat-listrik.jpg",
   "judul": "Czech old mains sockets and light switch.jpg",
@@ -274,10 +267,10 @@
  },
  "tong-sampah": {
   "berkas": "tong-sampah.jpg",
-  "judul": "Sampah di simpang Jalan Gabus dan Jalan Tuanku Tambusai Pekanbaru Riau.JPG",
-  "pemotret": "Aldo samulo",
-  "lisensi": "CC BY-SA 3.0",
-  "sumber": "https://commons.wikimedia.org/wiki/File:Sampah_di_simpang_Jalan_Gabus_dan_Jalan_Tuanku_Tambusai_Pekanbaru_Riau.JPG"
+  "judul": "Clean Event Station (3853583086).jpg",
+  "pemotret": "USEPA Environmental-Protection-Agency",
+  "lisensi": "Public domain",
+  "sumber": "https://commons.wikimedia.org/wiki/File:Clean_Event_Station_(3853583086).jpg"
  },
  "traktor-sawah": {
   "berkas": "traktor-sawah.jpg",
@@ -299,5 +292,19 @@
   "pemotret": "CEphoto, Uwe Aranas",
   "lisensi": "CC BY-SA 3.0",
   "sumber": "https://commons.wikimedia.org/wiki/File:Bratan_Bali_Indonesia_Grandfather-and-grandson-after-Puja-01.jpg"
+ },
+ "sampat": {
+  "berkas": "sampat.jpg",
+  "judul": "Sapu lidi, Indonesian whisk broom 20161208c.jpg",
+  "pemotret": "Rara Lammia",
+  "lisensi": "CC BY-SA 4.0",
+  "sumber": "https://commons.wikimedia.org/wiki/File:Sapu_lidi,_Indonesian_whisk_broom_20161208c.jpg"
+ },
+ "guru-murid": {
+  "berkas": "guru-murid.jpg",
+  "judul": "Defense.gov photo essay 101002-O-9999A-019.jpg",
+  "pemotret": "Sandra Arnold Photographer",
+  "lisensi": "Public domain",
+  "sumber": "https://commons.wikimedia.org/wiki/File:Defense.gov_photo_essay_101002-O-9999A-019.jpg"
  }
 }

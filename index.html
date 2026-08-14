@@ -1226,6 +1226,10 @@
     #page-main .balon-reaksi.benar::after { border-top-color: #15803d; }
     #page-main .balon-reaksi.salah { border-color: #b91c1c; color: #b91c1c; background: #fef2f2; }
     #page-main .balon-reaksi.salah::after { border-top-color: #b91c1c; }
+    /* soal tanpa gambar: karakter membesar mengisi panggung */
+    #page-main .panggung.tanpa-foto .foto-soal { display: none; }
+    #page-main .panggung.tanpa-foto .kar-slot { width: 44%; max-width: 170px; }
+
     #page-main .foto-soal {
       flex: 1 1 auto;
       height: 100%;
@@ -1617,10 +1621,10 @@
       { q: "Rai demen masilihang teken timpale ane sing ngelah. Ento bacakan Solah ane....", o: ["Becik", "Jele", "Mayus", "Lengit"], c: 0, img: "foto/timpal.jpg", kata: "becik" },
       { q: "Rerama sesai maang pitutur. Pitutur rerama patut....", o: ["Resepang", "Kelidin", "Saruin", "Kalahin"], c: 0, img: "foto/keluarga.jpg", kata: "pitutur" },
       { q: "Putu Budi ngelah cita-cita dadi dokter. Dadi dokter geginane tuah....", o: ["Nyampur ubad", "Ngubadin anak gelem", "Menahin montor", "Ngae wewangunan"], c: 1, img: "foto/dokter.jpg", kata: "dokter" },
-      { q: "Ngomong sareng guru patut nganggen basa sane....", o: ["Kasar", "Alus tur sopan", "Keras", "Sengit"], c: 1, img: "foto/guru-murid.jpg", kata: "basa-alus" },
+      { q: "Ngomong sareng guru patut nganggen basa sane....", o: ["Kasar", "Alus tur sopan", "Keras", "Sengit"], c: 1, img: "foto/mebakti.jpg", kata: "basa-alus" },
       { q: "Ring waktu mebersih kelas, iraga patut....", o: ["Gotong royong", "Melaib", "Nyingakin kemawon", "Macepuk"], c: 0, img: "foto/gotong-royong.jpg", kata: "gotong-royong" },
       { q: "Pianakne ane pertama suba ngajahin di SD. Anak ane geginane ngajahin di sekolah madan...", o: ["Guru", "Satpam", "Pengacara", "Polisi"], c: 0, img: "foto/guru-murid.jpg", kata: "guru" },
-      { q: "Tusing dadi lengit nulungin rerama magarapan. Lengit len raosne....", o: ["Jemet", "Seleg", "Mayus", "Anteng"], c: 2, img: "foto/nyampat.jpg", kata: "mayus" },
+      { q: "Tusing dadi lengit nulungin rerama magarapan. Lengit len raosne....", o: ["Jemet", "Seleg", "Mayus", "Anteng"], c: 2, img: null, kata: "mayus" },
       { q: "Yening ada timpal ane ulung patutne....", o: ["Kalahin", "Tolih", "Kedekin", "Tulungin"], c: 3, img: "foto/timpal.jpg", kata: "tulungin" },
       { q: "Tresna asih metimpal. Tresna asih solah ane....", o: ["Melah", "Corah", "Jele", "Gedeg"], c: 0, img: "foto/timpal.jpg", kata: "tresna-asih" },
       { type: "text-to-image", text: "Apaké balé gedé matampul abesik?", img: "foto/pajeng.jpg", answerLabel: "Pajeng (Payung)" },
@@ -1632,8 +1636,8 @@
     3: [ // PALEMAHAN
       { q: "Contoh sane ngamargiang pelestarian alam inggih punika ....", o: ["Ngutang luhu ring tukad", "Nanem entik-entikan", "Nembak kedis", "Ngusak alas"], c: 1, img: "foto/nanem-entik.jpg", kata: "nanem" },
       { q: "Ngutang luu patutné di....", o: ["Tukad", "Sémér", "Got", "Tong sampah"], c: 3, img: "foto/tong-sampah.jpg", kata: "luu" },
-      { q: "Iraga patut nyaga kabresihan déwék lan lingkungan apang setata…", o: ["Seger", "Kual", "Kumel", "Daki"], c: 0, img: "foto/nyampat.jpg", kata: "seger" },
-      { q: "I Putu demen nyampat di natahe. Nyampat kruna lingganyane…", o: ["Sampat", "Sampate", "Nyampat", "Nyampatang"], c: 0, img: "foto/nyampat.jpg", kata: "nyampat" },
+      { q: "Iraga patut nyaga kabresihan déwék lan lingkungan apang setata…", o: ["Seger", "Kual", "Kumel", "Daki"], c: 0, img: "foto/gotong-royong.jpg", kata: "seger" },
+      { q: "I Putu demen nyampat di natahe. Nyampat kruna lingganyane…", o: ["Sampat", "Sampate", "Nyampat", "Nyampatang"], c: 0, img: "foto/sampat.jpg", kata: "nyampat" },
       { q: "Betén ené conto parilaksana hémat yéh…", o: ["ngematiang listrik yén suba tengai", "tusing ngidupang AC masan ujan", "negakin sepéda ka sekolah", "ngematiang kran yén suba suud manjus"], c: 3, img: "foto/kran-air.jpg", kata: "yeh" },
       { q: "Yên suba hémat énergi lakar ngranayang hemat…", o: ["Nasi", "Munyi", "Prabéya", "Bayu"], c: 2, img: "foto/hemat-listrik.jpg", kata: "prabeya" },
       { q: "Tiang ngubuh sampi di désa. Ngubuh patuh artiné…", o: ["Miara", "Ngebus", "Ngalih", "Madep"], c: 0, img: "foto/sampi.jpg", kata: "ngubuh" },
@@ -1814,12 +1818,22 @@
     document.getElementById('teks-soal').innerText = data.q;
 
     // FOTO ASLI (Wikimedia Commons) -- bukan gambar AI lagi
+    // Sebagian soal sengaja TANPA gambar: soal sinonim seperti "Lengit len
+    // raosne...." tidak bisa digambarkan foto apa pun tanpa menyesatkan.
+    // Kalau begitu, kotak foto disembunyikan dan kedua karakter yang mengisi.
     const img = document.getElementById('question-img');
     const kotak = img.parentElement;
-    img.onerror = function () { kotak.classList.add('tanpa-foto'); };
-    img.onload = function () { kotak.classList.remove('tanpa-foto'); };
-    img.src = data.img;
-    document.getElementById('kredit-foto').innerText = kreditUntuk(data.img);
+    const panggung = kotak.parentElement;
+    panggung.classList.toggle('tanpa-foto', !data.img);
+    if (data.img) {
+      img.onerror = function () { kotak.style.visibility = 'hidden'; };
+      img.onload = function () { kotak.style.visibility = 'visible'; };
+      img.src = data.img;
+      document.getElementById('kredit-foto').innerText = kreditUntuk(data.img);
+    } else {
+      img.removeAttribute('src');
+      document.getElementById('kredit-foto').innerText = '';
+    }
 
     // Giliran bicara gantian: Putu untuk soal ganjil, Ni Luh untuk soal genap,
     // supaya terasa seperti dua orang yang saling bertanya-jawab.

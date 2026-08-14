@@ -443,13 +443,13 @@
       align-items: center;
       position: relative;
     }
-    #page-peta .category-card:not(.locked) .lentera {
+    #page-peta .category-card:not(.locked) .ikon-level {
       /* dua lapis: cahaya kuning + garis gelap, supaya lentera tetap tegas
          walau latarnya foto sawah yang ramai */
       filter: drop-shadow(0 0 16px rgba(250,204,21,.95))
               drop-shadow(0 2px 4px rgba(0,0,0,.85));
     }
-    #page-peta .lamp-frame .lentera,
+    #page-peta .lamp-frame .ikon-level,
     #page-peta .lamp-frame svg {
       width: 100%;
       height: 100%;
@@ -482,7 +482,7 @@
     .pillar-pawongan { background: #1d4ed8; }
     .pillar-palemahan { background: #15803d; }
 
-    #page-peta .category-card.locked .lentera { opacity: 0.32; filter: grayscale(1); }
+    #page-peta .category-card.locked .ikon-level { opacity: 0.34; filter: grayscale(1); }
     #page-peta .category-card.locked::after {
       content: '🔒';
       position: absolute;
@@ -2553,6 +2553,65 @@
         '</svg>';
     },
 
+    /* ---------------------------------------------------------------
+       IKON LEVEL: tiap level punya lambang yang mewakili isinya, bukan
+       lentera yang sama semua. Semuanya dibungkus medali bundar supaya
+       tetap terbaca satu keluarga di atas foto sawah yang ramai.
+         1 Budaya Bali  -> penjor (tiing melengkung mapayas janur)
+         2 Parahyangan  -> meru (atap pura bertingkat)
+         3 Pawongan     -> dua orang bergandengan tangan
+         4 Palemahan    -> sawah bersusun + tunas
+       --------------------------------------------------------------- */
+    ikonLevel: function (n, warna) {
+      const c = warna || '#f0a91e';
+      const g = '#4a2c15';                    // garis
+      const u = idBaru();
+      const emblem = {
+        1: // PENJOR: tiing tebal melengkung + juntaian janur + sanggah cucuk
+          '<path d="M38 98 C38 62 40 38 56 27 C74 15 90 22 94 34" fill="none" stroke="' + g + '" stroke-width="11" stroke-linecap="round"/>' +
+          '<path d="M38 98 C38 62 40 38 56 27 C74 15 90 22 94 34" fill="none" stroke="#d9a441" stroke-width="6" stroke-linecap="round"/>' +
+          // juntaian janur, makin ke ujung makin panjang
+          '<path d="M62 24 v20 M73 22 v26 M84 25 v22 M93 33 v17" stroke="' + g + '" stroke-width="7.5" stroke-linecap="round"/>' +
+          '<path d="M62 24 v20 M73 22 v26 M84 25 v22 M93 33 v17" stroke="' + c + '" stroke-width="3.6" stroke-linecap="round"/>' +
+          // sanggah cucuk di kaki penjor
+          '<path d="M26 98 h26 v-15 h-26z" fill="#f5e6c8" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>' +
+          '<path d="M23 83 h32 l-16 -12z" fill="' + c + '" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>',
+        2: // MERU: tiga atap bertingkat + badan pelinggih
+          '<path d="M60 22 L86 40 H34z" fill="' + c + '" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>' +
+          '<path d="M60 38 L92 58 H28z" fill="' + c + '" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>' +
+          '<path d="M60 55 L98 78 H22z" fill="' + c + '" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>' +
+          '<rect x="48" y="78" width="24" height="20" fill="#f5e6c8" stroke="' + g + '" stroke-width="4" stroke-linejoin="round"/>' +
+          '<path d="M60 14 v9" stroke="' + g + '" stroke-width="4.5" stroke-linecap="round"/>',
+        3: // PAWONGAN: dua orang bergandengan tangan.
+           // Badan sengaja dipisah jauh dengan sela jelas di tengah -- versi
+           // sebelumnya kedua kepalanya malah terbaca seperti sepasang mata
+           // pada satu wajah waktu ditampilkan kecil.
+          // kepala menempel ke bahu (versi sebelumnya melayang jauh di atas)
+          '<path d="M20 98 v-18 a14 14 0 0 1 28 0 v18z" fill="#f5e6c8" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>' +
+          '<path d="M72 98 v-18 a14 14 0 0 1 28 0 v18z" fill="#f5e6c8" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>' +
+          '<circle cx="34" cy="52" r="11" fill="' + c + '" stroke="' + g + '" stroke-width="4.5"/>' +
+          '<circle cx="86" cy="52" r="11" fill="' + c + '" stroke="' + g + '" stroke-width="4.5"/>' +
+          // lengan bergandengan, bertemu di sela tengah
+          '<path d="M48 76 L60 83 L72 76" fill="none" stroke="' + g + '" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>' +
+          '<path d="M48 76 L60 83 L72 76" fill="none" stroke="' + c + '" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>' +
+          '<circle cx="60" cy="83" r="5.5" fill="' + c + '" stroke="' + g + '" stroke-width="3.5"/>',
+        4: // PALEMAHAN: petak sawah bersusun + tunas
+          '<path d="M20 92 h80 M26 78 h68 M32 64 h56" fill="none" stroke="' + g + '" stroke-width="7" stroke-linecap="round"/>' +
+          '<path d="M20 92 h80 M26 78 h68 M32 64 h56" fill="none" stroke="' + c + '" stroke-width="3.2" stroke-linecap="round"/>' +
+          '<path d="M60 58 v-16" stroke="' + g + '" stroke-width="5.5" stroke-linecap="round"/>' +
+          '<path d="M60 46 q-14 -4 -16 -16 q14 0 16 12z" fill="' + c + '" stroke="' + g + '" stroke-width="4" stroke-linejoin="round"/>' +
+          '<path d="M60 50 q14 -6 16 -18 q-14 2 -16 14z" fill="' + c + '" stroke="' + g + '" stroke-width="4" stroke-linejoin="round"/>'
+      }[n] || '';
+      return '<svg class="ikon-level" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+        '<defs><radialGradient id="med' + u + '" cx=".38" cy=".32" r=".78">' +
+          '<stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#f0dcb8"/>' +
+        '</radialGradient></defs>' +
+        '<circle cx="60" cy="60" r="54" fill="url(#med' + u + ')" stroke="' + g + '" stroke-width="5"/>' +
+        '<circle cx="60" cy="60" r="46" fill="none" stroke="' + c + '" stroke-width="3" opacity=".75"/>' +
+        emblem +
+        '</svg>';
+    },
+
     /* Ornamen patra Bali untuk pinggiran kartu kuis (dipakai sebagai
        background-image data-URI, diulang mendatar). */
     patra: function (warna) {
@@ -2588,7 +2647,8 @@
       if (!el.querySelector('svg')) KarakterBali.pasang(el, el.dataset.karakter);
     });
     document.querySelectorAll('[data-lentera]').forEach(function (el) {
-      if (!el.querySelector('svg')) el.innerHTML = Hiasan.lentera(WARNA_LEVEL[el.dataset.lentera], true);
+      const n = parseInt(el.dataset.lentera, 10);
+      if (!el.querySelector('svg')) el.innerHTML = Hiasan.ikonLevel(n, WARNA_LEVEL[n]);
     });
     document.querySelectorAll('[data-logo]').forEach(function (el) {
       if (!el.querySelector('svg')) el.innerHTML = Hiasan.logo();

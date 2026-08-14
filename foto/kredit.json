@@ -34,13 +34,6 @@
   "lisensi": "CC BY-SA 3.0",
   "sumber": "https://commons.wikimedia.org/wiki/File:Balinese_offering.jpg"
  },
- "dokter": {
-  "berkas": "dokter.jpg",
-  "judul": "Flickr - DFID - A female doctor with the International Medical Corps examines a young boy at a mobile health clinic in Pakistan.jpg",
-  "pemotret": "DFID - UK Department for International Development",
-  "lisensi": "CC BY 2.0",
-  "sumber": "https://commons.wikimedia.org/wiki/File:Flickr_-_DFID_-_A_female_doctor_with_the_International_Medical_Corps_examines_a_young_boy_at_a_mobile_health_clinic_in_Pakistan.jpg"
- },
  "entik-layu": {
   "berkas": "entik-layu.jpg",
   "judul": "Spooky Container (8256112173).jpg",
@@ -183,10 +176,10 @@
  },
  "ogoh-ogoh": {
   "berkas": "ogoh-ogoh.jpg",
-  "judul": "Ogoh-ogoh Desa Adat Kuta 2018.jpg",
-  "pemotret": "Herryz",
-  "lisensi": "CC BY-SA 4.0",
-  "sumber": "https://commons.wikimedia.org/wiki/File:Ogoh-ogoh_Desa_Adat_Kuta_2018.jpg"
+  "judul": "Nyepifest auf Bali.jpg",
+  "pemotret": "Micnae1965",
+  "lisensi": "Public domain",
+  "sumber": "https://commons.wikimedia.org/wiki/File:Nyepifest_auf_Bali.jpg"
  },
  "padmasana": {
   "berkas": "padmasana.jpg",
@@ -225,10 +218,10 @@
  },
  "pura-tanah-lot": {
   "berkas": "pura-tanah-lot.jpg",
-  "judul": "014 Pura Luhur Tanah Lot, The Tanah Lot Area, Tabanan, Bali, photograph by Anandajoti Bhikkhu.jpg",
-  "pemotret": "Anandajoti",
-  "lisensi": "CC BY-SA 4.0",
-  "sumber": "https://commons.wikimedia.org/wiki/File:014_Pura_Luhur_Tanah_Lot,_The_Tanah_Lot_Area,_Tabanan,_Bali,_photograph_by_Anandajoti_Bhikkhu.jpg"
+  "judul": "Sunset tanah lot.jpg",
+  "pemotret": "Krismartin at English Wikipedia",
+  "lisensi": "Public domain",
+  "sumber": "https://commons.wikimedia.org/wiki/File:Sunset_tanah_lot.jpg"
  },
  "saiban": {
   "berkas": "saiban.jpg",
@@ -260,10 +253,10 @@
  },
  "timpal": {
   "berkas": "timpal.jpg",
-  "judul": "Anak-anak Sukorejo Mendapatkan Manfaat dari Peningkatan Pasokan Air Bersih (36742661371).jpg",
-  "pemotret": "USAID Indonesia",
-  "lisensi": "Public domain",
-  "sumber": "https://commons.wikimedia.org/wiki/File:Anak-anak_Sukorejo_Mendapatkan_Manfaat_dari_Peningkatan_Pasokan_Air_Bersih_(36742661371).jpg"
+  "judul": "Bali.jpg",
+  "pemotret": "Lijun (Lijun)",
+  "lisensi": "CC BY-SA 3.0",
+  "sumber": "https://commons.wikimedia.org/wiki/File:Bali.jpg"
  },
  "tong-sampah": {
   "berkas": "tong-sampah.jpg",
@@ -299,12 +292,5 @@
   "pemotret": "Rara Lammia",
   "lisensi": "CC BY-SA 4.0",
   "sumber": "https://commons.wikimedia.org/wiki/File:Sapu_lidi,_Indonesian_whisk_broom_20161208c.jpg"
- },
- "guru-murid": {
-  "berkas": "guru-murid.jpg",
-  "judul": "Defense.gov photo essay 101002-O-9999A-019.jpg",
-  "pemotret": "Sandra Arnold Photographer",
-  "lisensi": "Public domain",
-  "sumber": "https://commons.wikimedia.org/wiki/File:Defense.gov_photo_essay_101002-O-9999A-019.jpg"
  }
 }

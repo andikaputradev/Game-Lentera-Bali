@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Lentera Bali - Petualangan Tri Hita Karana</title>
+  <title>Lentera Bali - Belajar Basa Bali Menjaga Harmoni</title>
+
+  <!-- FIREBASE SDK (Realtime Database Online) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
   <style>
     /* ============================================================
        RESET & BASE LAYER
@@ -34,6 +39,18 @@
     .page.active {
       display: flex;
       flex-direction: column;
+    }
+    /* Latar sekarang FOTO Bali asli (bukan ilustrasi AI). Foto jauh lebih
+       ramai daripada ilustrasi, jadi diberi lapisan gelap tipis supaya semua
+       tulisan tetap terbaca anak-anak. */
+    #page-login::before, #page-play::before, #page-peta::before,
+    #page-main::before, #page-materi::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(40,23,8,.42), rgba(40,23,8,.62));
+      z-index: 0;
+      pointer-events: none;
     }
 
     /* ---------- Global Mute Toggle ---------- */
@@ -85,7 +102,7 @@
        HALAMAN LOGIN
        ============================================================ */
     #page-login {
-      background-image: url('backgroundlentera.png');
+      background-image: url('foto/bg-utama.jpg');
       background-size: cover;
       background-position: center;
       justify-content: center;
@@ -103,28 +120,25 @@
       z-index: 10;
       animation: logoZoom 3s ease-in-out infinite;
     }
-    #page-login .logo-game {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-    }
+    .logo-container svg { width: 100%; height: auto; display: block; }
     @keyframes logoZoom {
       0%, 100% { transform: translateX(-50%) scale(1); }
       50% { transform: translateX(-50%) scale(1.05); }
     }
-    
+
     .character {
       position: absolute;
       bottom: 0;
       width: 14%;
       max-width: 120px;
       max-height: 40vh;
-      object-fit: contain;
+      aspect-ratio: 2 / 3;   /* wadah rig SVG, bukan <img> lagi */
       z-index: 5;
+      pointer-events: none;
     }
     #page-login #putu { left: 8%; animation: floatChar 4s ease-in-out infinite; }
     #page-login #niluh { right: 8%; animation: floatChar 4s ease-in-out infinite 2s; }
-    
+
     @keyframes floatChar {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
@@ -144,9 +158,15 @@
     }
     #page-login .form-card h2 {
       font-size: 1.2rem;
-      margin-bottom: 12px;
+      margin-bottom: 4px;
       color: #facc15;
       text-shadow: 2px 2px 0px #321602;
+    }
+    #page-login .form-card p.sub-title {
+      font-size: 0.7rem;
+      color: #e5a96b;
+      margin-bottom: 12px;
+      font-weight: bold;
     }
     #page-login .input-group {
       margin-bottom: 10px;
@@ -194,14 +214,14 @@
        HALAMAN PLAY (MENU UTAMA)
        ============================================================ */
     #page-play {
-      background-image: url('backgroundlentera.png');
+      background-image: url('foto/bg-utama.jpg');
       background-size: cover;
       background-position: center;
       justify-content: space-between;
       align-items: center;
       padding: 20px;
     }
-    
+
     #page-play .logo-container {
       position: absolute;
       top: 4%;
@@ -213,11 +233,7 @@
       text-align: center;
       animation: logoZoom 3s ease-in-out infinite;
     }
-    #page-play .logo-game {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-    }
+
 
     #page-play .user-profile-badge {
       position: absolute;
@@ -227,15 +243,16 @@
 
     #page-play #putu { left: 16%; animation: floatChar 4s ease-in-out infinite; }
     #page-play #niluh { right: 16%; animation: floatChar 4s ease-in-out infinite 2s; }
-    
+
     #page-play .controls-container {
       position: absolute;
-      bottom: 12%;
+      bottom: 10%;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 30px;
+      gap: 20px;
       z-index: 10;
+      align-items: center;
     }
     #page-play .btn-circle {
       width: 60px;
@@ -285,7 +302,27 @@
       border-bottom: 8px solid transparent;
       margin-left: 4px;
     }
-    
+
+    .btn-leaderboard {
+      background: linear-gradient(to bottom, #facc15, #ca8a04);
+      border: 2.5px solid #542c0e;
+      border-radius: 20px;
+      padding: 8px 16px;
+      color: #321602;
+      font-weight: 900;
+      font-size: 0.8rem;
+      cursor: pointer;
+      box-shadow: 0 4px 0px #321602, 0 4px 8px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .btn-leaderboard:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0px #321602;
+    }
+
     #page-play .top-right-group {
       position: absolute;
       top: 4%;
@@ -307,15 +344,15 @@
     }
 
     /* ============================================================
-       HALAMAN PETA (LEVEL SELECTION - VERTICAL CENTERED PATH)
+       HALAMAN PETA (LEVEL SELECTION)
        ============================================================ */
     #page-peta {
-      background-image: url('backgroundlevel.png');
+      background-image: url('foto/bg-peta.jpg');
       background-size: cover;
       background-position: center;
       padding: 20px;
     }
-    
+
     #page-peta .top-left-hud {
       position: absolute;
       top: 4%;
@@ -345,7 +382,7 @@
       right: 4%;
       z-index: 25;
     }
-    
+
     #page-peta .map-scroll-viewport {
       width: 100%;
       height: calc(100% - 135px);
@@ -360,7 +397,6 @@
     #page-peta .map-scroll-viewport::-webkit-scrollbar { width: 6px; }
     #page-peta .map-scroll-viewport::-webkit-scrollbar-thumb { background: rgba(84,44,14,0.5); border-radius: 10px; }
 
-    /* Layout Jalan Lurus di Tengah */
     #page-peta .map-grid-container {
       width: 100%;
       max-width: 500px;
@@ -371,8 +407,7 @@
       position: relative;
       padding: 20px 0;
     }
-    
-    /* Garis Jalan Ilustrasi Belakang Lampu Lurus */
+
     #page-peta .map-grid-container::before {
       content: '';
       position: absolute;
@@ -396,10 +431,6 @@
       transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     #page-peta .category-card:not(.locked):hover { transform: scale(1.1); }
-    
-    #page-peta .category-card:nth-child(1) { align-self: center; margin-left: 0; }
-    #page-peta .category-card:nth-child(2) { align-self: center; }
-    #page-peta .category-card:nth-child(3) { align-self: center; margin-right: 0; }
 
     #page-peta .lamp-frame {
       width: 90px;
@@ -412,13 +443,17 @@
       align-items: center;
       position: relative;
     }
-    #page-peta .category-card:not(.locked) .lamp-img {
-      filter: drop-shadow(0 0 15px #facc15);
+    #page-peta .category-card:not(.locked) .ikon-level {
+      /* dua lapis: cahaya kuning + garis gelap, supaya lentera tetap tegas
+         walau latarnya foto sawah yang ramai */
+      filter: drop-shadow(0 0 16px rgba(250,204,21,.95))
+              drop-shadow(0 2px 4px rgba(0,0,0,.85));
     }
-    #page-peta .lamp-img {
+    #page-peta .lamp-frame .ikon-level,
+    #page-peta .lamp-frame svg {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      display: block;
     }
     #page-peta .category-label {
       background: rgba(58, 29, 4, 0.9);
@@ -440,12 +475,14 @@
       padding: 3px 8px;
       border-radius: 5px;
       margin-bottom: 4px;
+      display: none;
     }
+    .pillar-budaya { background: #b45309; }
     .pillar-parahyangan { background: #b91c1c; }
     .pillar-pawongan { background: #1d4ed8; }
     .pillar-palemahan { background: #15803d; }
 
-    #page-peta .category-card.locked .lamp-img { opacity: 0.3; filter: grayscale(1); }
+    #page-peta .category-card.locked .ikon-level { opacity: 0.34; filter: grayscale(1); }
     #page-peta .category-card.locked::after {
       content: '🔒';
       position: absolute;
@@ -469,7 +506,7 @@
       align-items: center;
       height: 55px;
     }
-    #page-peta .footer-banner h3 { font-size: 0.8rem; font-weight: normal; max-width: 72%; }
+    #page-peta .footer-banner h3 { font-size: 0.95rem; font-weight: normal; max-width: 72%; line-height: 1.35; }
     #page-peta .btn-materi {
       display: flex;
       align-items: center;
@@ -477,10 +514,10 @@
       background: linear-gradient(to bottom, #facc15, #eab308);
       border: 2px solid #542c0e;
       border-radius: 20px;
-      padding: 6px 14px;
+      padding: 9px 16px;
       color: #321602;
       font-weight: 900;
-      font-size: 0.75rem;
+      font-size: 0.9rem;
       cursor: pointer;
       white-space: nowrap;
     }
@@ -489,7 +526,7 @@
        HALAMAN MAIN (KUIS & MEKANISME RESPONSIF)
        ============================================================ */
     #page-main {
-      background-image: url('backgroundlentera.png');
+      background-image: url('foto/bg-kuis.jpg');
       background-size: cover;
       background-position: center;
       padding: 10px 15px;
@@ -497,38 +534,79 @@
       align-items: center;
       gap: 6px;
     }
+    /* --- HUD atas --------------------------------------------------------
+       Dulu: .top-hud tinggi mati 38px dan ketiga anaknya boleh menyusut, jadi
+       waktu timer jadi 2 digit status-bar melebar lalu menghimpit deretan hati
+       sampai turun ke baris kedua. Sekarang status-bar TIDAK boleh menyusut
+       (flex:0 0 auto) dan judul level yang mengalah (ellipsis), sehingga hati
+       mustahil pindah baris di lebar layar berapa pun. */
     #page-main .top-hud {
       width: 100%;
       max-width: 900px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      flex-wrap: nowrap;
+      gap: 8px;
       z-index: 20;
-      height: 38px;
+      min-height: 46px;
       flex-shrink: 0;
     }
     #page-main .level-indicator {
       background: linear-gradient(to bottom, #7c4219, #542c0e);
       border: 2px solid #b0703c;
-      border-radius: 8px;
-      padding: 4px 10px;
+      border-radius: 10px;
+      padding: 7px 12px;
       color: #facc15;
-      font-size: 0.7rem;
+      font-size: 0.9rem;
       font-weight: bold;
+      /* satu-satunya yang boleh mengalah saat layar sempit */
+      flex: 1 1 auto;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     #page-main .status-bar {
       display: flex;
-      gap: 10px;
-      background: rgba(0,0,0,0.6);
-      padding: 4px 10px;
-      border-radius: 15px;
+      gap: 12px;
+      background: rgba(0,0,0,0.62);
+      padding: 7px 14px;
+      border-radius: 18px;
       color: #fff;
-      font-size: 0.7rem;
+      font-size: 1rem;
+      font-weight: bold;
       align-items: center;
+      flex: 0 0 auto;          /* kunci: jangan pernah menyusut */
+      white-space: nowrap;
     }
+    #page-main .status-bar > span { display: inline-flex; align-items: center; gap: 3px; }
+    #heart-container {
+      white-space: nowrap;     /* hati tidak boleh patah ke baris baru */
+      flex: 0 0 auto;
+      letter-spacing: 1px;
+      font-size: 1.05rem;
+      line-height: 1;
+    }
+    #heart-container .hati { display: inline-block; }
+    #heart-container .hati.hilang { animation: hatiHilang .5s ease forwards; }
+    @keyframes hatiHilang {
+      0%   { transform: scale(1.5); filter: none; }
+      100% { transform: scale(1); filter: grayscale(1); opacity: .35; }
+    }
+    /* lebar angka timer dikunci 2 karakter + angka tabular supaya HUD tidak
+       bergoyang tiap detik saat 20 -> 9 */
+    #time-left {
+      display: inline-block;
+      min-width: 2ch;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    #page-main .status-bar .waktu-kritis { color: #fca5a5; animation: detik 1s steps(2) infinite; }
+    @keyframes detik { 0%,100%{opacity:1} 50%{opacity:.45} }
     #page-main .btn-exit {
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
+      flex: 0 0 auto;
       border-radius: 50%;
       background: #be123c;
       border: 2px solid #fff;
@@ -538,7 +616,7 @@
       cursor: pointer;
       color: white;
       font-weight: bold;
-      font-size: 0.75rem;
+      font-size: 0.95rem;
     }
     #page-main .quiz-container {
       width: 100%;
@@ -550,14 +628,15 @@
       border: 4px solid #542c0e;
       border-radius: 20px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-      padding: 20px 15px;
+      /* ruang ekstra atas/bawah supaya ornamen tidak menimpa tombol pilihan */
+      padding: 26px 15px 26px;
       z-index: 10;
       display: flex;
       flex-direction: column;
       position: relative;
       overflow: hidden;
     }
-    
+
     .ornamen-top {
       position: absolute;
       top: 4px; 
@@ -565,7 +644,6 @@
       transform: translateX(-50%);
       width: 96%; 
       height: 16px;
-      background-image: url('ornamen1.png');
       background-size: contain; 
       background-repeat: repeat-x;
       background-position: top center;
@@ -578,7 +656,6 @@
       transform: translateX(-50%);
       width: 96%; 
       height: 16px;
-      background-image: url('ornamen2.png');
       background-size: contain; 
       background-repeat: repeat-x;
       background-position: bottom center;
@@ -592,7 +669,7 @@
       width: 100%;
       align-items: center;
     }
-    
+
     #page-main .quiz-left-panel {
       flex: 1.2;
       display: flex;
@@ -625,41 +702,54 @@
       max-width: 90%;
       object-fit: contain;
     }
-    
+
     #page-main .question-text {
       color: #271202;
-      font-size: 0.95rem;
+      font-size: 1rem;
       font-weight: 900;
-      line-height: 1.4;
-      background: rgba(255,255,255,0.85);
-      padding: 12px;
-      border-radius: 10px;
-      border-left: 5px solid #eab308;
+      line-height: 1.45;
+      background: rgba(255,255,255,0.92);
+      padding: 14px 16px;
+      border-radius: 12px;
+      border-left: 6px solid #eab308;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       overflow-y: auto;
-      max-height: 120px;
+      flex: 0 0 auto;          /* soal setinggi isinya */
+      max-height: 40%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
+    /* Kunci "ruang kosong": grid ikut memanjang mengisi sisa tinggi panel,
+       lalu tingginya dibagi rata ke semua tombol (grid-auto-rows:1fr). */
     #page-main .options-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      grid-auto-rows: 1fr;
+      gap: 10px;
+      flex: 1 1 auto;
+      min-height: 0;
+      align-content: stretch;
     }
     #page-main .btn-option {
       background: #fff;
-      border: 2px solid #b0703c;
-      border-radius: 10px;
-      padding: 10px;
+      border: 3px solid #b0703c;
+      border-radius: 14px;
+      padding: 10px 12px;
       font-family: inherit;
-      font-size: 0.8rem;
+      font-size: 1.05rem;
       font-weight: bold;
+      line-height: 1.25;
       color: #542c0e;
       cursor: pointer;
-      box-shadow: 0 3px 0px #b0703c;
+      box-shadow: 0 4px 0px #b0703c;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 42px;
+      min-height: 52px;        /* target sentuh jempol anak */
       text-align: center;
+      overflow: hidden;
+      word-break: break-word;
     }
     #page-main .btn-option:active {
       transform: scale(0.97) translateY(2px);
@@ -675,7 +765,7 @@
     }
 
     /* ============================================================
-       MODUL INTERAKTIF MENCOCOKKAN GAMBAR (1 HALAMAN & TARIK GARIS)
+       MODUL INTERAKTIF MENCOCOKKAN GAMBAR
        ============================================================ */
     .matching-game-layout {
       display: none;
@@ -734,11 +824,11 @@
     .match-node:active { transform: scale(0.98); }
     .match-node.selected { background: #fef08a; border-color: #eab308; }
     .match-node.matched { background: #dcfce7; border-color: #22c55e; cursor: default; }
-    
-    .match-node-text { font-size: 0.75rem; font-weight: bold; color: #321602; width: 100%; text-align: center; }
+
+    .match-node-text { font-size: 0.75rem; font-weight: bold; color: #321602; width: 100%; text-align: center; line-height: 1.3; }
     .match-node-img-box { width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; }
     .match-node-img { max-height: 100%; max-width: 100%; object-fit: contain; }
-    
+
     .match-dot {
       width: 12px;
       height: 12px;
@@ -763,10 +853,10 @@
     }
     .popup-box {
       background: #3a1d04; border: 4px solid #facc15; border-radius: 20px;
-      padding: 24px; width: 100%; max-width: 360px; text-align: center; color: #fff;
+      padding: 24px; width: 100%; max-width: 420px; text-align: center; color: #fff;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-    .popup-box h2 { color: #facc15; margin-bottom: 12px; font-size: 1.2rem; text-shadow: 2px 2px 0px #000; }
+    .popup-box h2 { color: #facc15; margin-bottom: 8px; font-size: 1.2rem; text-shadow: 2px 2px 0px #000; }
     .btn-popup {
       width: 100%; padding: 10px; font-family: inherit; font-size: 0.9rem;
       font-weight: bold; color: #fff; border-radius: 10px; cursor: pointer; margin-top: 10px; border: none;
@@ -777,131 +867,95 @@
     .btn-ar { background: #2563eb; }
 
     /* ============================================================
-       MODUL DUNIA BUDAYA 3D (THREE.JS + KAMERA + SENSOR 360)
-       Logika permainan ada di file terpisah: world3d.js
+       STYLES UNTUK POPUP PAPAN SKOR & RANGKING REAL-TIME
+       ============================================================ */
+    .leaderboard-box {
+      max-width: 480px;
+      width: 100%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .leaderboard-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #b0703c;
+      padding-bottom: 6px;
+    }
+    .lb-tab {
+      flex: 1;
+      padding: 8px 4px;
+      background: #542c0e;
+      border: 1px solid #b0703c;
+      color: #e5a96b;
+      font-weight: bold;
+      font-size: 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .lb-tab.active {
+      background: #facc15;
+      color: #321602;
+      border-color: #fff;
+    }
+    .lb-content {
+      overflow-y: auto;
+      max-height: 260px;
+      margin-bottom: 12px;
+    }
+    .lb-content::-webkit-scrollbar { width: 5px; }
+    .lb-content::-webkit-scrollbar-thumb { background: #facc15; border-radius: 4px; }
+    
+    .lb-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      text-align: left;
+    }
+    .lb-table th {
+      background: #542c0e;
+      color: #facc15;
+      padding: 8px;
+      border-bottom: 2px solid #b0703c;
+      font-size: 0.75rem;
+    }
+    .lb-table td {
+      padding: 8px;
+      border-bottom: 1px solid rgba(176,112,60,0.4);
+      color: #fff;
+    }
+    .lb-table tr.my-score-row {
+      background: rgba(250, 204, 21, 0.25);
+      font-weight: bold;
+    }
+    .rank-badge {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 50%;
+      font-weight: bold;
+      font-size: 0.75rem;
+    }
+    .rank-1 { background: #facc15; color: #321602; }
+    .rank-2 { background: #e2e8f0; color: #1e293b; }
+    .rank-3 { background: #ca8a04; color: #fff; }
+    .rank-other { background: #542c0e; color: #e5a96b; }
+
+    /* ============================================================
+       MODUL INTERAKTIF BONUS KAMERA AR (VIRTUAL TOUR 360)
        ============================================================ */
     .ar-overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: #000; z-index: 50; display: none; flex-direction: column;
       justify-content: space-between; align-items: center; color: white;
     }
-    /* Cadangan tanpa kamera: langit senja magis */
-    .ar-overlay.w3d-sky-fallback {
-      background: linear-gradient(to bottom, #1a1440 0%, #4527a0 35%, #e65100 78%, #ffb74d 100%);
-    }
-    .ar-video-stream {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      object-fit: cover; z-index: 51;
-    }
-    #w3d-canvas-holder {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      z-index: 52; touch-action: none;
-    }
-    #w3d-canvas-holder canvas { width: 100% !important; height: 100% !important; display: block; }
-
-    .w3d-hud {
-      position: relative; z-index: 55; background: rgba(58, 29, 4, 0.88);
-      padding: 10px 14px; border-radius: 14px; border: 2.5px solid #facc15;
-      margin-top: 12px; text-align: center; max-width: 88%;
-      pointer-events: none;
-    }
-    .w3d-hud h3 { font-size: 0.95rem; color: #facc15; }
-    .w3d-hud p { font-size: 0.7rem; color: #eee; margin-top: 3px; }
-    .w3d-target {
-      margin-top: 7px; background: linear-gradient(to bottom, #7c2d12, #3a1d04);
-      border: 2px solid #facc15; border-radius: 12px; padding: 5px 14px;
-      font-size: 0.95rem; font-weight: 900; color: #facc15;
-      text-shadow: 1px 1px 0 #000;
-      animation: w3dPulse 1.6s ease-in-out infinite;
-    }
-    @keyframes w3dPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-    .w3d-progress { display: flex; gap: 6px; justify-content: center; margin-top: 8px; }
-    .w3d-slot {
-      width: 28px; height: 28px; border-radius: 50%;
-      border: 2px dashed rgba(255,255,255,0.6); background: rgba(0,0,0,0.35);
-      display: flex; justify-content: center; align-items: center;
-      font-size: 0.85rem; color: rgba(255,255,255,0.5);
-    }
-    .w3d-slot.filled { border-style: solid; border-color: #22c55e; box-shadow: 0 0 8px #22c55e; color: #fff; }
-    .w3d-bonus { margin-top: 6px; font-size: 0.78rem; color: #4ade80; font-weight: bold; }
-
-    #w3d-radar {
-      position: absolute; top: 46%; left: 50%; transform: translateX(-50%);
-      z-index: 56; width: 64px; height: 64px; display: none;
-      justify-content: center; align-items: center;
-      font-size: 2.2rem; color: #facc15; pointer-events: none;
-      text-shadow: 0 0 12px #000;
-    }
-    #w3d-gyro-btn {
-      position: absolute; bottom: 110px; left: 50%; transform: translateX(-50%);
-      z-index: 56; display: none; padding: 10px 18px;
-      font-family: inherit; font-weight: bold; font-size: 0.85rem;
-      background: linear-gradient(to bottom, #2563eb, #1e40af); color: #fff;
-      border: 2px solid #93c5fd; border-radius: 24px; cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    }
-
-    .w3d-toast {
-      position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
-      z-index: 60; opacity: 0; pointer-events: none; max-width: 88%;
-      font-size: 1.25rem; font-weight: 900; color: #facc15; text-align: center;
-      text-shadow: 2px 2px 0 #000, 0 0 18px rgba(250,204,21,0.9);
-    }
-    .w3d-toast.show { animation: w3dToastPop 1.5s ease forwards; }
-    @keyframes w3dToastPop {
-      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-      20% { opacity: 1; transform: translate(-50%, -50%) scale(1.12); }
-      75% { opacity: 1; transform: translate(-50%, -58%) scale(1); }
-      100% { opacity: 0; transform: translate(-50%, -85%) scale(0.92); }
-    }
-
-    /* Kartu Pusaka: jendela ilmu tiap benda budaya */
-    #w3d-card {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      z-index: 65; display: none; justify-content: center; align-items: center;
-      background: rgba(0,0,0,0.55); padding: 16px;
-    }
-    .w3d-card-box {
-      background: linear-gradient(to bottom, #fff8e7, #ffe9c2);
-      border: 4px solid #facc15; border-radius: 20px;
-      width: 100%; max-width: 340px; padding: 18px; text-align: center;
-      color: #3a1d04; box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-      animation: w3dCardIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    @keyframes w3dCardIn {
-      0% { transform: scale(0.4) rotate(-6deg); opacity: 0; }
-      100% { transform: scale(1) rotate(0); opacity: 1; }
-    }
-    .w3d-card-box .card-label { font-size: 0.65rem; letter-spacing: 2px; color: #b45309; font-weight: bold; }
-    .w3d-card-box .card-emoji { font-size: 2.2rem; margin: 2px 0; }
-    .w3d-card-box h2 { color: #7c2d12; font-size: 1.3rem; }
-    .w3d-card-box .card-arti { font-size: 0.8rem; color: #92400e; font-style: italic; margin-bottom: 8px; }
-    .w3d-card-box img {
-      width: 100%; max-height: 120px; object-fit: cover;
-      border-radius: 12px; border: 3px solid #d97706; margin-bottom: 8px;
-    }
-    .w3d-card-box .card-fakta {
-      font-size: 0.78rem; line-height: 1.45; text-align: left;
-      background: rgba(255,255,255,0.7); border-left: 4px solid #facc15;
-      padding: 8px 10px; border-radius: 8px; margin-bottom: 12px;
-    }
-    .w3d-card-box button {
-      width: 100%; padding: 11px; font-family: inherit; font-size: 0.9rem;
-      font-weight: bold; color: #fff; border: none; border-radius: 12px;
-      background: linear-gradient(to bottom, #22c55e, #15803d); cursor: pointer;
-      box-shadow: 0 4px 0 #14532d;
-    }
-    .w3d-card-box button:active { transform: translateY(3px); box-shadow: 0 1px 0 #14532d; }
-    
-    /* UPDATE: Kontrol Navigasi AR Row Buttons */
     .ar-action-controls {
-      position: relative;
-      z-index: 55;
-      width: 100%;
-      max-width: 480px;
-      display: flex;
-      gap: 12px;
-      padding: 15px 20px 25px 20px;
+      position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
+      z-index: 55; width: 90%; max-width: 480px;
+      display: flex; gap: 12px; padding: 0;
     }
     .btn-ar-nav {
       flex: 1;
@@ -930,97 +984,342 @@
        HALAMAN MATERI
        ============================================================ */
     #page-materi {
-      background-image: url('backgroundlentera.png');
+      background-image: url('foto/bg-utama.jpg');
       background-size: cover;
       background-position: center;
       padding: 15px 25px;
     }
-    #page-materi .header-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    #page-materi .title-badge { background: rgba(84,44,14,0.95); border: 2.5px solid #b0703c; border-radius: 12px; padding: 6px 16px; color: #fff; display: flex; align-items: center; gap: 8px; }
-    #page-materi .title-badge h1 { font-size: 0.95rem; color: #facc15; }
-    #page-materi .btn-back { width: 38px; height: 38px; border-radius: 50%; border: 2px solid #e5a96b; background: linear-gradient(to bottom, #b0703c, #542c0e); display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; }
+    /* ---------- PUSTAKA berjenjang: Level > Materi > Kosakata ---------- */
+    #page-materi .pustaka-isi {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 4px 2px 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    #page-materi .pustaka-isi::-webkit-scrollbar { width: 7px; }
+    #page-materi .pustaka-isi::-webkit-scrollbar-thumb { background: rgba(84,44,14,.55); border-radius: 6px; }
+
+    .daftar-menu { display: flex; flex-direction: column; gap: 12px; }
+    .menu-kartu {
+      display: flex; align-items: center; gap: 14px; width: 100%;
+      background: rgba(255,255,255,.95);
+      border: 3px solid #b0703c; border-left-width: 10px;
+      border-radius: 16px; padding: 14px 16px;
+      font-family: inherit; text-align: left; cursor: pointer;
+      box-shadow: 0 4px 0 rgba(84,44,14,.35);
+    }
+    .menu-kartu:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(84,44,14,.35); }
+    .menu-ikon { font-size: 2.1rem; flex: 0 0 auto; }
+    .menu-mini-foto {
+      flex: 0 0 auto; width: 62px; height: 62px; border-radius: 12px;
+      overflow: hidden; border: 2px solid #b0703c; background: #f4ead8;
+    }
+    .menu-mini-foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .menu-teks { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+    .menu-teks b { font-size: 1.15rem; color: #542c0e; }
+    .menu-teks small { font-size: .82rem; color: #8a5a2b; font-weight: bold; }
+    .menu-panah { flex: 0 0 auto; font-size: 1.8rem; color: #b0703c; font-weight: bold; }
+
+    .daftar-kata { display: flex; flex-direction: column; gap: 14px; }
+    .kartu-kata {
+      display: flex; align-items: stretch; gap: 12px;
+      background: rgba(255,255,255,.96);
+      border: 3px solid #b0703c; border-radius: 16px; padding: 12px;
+      box-shadow: 0 4px 0 rgba(84,44,14,.3);
+    }
+    .kata-foto {
+      flex: 0 0 auto; width: 96px; border-radius: 12px; overflow: hidden;
+      border: 2px solid #b0703c; background: #f4ead8;
+    }
+    .kata-foto img { width: 100%; height: 100%; object-fit: cover; object-position: center 32%; display: block; }
+    .kata-isi { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 6px; justify-content: center; }
+    .kata-baris { display: flex; align-items: center; gap: 10px; }
+    .kata-bali { font-size: 1.3rem; font-weight: 900; color: #542c0e; }
+    .kata-arti { font-size: 1.02rem; line-height: 1.6; color: #3f2a12; }
+    .btn-dengar.kecil { width: 38px; height: 38px; font-size: .95rem; border-width: 2px; }
+    .kar-slot.mini { flex: 0 0 auto; width: 54px; align-self: flex-end; }
+
+    .daftar-kredit { display: flex; flex-direction: column; gap: 8px; }
+    .kredit-intro {
+      background: rgba(255,255,255,.95); border-radius: 12px; padding: 12px 14px;
+      font-size: .9rem; line-height: 1.5; color: #3f2a12; border-left: 6px solid #eab308;
+    }
+    .baris-kredit {
+      display: flex; gap: 10px; align-items: center;
+      background: rgba(255,255,255,.93); border-radius: 10px; padding: 8px 10px;
+      font-size: .86rem; color: #3f2a12;
+    }
+    .baris-kredit img { width: 58px; height: 44px; object-fit: cover; border-radius: 6px; flex: 0 0 auto; }
+    .baris-kredit b { color: #542c0e; }
+    .baris-kredit i { color: #7a5a2a; }
+
+    /* Di HP sempit karakter mini disembunyikan -- arti kata lebih penting
+       daripada hiasan, dan kolom teksnya jadi lega. */
+    @media screen and (max-width: 520px) {
+      .kar-slot.mini { display: none; }
+      .kata-foto { width: 104px; }
+      .kata-arti { font-size: 1rem; line-height: 1.6; }
+    }
+    @media screen and (min-width: 620px) {
+      .daftar-kata { display: grid; grid-template-columns: 1fr 1fr; }
+      .menu-teks b { font-size: 1.2rem; }
+    }
+
+    #page-materi .header-nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; flex: 0 0 auto; position: relative; z-index: 2; }
+    #page-materi .pustaka-isi { position: relative; z-index: 2; }
+    #page-materi .title-badge { background: rgba(84,44,14,0.95); border: 2.5px solid #b0703c; border-radius: 12px; padding: 7px 14px; color: #fff; display: flex; flex-direction: column; gap: 2px; flex: 1 1 auto; min-width: 0; }
+    #page-materi .title-badge h1 { font-size: 1.05rem; color: #facc15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #page-materi .title-badge span { font-size: 0.72rem; color: #e5a96b; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #page-materi .btn-back { flex: 0 0 auto; font-size: 1.2rem; }
+    #page-materi .btn-back { width: 38px; height: 38px; border-radius: 50%; border: 2px solid #e5a96b; background: linear-gradient(to bottom, #b0703c, #542c0e); display: flex; justify-content: center; align-items: center; color: #fff; cursor: pointer; font-weight: bold; }
     #page-materi .main-layout { display: flex; gap: 20px; height: calc(100% - 65px); }
-    #page-materi .sidebar-tabs { width: 25%; display: flex; flex-direction: column; gap: 8px; }
-    #page-materi .tab-button { background: rgba(58,29,4,0.9); border: 2px solid #542c0e; border-radius: 10px; padding: 10px; color: #fff; text-align: left; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
+    #page-materi .sidebar-tabs { width: 28%; display: flex; flex-direction: column; gap: 8px; }
+    #page-materi .tab-button { background: rgba(58,29,4,0.9); border: 2px solid #542c0e; border-radius: 10px; padding: 10px; color: #fff; text-align: left; cursor: pointer; font-weight: bold; font-size: 0.75rem; }
     #page-materi .tab-button.active { background: #b0703c; border-color: #facc15; }
-    #page-materi .content-board { width: 75%; background: rgba(255,255,255,0.95); border: 4px solid #542c0e; border-radius: 16px; padding: 18px; overflow-y: auto; color: #321602; }
+    #page-materi .content-board { width: 72%; background: rgba(255,255,255,0.95); border: 4px solid #542c0e; border-radius: 16px; padding: 18px; overflow-y: auto; color: #321602; }
     #page-materi .content-board::-webkit-scrollbar { width: 6px; }
     #page-materi .content-board::-webkit-scrollbar-thumb { background: #542c0e; border-radius: 6px; }
     #page-materi .materi-section { display: none; }
     #page-materi .materi-section.active { display: block; }
-    #page-materi h2 { color: #542c0e; margin-bottom: 5px; font-size: 1.1rem; }
-    #page-materi h3 { font-size: 0.7rem; text-transform: uppercase; margin-bottom: 10px; }
-    #page-materi p { margin-bottom: 10px; font-size: 0.8rem; line-height: 1.5; text-align: justify; }
+    #page-materi h2 { color: #542c0e; margin-bottom: 4px; font-size: 1.1rem; }
+    #page-materi h3.subtitle { color: #854d0e; font-size: 0.8rem; margin-bottom: 12px; border-bottom: 1.5px dashed #b0703c; padding-bottom: 4px; }
+    #page-materi .materi-block { background: rgba(254, 240, 138, 0.3); border-left: 4px solid #ca8a04; padding: 8px 12px; margin-bottom: 10px; border-radius: 6px; }
+    #page-materi .materi-block-title { font-weight: bold; font-size: 0.8rem; color: #713f12; margin-bottom: 4px; text-transform: uppercase; }
+    #page-materi ul { list-style-type: square; margin-left: 18px; font-size: 0.8rem; color: #321602; }
+    #page-materi li { margin-bottom: 4px; line-height: 1.4; }
+    #page-materi p { font-size: 0.8rem; line-height: 1.5; color: #321602; margin-bottom: 8px; }
 
     /* ============================================================
-       RESPONSIVE RULES - OPTIMASI MODE LANDSCAPE (HP MENDATAR)
+       RIG KARAKTER SVG (Putu & Ni Luh) -- digambar lewat kode, bukan gambar AI
        ============================================================ */
+    .kar { width: 100%; height: 100%; display: block; overflow: visible; }
+    .kar-badan  { animation: napas 3.4s ease-in-out infinite; transform-origin: 100px 292px; }
+    @keyframes napas { 0%,100%{transform:translateY(0) scaleY(1)} 50%{transform:translateY(-3px) scaleY(1.012)} }
+
+    .kar-kepala { animation: dongak 5s ease-in-out infinite; transform-origin: 100px 118px; }
+    @keyframes dongak { 0%,100%{transform:rotate(-1.6deg)} 50%{transform:rotate(1.6deg)} }
+
+    .kar-kelopak { transform-origin: center; transform: scaleY(0); animation: kedip 4.8s infinite; }
+    @keyframes kedip { 0%,92%,100%{transform:scaleY(0)} 94%,97%{transform:scaleY(1)} }
+
+    /* mulut tertutup saat diam, membuka-tutup saat karakter "bicara" */
+    .kar-bibir, .kar-lidah { transform-origin: 100px 99px; transform: scaleY(.12); }
+    .kar.bicara .kar-bibir, .kar.bicara .kar-lidah { animation: ngomong .32s ease-in-out infinite; }
+    @keyframes ngomong { 0%,100%{transform:scaleY(.14)} 45%{transform:scaleY(1)} 70%{transform:scaleY(.55)} }
+
+    .kar-tangan-ka { animation: lambaiKa 3.8s ease-in-out infinite; }
+    @keyframes lambaiKa { 0%,100%{transform:rotate(0)} 50%{transform:rotate(-8deg)} }
+    .kar-tangan-ki { animation: lambaiKi 4.3s ease-in-out infinite; }
+    @keyframes lambaiKi { 0%,100%{transform:rotate(0)} 50%{transform:rotate(7deg)} }
+    .kar.nunjuk .kar-tangan-ka { animation: nunjuk 1.8s ease-in-out infinite; }
+    @keyframes nunjuk { 0%,100%{transform:rotate(-30deg)} 50%{transform:rotate(-44deg)} }
+
+    /* karakter yang sedang gilirannya bicara sedikit lebih besar & terang */
+    /* Ni Luh dicerminkan supaya menghadap ke Putu -- dua orang saling
+       berhadapan, bukan dua orang menghadap penonton. */
+    #slot-niluh .kar { transform: scaleX(-1); }
+    .kar-slot { transition: transform .3s ease, opacity .3s ease; }
+    .kar-slot.giliran { transform: scale(1.07); }
+    .kar-slot:not(.giliran) { opacity: .82; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .kar-badan, .kar-kepala, .kar-kelopak, .kar-tangan-ka, .kar-tangan-ki,
+      .kar.bicara .kar-bibir, .kar.bicara .kar-lidah { animation: none; }
+    }
+
+    /* ============================================================
+       PANGGUNG KUIS: dua karakter bercakap-cakap + FOTO ASLI
+       ============================================================ */
+    #page-main .panggung {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      position: relative;
+    }
+    #page-main .kar-slot {
+      flex: 0 0 auto;
+      width: 30%;
+      max-width: 124px;
+      min-width: 64px;
+      align-self: flex-end;
+      aspect-ratio: 2 / 3;
+      /* .foto-soal position:relative -> ia menang tumpuk atas slot yang tidak
+         diposisikan, sehingga bahu karakter tertutup bingkai foto. Slot ikut
+         diposisikan dengan z-index lebih tinggi supaya karakter utuh. */
+      position: relative;
+      z-index: 3;
+    }
+
+    /* Balon jawaban Ni Luh / Putu: muncul sebentar saat anak menjawab, supaya
+       kuis benar-benar terasa seperti percakapan dua orang, bukan dua gambar
+       yang cuma dipajang. */
+    #page-main .balon-reaksi {
+      position: absolute;
+      bottom: 58%;
+      max-width: 62%;
+      padding: 8px 12px;
+      background: #fffdf5;
+      border: 3px solid #542c0e;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 900;
+      color: #542c0e;
+      box-shadow: 0 4px 10px rgba(0,0,0,.3);
+      opacity: 0;
+      transform: translateY(6px) scale(.9);
+      transition: opacity .2s ease, transform .2s cubic-bezier(.34,1.56,.64,1);
+      pointer-events: none;
+      z-index: 8;
+      white-space: nowrap;
+    }
+    #page-main .balon-reaksi::after {      /* ekor balon ke arah karakter */
+      content: '';
+      position: absolute;
+      bottom: -11px;
+      border: 7px solid transparent;
+      border-top-color: #542c0e;
+      border-bottom-width: 0;
+    }
+    #page-main .balon-reaksi.tampil { opacity: 1; transform: translateY(0) scale(1); }
+    #page-main .balon-reaksi.dari-kiri  { left: 2%; }
+    #page-main .balon-reaksi.dari-kiri::after  { left: 18px; }
+    #page-main .balon-reaksi.dari-kanan { right: 2%; }
+    #page-main .balon-reaksi.dari-kanan::after { right: 18px; }
+    #page-main .balon-reaksi.benar { border-color: #15803d; color: #15803d; background: #f0fdf4; }
+    #page-main .balon-reaksi.benar::after { border-top-color: #15803d; }
+    #page-main .balon-reaksi.salah { border-color: #b91c1c; color: #b91c1c; background: #fef2f2; }
+    #page-main .balon-reaksi.salah::after { border-top-color: #b91c1c; }
+    #page-main .foto-soal {
+      flex: 1 1 auto;
+      height: 100%;
+      min-width: 0;
+      position: relative;
+      border-radius: 14px;
+      border: 3px solid #b0703c;
+      background: #f4ead8;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,.25);
+    }
+    #page-main .foto-soal img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      /* condong ke atas: foto orang (udeng, kebaya, kamen) jangan kepotong kepalanya */
+      object-position: center 32%;
+      display: block;
+    }
+    #page-main .foto-soal .kredit-foto {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,.55);
+      color: #fff; font-size: .68rem; padding: 3px 6px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* Balon dialog: ekor balon menunjuk ke karakter yang sedang giliran
+       bicara, jadi terasa betul seperti dua orang saling bertanya-jawab. */
+    #page-main .question-text { position: relative; }
+    #page-main .question-text::before {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: 12%;
+      border: 8px solid transparent;
+      border-bottom-color: rgba(255,255,255,.92);
+      border-top-width: 0;
+      transition: left .35s cubic-bezier(.4,0,.2,1);
+    }
+    #page-main .question-text.dari-niluh::before { left: 84%; }
+    #page-main .question-text .teks-soal { flex: 1 1 auto; }
+    .btn-dengar {
+      flex: 0 0 auto;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 3px solid #542c0e;
+      background: linear-gradient(to bottom, #facc15, #ca8a04);
+      color: #321602;
+      font-size: 1.15rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 3px 0 #7c4219;
+    }
+    .btn-dengar:active { transform: translateY(2px); box-shadow: 0 1px 0 #7c4219; }
+    .btn-dengar.main { animation: dengarAktif .8s ease-in-out infinite; }
+    @keyframes dengarAktif { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+
+    /* Responsive Orientation */
     @media screen and (orientation: landscape) {
       #page-login .logo-container { width: 10%; max-width: 65px; top: 4%; }
       #page-login .form-card { max-width: 420px; padding: 12px 20px; }
-      #page-login .form-card h2 { font-size: 1.1rem; margin-bottom: 6px; }
-      #page-login .input-group { margin-bottom: 6px; }
-      #page-login .input-group label { font-size: 0.7rem; margin-bottom: 2px; }
-      #page-login .input-group input, #page-login .input-group select { padding: 6px 10px; font-size: 0.85rem; }
-      #page-login .btn-submit { padding: 8px; font-size: 0.95rem; }
-      
       #page-play .logo-container { width: 16%; max-width: 110px; top: 2%; }
       #page-play .character { width: 12%; max-height: 48vh; bottom: 0; }
       #page-play #putu { left: 18%; }
       #page-play #niluh { right: 18%; }
-      #page-play .controls-container { bottom: 6%; gap: 40px; }
+      #page-play .controls-container { bottom: 6%; gap: 20px; }
       #page-play .btn-circle { width: 54px; height: 54px; }
-
       #page-peta .map-scroll-viewport { margin-top: 60px; height: calc(100% - 120px); }
       #page-peta .map-grid-container { max-width: 580px; gap: 15px; }
       #page-peta .lamp-frame { max-width: 75px; height: 75px; }
-      #page-peta .category-label { font-size: 0.7rem; padding: 4px; margin-top: 4px; }
-      #page-peta .thk-pillar { font-size: 0.6rem; padding: 2px 6px; margin-bottom: 4px; }
-      #page-peta .footer-banner { height: 44px; padding: 4px 20px; }
-      #page-peta .footer-banner h3 { font-size: 0.75rem; }
-      #page-peta .btn-materi { padding: 4px 12px; font-size: 0.7rem; }
-
-      #page-main .quiz-container { padding: 14px; }
-      #page-main .question-text { max-height: 80px; font-size: 0.85rem; padding: 8px; }
-      #page-main .btn-option { min-height: 36px; font-size: 0.75rem; padding: 6px; }
-      #page-main .quiz-visual-box { max-height: 160px; }
-      
-      /* Skala HUD Dunia 3D di layar mendatar */
-      #page-main .w3d-hud { padding: 6px 12px; margin-top: 8px; }
-      #page-main .w3d-hud h3 { font-size: 0.8rem; }
-      #page-main .w3d-target { font-size: 0.8rem; padding: 4px 10px; margin-top: 4px; }
-      #page-main .w3d-slot { width: 22px; height: 22px; font-size: 0.7rem; }
-      #page-main .w3d-card-box img { max-height: 90px; }
-      #page-main .ar-action-controls { padding-bottom: 12px; }
+      #page-main .quiz-container { padding: 12px 14px; }
+      /* mendatar: soal+pilihan di kiri, panggung karakter di kanan */
+      #page-main .quiz-content-layout { flex-direction: row-reverse; }
+      #page-main .question-text { font-size: 1rem; padding: 10px 14px; max-height: 46%; }
+      #page-main .btn-option { min-height: 46px; font-size: 1rem; padding: 8px 10px; }
+      #page-main .quiz-visual-box { max-height: none; }
+      /* Mendatar: panggung sempit dan pendek. Foto ditaruh penuh di baris
+         atas, lalu Putu & Ni Luh berdampingan di bawahnya -- kalau dibiarkan
+         satu kolom, kedua karakter menghabiskan tinggi dan fotonya tinggal
+         segaris tipis. Karakter dibuat besar supaya busana adatnya kelihatan. */
+      #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 4px; }
+      #page-main .panggung .foto-soal { order: -1; flex: 1 1 100%; height: 46%; }
+      #page-main .panggung .kar-slot {
+        flex: 1 1 0; width: auto; max-width: none; min-width: 0;
+        height: 51%; aspect-ratio: auto; align-self: flex-end;
+      }
+      #page-main .balon-reaksi { bottom: 46%; font-size: .9rem; padding: 6px 10px; }
     }
 
-    /* Responsive Portrait Mode */
     @media screen and (orientation: portrait) {
-      #page-login .logo-container { width: 40%; top: 6%; }
-      #page-login .character { width: 25%; max-height: 25vh; }
+      #page-login .logo-container { width: 62%; max-width: 230px; top: 4%; }
+      #page-login .character { width: 27%; max-height: 26vh; }
       #page-login .form-card { margin-top: 40px; }
-      
-      #page-play .logo-container { width: 48%; max-width: 220px; top: 14%; }
-      #page-play .character { width: 32%; max-height: 28vh; bottom: 22%; }
-      #page-play .controls-container { bottom: 6%; }
-
-      #page-peta .map-scroll-viewport { align-items: flex-start; margin-top: 85px; height: calc(100% - 150px); }
-      #page-peta .map-grid-container { max-width: 280px; padding-bottom: 20px; }
+      #page-play .logo-container { width: 62%; max-width: 250px; top: 11%; }
+      #page-play .character { width: 34%; max-height: 28vh; bottom: 22%; }
+      #page-play .controls-container { bottom: 6%; flex-wrap: wrap; justify-content: center; }
+      /* 4 level harus muat tanpa perlu digulir di layar HP 740px */
+      #page-peta .map-scroll-viewport { align-items: flex-start; margin-top: 76px; height: calc(100% - 142px); padding: 8px; }
+      #page-peta .map-grid-container { max-width: 300px; gap: 14px; padding: 6px 0 14px; }
+      #page-peta .lamp-frame { width: 76px; height: 76px; }
+      #page-peta .category-label { font-size: 0.92rem; padding: 5px 12px; margin-top: 2px; }
       #page-peta .footer-banner { flex-direction: column; gap: 4px; text-align: center; height: auto; padding: 8px; }
-      #page-peta .footer-banner h3 { max-width: 100%; font-size: 0.75rem; }
-
-      #page-main .quiz-content-layout { flex-direction: column-reverse; justify-content: flex-end; }
-      #page-main .quiz-right-panel { height: 32%; width: 100%; flex: none; }
-      #page-main .quiz-left-panel { height: 68%; width: 100%; flex: none; justify-content: flex-start; }
-      #page-main .quiz-visual-box { height: 100%; }
-      #page-main .options-grid { grid-template-columns: 1fr; gap: 6px; }
-      #page-main .btn-option { min-height: 36px; padding: 4px; font-size: 0.75rem; }
-      #page-main .question-text { font-size: 0.8rem; padding: 6px; line-height: 1.3; max-height: 65px; }
-
+      /* tegak: panggung di atas, lalu balon soal, lalu pilihan 1 kolom yang
+         memanjang mengisi SEMUA sisa tinggi kartu (tidak ada lagi ruang kosong) */
+      #page-main .quiz-content-layout { flex-direction: column; justify-content: flex-start; gap: 10px; }
+      #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: 27%; min-height: 120px; }
+      #page-main .quiz-left-panel { flex: 1 1 auto; width: 100%; min-height: 0; justify-content: flex-start; }
+      #page-main .options-grid { grid-template-columns: 1fr; gap: 10px; }
+      #page-main .btn-option { font-size: 1.1rem; }
       #page-materi .main-layout { flex-direction: column; gap: 10px; }
       #page-materi .sidebar-tabs { width: 100%; flex-direction: row; }
-      #page-materi .tab-button { flex: 1; text-align: center; font-size: 0.65rem; padding: 8px 2px; }
       #page-materi .content-board { width: 100%; height: 80%; padding: 12px; }
+    }
+
+    /* layar HP sempit: rampingkan HUD supaya nama level tetap terbaca penuh */
+    @media screen and (max-width: 420px) {
+      #page-main .status-bar { font-size: .92rem; gap: 6px; padding: 6px 8px; }
+      #page-main .level-indicator { font-size: .75rem; padding: 6px 7px; letter-spacing: -.2px; }
+      #heart-container { font-size: .95rem; letter-spacing: 0; }
+      #page-main .top-hud { gap: 6px; }
+    }
+    @media screen and (max-width: 340px) {
+      #page-main .status-bar { font-size: .82rem; gap: 6px; padding: 5px 8px; }
+      #page-main .level-indicator { font-size: .72rem; padding: 5px 7px; }
+      #page-main .btn-option { font-size: .98rem; min-height: 44px; }
+      #page-main .question-text { font-size: .9rem; padding: 9px 11px; }
+      #page-main .btn-exit { width: 30px; height: 30px; }
     }
   </style>
 </head>
@@ -1032,10 +1331,11 @@
 <audio id="sfx-salah" src="salah.mp3"></audio>
 
 <div id="page-login" class="page active">
-  <div class="logo-container"><img src="logogame.png" alt="Logo" class="logo-game" /></div>
-  <img src="karakterputu.png" alt="Putu" id="putu" class="character" />
+  <div class="logo-container" data-logo="1" aria-label="Lentera Bali"></div>
+  <div id="putu" class="character" data-karakter="putu" aria-label="Putu"></div>
   <div class="form-card">
     <h2>LENTERA BALI</h2>
+    <p class="sub-title">Belajar Bahasa Bali Menjaga Harmoni</p>
     <form id="login-form">
       <div class="input-group">
         <label>NAMA PENGGUNA</label>
@@ -1053,7 +1353,7 @@
       <button type="submit" class="btn-submit">MASUK GAME →</button>
     </form>
   </div>
-  <img src="karakterniluh.png" alt="Ni Luh" id="niluh" class="character" />
+  <div id="niluh" class="character" data-karakter="niluh" aria-label="Ni Luh"></div>
   <div class="mute-btn" id="login-mute" onclick="toggleMusic()">🔊</div>
 </div>
 
@@ -1062,17 +1362,18 @@
     <div class="profile-name" id="display-name">PEMAIN</div>
     <div class="profile-class" id="display-class">KELAS -</div>
   </div>
-  
-  <div class="logo-container"><img src="logogame.png" alt="Logo" class="logo-game" /></div>
-  
-  <img src="karakterputu.png" alt="Putu" id="putu" class="character" />
+
+  <div class="logo-container" data-logo="1" aria-label="Lentera Bali"></div>
+
+  <div id="putu" class="character" data-karakter="putu" aria-label="Putu"></div>
   <div class="controls-container">
-    <div class="btn-circle" onclick="navigateTo('peta')"><div class="inner-circle-white"><div class="icon-map-marker"></div></div></div>
-    <div class="btn-circle" onclick="startAutoGame()"><div class="inner-circle-green"><div class="icon-play-triangle"></div></div></div>
+    <div class="btn-circle" onclick="navigateTo('peta')" title="Pilih Level"><div class="inner-circle-white"><div class="icon-map-marker"></div></div></div>
+    <div class="btn-circle" onclick="startAutoGame()" title="Mulai Bermain"><div class="inner-circle-green"><div class="icon-play-triangle"></div></div></div>
+    <button class="btn-leaderboard" onclick="openLeaderboardModal()">🏆 Rangking Global</button>
   </div>
-  <img src="karakterniluh.png" alt="Ni Luh" id="niluh" class="character" />
+  <div id="niluh" class="character" data-karakter="niluh" aria-label="Ni Luh"></div>
   <div class="top-right-group">
-    <div class="badge-star">🏆 <span id="player-score">0</span></div>
+    <div class="badge-star">🏆 Highscore: <span id="player-score">0</span></div>
     <div class="mute-btn" onclick="toggleMusic()">🔊</div>
   </div>
 </div>
@@ -1085,34 +1386,39 @@
       <div class="profile-class" id="peta-class">KELAS -</div>
     </div>
   </div>
-  
+
   <div class="top-right-hud">
     <div class="mute-btn" onclick="toggleMusic()">🔊</div>
   </div>
 
   <div class="map-scroll-viewport">
     <div class="map-grid-container">
-      <div class="category-card" id="lvlcard-1" onclick="selectLevel(1, 'Parahyangan')">
-        <span class="thk-pillar pillar-parahyangan">Level 1</span>
-        <div class="lamp-frame"><img id="lamp-img-1" src="lampu1.png" class="lamp-img" /></div>
-        <div class="category-label">Parahyangan</div>
+      <div class="category-card" id="lvlcard-1" onclick="selectLevel(1, 'Budaya Bali')">
+        <span class="thk-pillar pillar-budaya">Level 1</span>
+        <div class="lamp-frame" data-lentera="1"></div>
+        <div class="category-label">1. Budaya Bali</div>
       </div>
-      <div class="category-card" id="lvlcard-2" onclick="selectLevel(2, 'Pawongan')">
-        <span class="thk-pillar pillar-pawongan">Level 2</span>
-        <div class="lamp-frame"><img id="lamp-img-2" src="lampu2.png" class="lamp-img" /></div>
-        <div class="category-label">Pawongan</div>
+      <div class="category-card" id="lvlcard-2" onclick="selectLevel(2, 'Parahyangan')">
+        <span class="thk-pillar pillar-parahyangan">Level 2</span>
+        <div class="lamp-frame" data-lentera="2"></div>
+        <div class="category-label">2. Parahyangan</div>
       </div>
-      <div class="category-card" id="lvlcard-3" onclick="selectLevel(3, 'Palemahan')">
-        <span class="thk-pillar pillar-palemahan">Level 3</span>
-        <div class="lamp-frame"><img id="lamp-img-3" src="lampu3.png" class="lamp-img" /></div>
-        <div class="category-label">Palemahan</div>
+      <div class="category-card" id="lvlcard-3" onclick="selectLevel(3, 'Pawongan')">
+        <span class="thk-pillar pillar-pawongan">Level 3</span>
+        <div class="lamp-frame" data-lentera="3"></div>
+        <div class="category-label">3. Pawongan</div>
+      </div>
+      <div class="category-card" id="lvlcard-4" onclick="selectLevel(4, 'Palemahan')">
+        <span class="thk-pillar pillar-palemahan">Level 4</span>
+        <div class="lamp-frame" data-lentera="4"></div>
+        <div class="category-label">4. Palemahan</div>
       </div>
     </div>
   </div>
 
   <div class="footer-banner">
-    <h3>Selesaikan tiap level untuk menjelajahi Dunia Budaya 3D di sekelilingmu! 🌏</h3>
-    <button class="btn-materi" onclick="navigateTo('materi')">📖 Materi Belajar</button>
+    <h3>Selesaikan tingkatan materi untuk membuka fitur Kamera AR Budaya Spasial!</h3>
+    <button class="btn-materi" onclick="bukaPustaka()">📖 Materi Belajar</button>
   </div>
 </div>
 
@@ -1121,7 +1427,7 @@
     <div class="level-indicator" id="level-title">LEVEL: LOADING...</div>
     <div class="status-bar">
       <span id="heart-container">❤️❤️❤️</span>
-      <span>⏱️ <span id="time-left">20</span>s</span>
+      <span class="chip-waktu">⏱️<span id="time-left">20</span></span>
       <span style="color:#60a5fa;">🏆 <span id="live-score">0</span></span>
     </div>
     <div class="btn-exit" onclick="navigateTo('peta')">✕</div>
@@ -1129,21 +1435,32 @@
 
   <div class="quiz-container">
     <div class="ornamen-top"></div>
-    
+
     <div class="quiz-content-layout" id="standard-quiz-layout">
-      <div class="quiz-left-panel">
-        <div class="question-text" id="question-label">Memuat Soal...</div>
-        <div class="options-grid" id="options-container"></div>
-      </div>
+      <!-- PANGGUNG: Putu & Ni Luh bercakap-cakap, foto asli di tengah -->
       <div class="quiz-right-panel">
-        <div class="quiz-visual-box">
-          <img id="question-img" src="" alt="Visual Objek" class="quiz-image" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=500&q=60';" />
+        <div class="panggung">
+          <div class="kar-slot giliran" id="slot-putu" data-karakter="putu"></div>
+          <div class="foto-soal">
+            <img id="question-img" alt="Gambar soal" />
+            <div class="kredit-foto" id="kredit-foto"></div>
+          </div>
+          <div class="kar-slot" id="slot-niluh" data-karakter="niluh"></div>
+          <div class="balon-reaksi" id="balon-reaksi" role="status" aria-live="polite"></div>
         </div>
+      </div>
+      <div class="quiz-left-panel">
+        <div class="question-text" id="question-label">
+          <span class="teks-soal" id="teks-soal">Memuat Soal...</span>
+          <button class="btn-dengar" id="btn-dengar" type="button"
+                  onclick="ucapkanSoal()" aria-label="Dengarkan soal dalam basa Bali">🔊</button>
+        </div>
+        <div class="options-grid" id="options-container"></div>
       </div>
     </div>
 
     <div class="matching-game-layout" id="matching-quiz-layout">
-      <div class="matching-header" id="matching-instruction-text">Hubungkan Kata di Kiri dengan Gambar yang Sesuai di Kanan!</div>
+      <div class="matching-header" id="matching-instruction-text">Adungang kruna sareng gambar ring samping mangda patut</div>
       <div class="matching-board" id="matching-board-area">
         <canvas class="matching-canvas" id="matching-canvas"></canvas>
         <div class="matching-column left-side" id="match-left-col"></div>
@@ -1158,8 +1475,8 @@
     <div class="popup-box">
       <h2>🎉 LEVEL SELESAI! 🎉</h2>
       <p>Bagus sekali! Seluruh soal pada tingkat ini berhasil dikerjakan.</p>
-      <div style="font-size:1.1rem; font-weight:bold; margin:10px 0; color:#facc15;">Skor: <span id="final-score-val">0</span></div>
-      <button class="btn-popup btn-ar" onclick="startWorld3D()">🌏 Jelajahi Dunia Budaya 3D!</button>
+      <div style="font-size:1.1rem; font-weight:bold; margin:10px 0; color:#facc15;">Skor Sesi Ini: <span id="final-score-val">0</span></div>
+      <button class="btn-popup btn-ar" onclick="startARMode()">📷 Bonus Fitur Ruang AR Budaya</button>
       <button class="btn-popup btn-continue" onclick="saveAndExitQuiz()">Simpan &amp; Kembali</button>
     </div>
   </div>
@@ -1169,39 +1486,13 @@
       <h2>💔 NYAWA HABIS! 💔</h2>
       <p style="margin-bottom: 12px; color:#f87171;">Jangan berkecil hati, mari pelajari materi pustaka kembali atau coba lagi tingkat ini!</p>
       <button class="btn-popup btn-retry" onclick="startQuiz()">🔄 Coba Lagi Level Ini</button>
-      <button class="btn-popup btn-continue" onclick="navigateTo('materi')">📖 Pelajari Materi Pustaka</button>
+      <button class="btn-popup btn-continue" onclick="bukaPustaka()">📖 Pelajari Materi Pustaka</button>
       <button class="btn-popup" style="background:#4b5563;" onclick="navigateTo('peta')">🚪 Kembali ke Peta</button>
     </div>
   </div>
 
   <div class="ar-overlay" id="ar-overlay">
-    <video class="ar-video-stream" id="ar-video" autoplay playsinline muted></video>
-    <div id="w3d-canvas-holder"></div>
-
-    <div class="w3d-hud">
-      <h3 id="w3d-title">🌏 DUNIA BUDAYA 3D</h3>
-      <p id="w3d-desc">Putar badanmu ke segala arah, cari benda budaya, lalu sentuh!</p>
-      <div class="w3d-target">🎯 Cari: <span id="w3d-target-name">...</span></div>
-      <div class="w3d-progress" id="w3d-progress"></div>
-      <div class="w3d-bonus">⭐ Bonus Petualangan: +<span id="w3d-bonus-val">0</span></div>
-    </div>
-
-    <div id="w3d-radar">➤</div>
-    <button id="w3d-gyro-btn">🧭 Aktifkan Sensor Gerak</button>
-    <div class="w3d-toast" id="w3d-toast"></div>
-
-    <div id="w3d-card">
-      <div class="w3d-card-box">
-        <div class="card-label">✦ KARTU PUSAKA ✦</div>
-        <div class="card-emoji" id="w3d-card-emoji">🛕</div>
-        <h2 id="w3d-card-nama">...</h2>
-        <div class="card-arti" id="w3d-card-arti">...</div>
-        <img id="w3d-card-foto" src="" alt="Foto benda budaya" />
-        <div class="card-fakta" id="w3d-card-fakta">...</div>
-        <button onclick="closeW3DCard()">✨ Simpan ke Museum &amp; Lanjut!</button>
-      </div>
-    </div>
-
+    <iframe id="ar-frame" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 51;" allow="gyroscope; accelerometer; magnetometer;"></iframe>
     <div class="ar-action-controls">
       <button class="btn-ar-nav btn-ar-back" onclick="exitARToMap()">← Halaman Level</button>
       <button class="btn-ar-nav btn-ar-next" id="btn-ar-next-action" onclick="proceedToNextLevel()">Level Selanjutnya →</button>
@@ -1209,97 +1500,155 @@
   </div>
 </div>
 
+<!-- MODAL RANGKING GLOBAL REAL-TIME -->
+<div class="popup-overlay" id="leaderboard-modal">
+  <div class="popup-box leaderboard-box">
+    <h2>🏆 PAPAN SKOR REAL-TIME 🏆</h2>
+    
+    <div class="leaderboard-tabs">
+      <button class="lb-tab active" id="lbtab-global" onclick="switchLeaderboardTab('global')">Rangking Global (Pemain Lain)</button>
+      <button class="lb-tab" id="lbtab-personal" onclick="switchLeaderboardTab('personal')">Skor Saya & Riwayat</button>
+    </div>
+
+    <div class="lb-content" id="lb-content-area">
+      <p style="font-size:0.8rem; color:#facc15; margin-top:20px;">Memuat data skor dari server...</p>
+    </div>
+
+    <button class="btn-popup" style="background:#4b5563;" onclick="closeLeaderboardModal()">Tutup</button>
+  </div>
+</div>
+
 <div id="page-materi" class="page">
   <div class="header-nav">
-    <div class="title-badge"><h1>📖 Pustaka Tri Hita Karana</h1></div>
-    <div class="btn-back" onclick="navigateTo('peta')">←</div>
-  </div>
-  <div class="main-layout">
-    <div class="sidebar-tabs">
-      <button class="tab-button active" id="tab-1" onclick="switchMateri(1)">1. Parahyangan</button>
-      <button class="tab-button" id="tab-2" onclick="switchMateri(2)">2. Pawongan</button>
-      <button class="tab-button" id="tab-3" onclick="switchMateri(3)">3. Palemahan</button>
+    <div class="btn-back" onclick="kembaliPustaka()" aria-label="Kembali">←</div>
+    <div class="title-badge">
+      <h1 id="pustaka-judul">📖 Pustaka Basa Bali</h1>
+      <span id="pustaka-jalur">Pilih tingkatan materi</span>
     </div>
-    <div class="content-board">
-      <div class="materi-section active" id="mat-1">
-        <h2>Parahyangan (Hubungan Manusia dengan Tuhan)</h2>
-        <h3 class="pillar-parahyangan" style="display:inline-block; padding:2px 6px; color:#fff;">Religi &amp; Tempat Suci</h3>
-        <p>Parahyangan mengatur keharmonisan hubungan manusia dengan Sang Hyang Widhi Wasa (Tuhan). Implementasinya meliputi ibadah suci di Pura, pembuatan sesajen harian (Canang Sari), pendirian penjor suci saat Galungan, serta prosesi penyucian diri secara massal ke segara (pantai) sebelum catur brata penyepian yang dinamakan upacara Melasti.</p>
-      </div>
-      <div class="materi-section" id="mat-2">
-        <h2>Pawongan (Hubungan Manusia dengan Sesama)</h2>
-        <h3 class="pillar-pawongan" style="display:inline-block; padding:2px 6px; color:#fff;">Sosial, Bahasa &amp; Perilaku</h3>
-        <p>Pawongan menekankan kerukunan hidup antarmanusia (adung). Wujudnya berupa tindakan tolong-menolong (saling tulungin), gotong royong kebersihan kelas, menghormati nasehat orang tua (pitutur rerama), serta penerapan etika komunikasi menggunakan Basa Alus saat berbicara kepada guru atau orang tua demi memelihara kesopanan.</p>
-      </div>
-      <div class="materi-section" id="mat-3">
-        <h2>Palemahan (Hubungan Manusia dengan Alam)</h2>
-        <h3 class="pillar-palemahan" style="display:inline-block; padding:2px 6px; color:#fff;">Lingkungan &amp; Sistem Irigasi</h3>
-        <p>Palemahan mengajarkan manusia untuk merawat dan melestarikan alam lingkungan sekitar. Contoh konkretnya meliputi aksi pembersihan saluran air (got), menanam vegetasi pohon, menghemat pemakaian air bersih, serta melestarikan Subak—organisasi irigasi tradisional Bali yang dipimpin oleh Pekaseh untuk pembagian air sawah secara adil.</p>
-      </div>
-    </div>
+    <div class="mute-btn" onclick="toggleMusic()">🔊</div>
   </div>
+
+  <div class="pustaka-isi daftar-menu" id="pustaka-isi"><!-- diisi renderPustaka() --></div>
 </div>
 
 <script>
   // ================================================================
-  //  DATABASE SOAL LENTERA BALI (10 PG + 5 Cocokkan Gambar Per Level)
+  //  KONFIGURASI FIREBASE REALTIME DATABASE (SKOR GLOBAL ONLINE)
   // ================================================================
-  const quizDatabase = {
-    1: [ // PARAHYANGAN
-      { q: "Wewidangan utawi genah suci anggen umat Hindu maturan kawastanin...", o: ["Pura", "Bale banjar", "Sekolah", "Pasar"], c: 0, img: "parah1.png" },
-      { q: "Tuhan ring agama Hindu kawastanin...", o: ["Sang Hyang Widhi Wasa", "Ratu Gede", "Jero Gede", "Mpu"], c: 0, img: "parah2.png" },
-      { q: "Umat Hindu nunas ica ring Sang Hyang Widhi antuk ngaturang...", o: ["Sesajen miwah banten", "Pipis miwah perhiasan", "Batik miwah anduk", "Sepatu miwah tas"], c: 0, img: "parah3.png" },
-      { q: "Manusia patut bakti miwah suksma ring Ida Sang Hyang Widhi Wasa santukan...", o: ["Ida sane ngasilang keneh", "Ida sane ngaturang banten", "Ida sane nyiptayang jagat miwah manusa", "Ida sane mekarya pura"], c: 2, img: "parah4.png" },
-      { q: "Rerahinan Saraswati, umat Hindu ngaturang banten ring...", o: ["Lontar miwah buku", "Beras miwah taluh", "Ayam miwah bebek", "Candi miwah arca"], c: 0, img: "parah5.png" },
-      { q: "Upacara penyucian ke segara sane kalaksanayang olih umat Hindu sedurung Nyepi kawastanin...", o: ["Melasti", "Mepandes", "Mabyakala", "Matur piuning"], c: 0, img: "parah6.png" },
-      { q: "Sarana upacara sane malakar don nyuh medaging bunga, kaanggen ngaturang banten ring sang hyang widhi inggih punika...", o: ["Tamas", "Canang", "Tumpeng", "Lamak"], c: 1, img: "parah7.png" },
-      { q: "Ngaturang banten saiban utawi ajengan nasi semengan kawastanin...", o: ["Maturan", "Melukat", "Ngejot", "Melasti"], c: 2, img: "parah8.png" },
-      { q: "Genah palinggihan Sang Hyang Widhi Wasa ring pura inggih punika...", o: ["Padmasana", "Bale kulkul", "Wantilan", "Lumbung"], c: 0, img: "parah9.png" },
-      { q: "Rerahinan Galungan lan Kuningan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin...", o: ["Penjor", "Tamiang", "Sate", "Lawar"], c: 0, img: "parah10.png" },
-      { type: "text-to-image", text: "Pura Besakih", img: "cocokparah1.png" },
-      { type: "text-to-image", text: "Penjor", img: "cocokparah3.png" },
-      { type: "text-to-image", text: "Canang", img: "cocokparah2.png" },
-      { type: "text-to-image", text: "Mebakti", img: "cocokparah5.png" },
-      { type: "text-to-image", text: "Pura Tanah Lot", img: "cocokparah4.png" }
-    ],
-    2: [ // PAWONGAN
-      { q: "Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....", o: ["Sugih", "Uyut", "Lacur", "Adung"], c: 3, img: "pawo1.png" },
-      { q: "Rai demen masilihang teken timpale ane sing ngelah. Ento bacakan Solah ane....", o: ["Melah", "Jele", "Mayus", "Lengit"], c: 0, img: "pawo2.png" },
-      { q: "Rerama sesuai maang pitutur. Pitutur rerama patut....", o: ["Resepang", "Kelidin", "Saruin", "Kalahin"], c: 0, img: "pawo3.png" },
-      { q: "Putu Budi ngelah cita-cita dadi dokter. Dadi dokter geginane tuah....", o: ["Nyampur ubad", "Ngubadin anak gelem", "Menahin montor", "Ngae wewangunan"], c: 1, img: "pawo4.png" },
-      { q: "Ngomong sareng guru patut nganggen basa sane....", o: ["Kasar", "Alus tur sopan", "Keras", "Sengit"], c: 1, img: "pawo5.png" },
-      { q: "Ring waktu mebersih kelas, iraga patut....", o: ["Gotong royong", "Melaib", "Nyingakin kemawon", "Macepuk"], c: 0, img: "pawo6.png" },
-      { q: "Pianakne ane pertama suba ngajahin di SD. Anak ane geginane ngajahin di sekolah madan...", o: ["Guru", "Satpam", "Pengacara", "Polisi"], c: 0, img: "pawo7.png" },
-      { q: "Tusing dadi lengit tulungin rerama magarapan. Lengit len raosne....", o: ["Jemet", "Seleg", "Mayus", "Anteng"], c: 2, img: "pawo8.png" },
-      { q: "Yening ada timpal ane ulung patutne....", o: ["Kalahin", "Tolih", "Kedekin", "Tulungin"], c: 3, img: "pawo9.png" },
-      { q: "Tresna asih metimpal. Tresna asih solah ane....", o: ["Melah", "Corah", "Jele", "Gedeg"], c: 0, img: "pawo10.png" },
-      { type: "text-to-image", text: "Pajeng", img: "cocokpawo1.png" },
-      { type: "text-to-image", text: "Galeng", img: "cocokpawo2.png" },
-      { type: "text-to-image", text: "Klepon", img: "cocokpawo3.jpeg" },
-      { type: "text-to-image", text: "Matan ai", img: "cocokpawo4.jpg" },
-      { type: "text-to-image", text: "Kuping (Telinga)", img: "cocokpawo5.jpg" }
-    ],
-    3: [ // PALEMAHAN
-      { q: "Contoh sane ngamargiang pelestarian alam inggih punika ....", o: ["Ngutang luhu ring tukad", "Nanem entik-entikan", "Nembak kedis", "Ngusak alas"], c: 1, img: "paleh1.png" },
-      { q: "Ngutang luu patutné di....", o: ["Tukad", "Sémér", "Got", "Tong sampah"], c: 3, img: "paleh2.png" },
-      { q: "Iraga patut nyaga kabresihan déwék lan lingkungan apang setata…", o: ["Seger", "Kual", "Kumel", "Daki"], c: 0, img: "paleh3.png" },
-      { q: "I Putu demen nyampat di natahe. Nyampat kruna lingganyane…", o: ["Sampat", "Sampate", "Nyampat", "Nyampatang"], c: 0, img: "paleh4.png" },
-      { q: "Betén ené conto parilaksana hémat yéh…", o: ["ngematiang listrik yén suba tengai", "tusing ngidupang AC masan ujan", "negakin sepéda ka sekolah", "ngematiang kran yén suba suud manjus"], c: 3, img: "paleh5.png" },
-      { q: "Yên suba hémat énergi lakar ngranayang hemat…", o: ["Nasi", "Munyi", "Prabéya", "Bayu"], c: 2, img: "paleh6.png" },
-      { q: "Tiang ngubuh sampi di désa. Ngubuh patuh artiné…", o: ["Miara", "Ngebus", "Ngalih", "Madep"], c: 0, img: "paleh7.png" },
-      { q: "Subak ento organisasi tradisional di Bali ane ngurusin sistem...", o: ["Irigasi sawah", "Dagang busana", "Seni ukir", "Utsaha pariwisata"], c: 0, img: "paleh8.png" },
-      { q: "Mantra suci/Pura pemujaan di area subak ditujukan untuk memuja dewi kemakmuran yaitu...", o: ["Dewi Sri", "Dewi Saraswati", "Dewi Durga", "Dewi Kali"], c: 0, img: "paleh9.png" },
-      { q: "Pemimpin pelaksana utama dalam tatanan organisasi irigasi Subak Bali disebut...", o: ["Pekaseh", "Perbekel", "Klian", "Bendesa"], c: 0, img: "paleh10.png" },
-      { type: "image-to-image", leftImg: "soalpaleh1.jpg", img: "cocokpaleh1.png" },
-      { type: "image-to-image", leftImg: "soalpaleh2.jpg", img: "cocokpaleh2.png" },
-      { type: "image-to-image", leftImg: "soalpaleh3.jpg", img: "cocokpaleh3.png" },
-      { type: "image-to-image", leftImg: "soalpaleh4.jpg", img: "cocokpaleh4.png" },
-      { type: "image-to-image", leftImg: "soalpaleh5.jpg", img: "cocokpaleh5.png" }
-    ]
+  // Silakan ganti firebaseConfig di bawah ini dengan kredensial Firebase milik Anda jika diperlukan.
+  const firebaseConfig = {
+    apiKey: "AIzaSyD-LENTERA-BALI-DEMO-KEY",
+    authDomain: "lentera-bali-game.firebaseapp.com",
+    databaseURL: "https://lentera-bali-game-default-rtdb.firebaseio.com",
+    projectId: "lentera-bali-game",
+    storageBucket: "lentera-bali-game.appspot.com",
+    messagingSenderId: "1234567890",
+    appId: "1:1234567890:web:abcdef123456"
   };
 
+  let db = null;
+  try {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.database();
+  } catch (err) {
+    console.warn("Firebase belum terkonfigurasi penuh, game akan beralih ke mode penyimpanan lokal offline.", err);
+  }
+
+  // Generate Unique Player ID agar skor tidak bertabrakan dengan nama pemain yang sama
+  function getOrCreatePlayerId() {
+    let pid = localStorage.getItem('playerId');
+    if (!pid) {
+      pid = 'player_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+      localStorage.setItem('playerId', pid);
+    }
+    return pid;
+  }
+
   // ================================================================
-  //  SISTEM UTAMA GAME CONTROLLER
+  //  DATABASE SOAL LENTERA BALI (10 PG + 5 Cocokkan Gambar)
+  // ================================================================
+  const quizDatabase = {
+    1: [ // BUDAYA BALI - ajengan, busana, rerahinan (paling gampang, pintu masuk)
+      { q: "Jaja Bali ane bunter tur gadang, misi gula barak, kasambehin parutan nyuh, madan...", o: ["Donat", "Klepon", "Roti", "Bakso"], c: 1, img: "foto/klepon.jpg", kata: "klepon" },
+      { q: "Sate khas Bali ane dagingne kalilitang di katikne madan...", o: ["Sate lilit", "Sate ayam", "Sate kambing", "Sate padang"], c: 0, img: "foto/sate-lilit.jpg", kata: "sate-lilit" },
+      { q: "Ajengan khas Bali ane malakar aji jukut tur parutan nyuh mabasa madan...", o: ["Bakso", "Mie goreng", "Lawar", "Pizza"], c: 2, img: "foto/lawar.jpg", kata: "lawar" },
+      { q: "Anak muani yen ka pura nganggon ikat sirah ane madan...", o: ["Topi", "Helm", "Peci", "Udeng"], c: 3, img: "foto/udeng.jpg", kata: "udeng" },
+      { q: "Kain ane kailitang di bangkiange yen mabusana adat Bali madan...", o: ["Kamen", "Celana", "Rok", "Topi"], c: 0, img: "foto/kamen.jpg", kata: "kamen" },
+      { q: "Baju ane kaanggon anak luh yen ka pura madan...", o: ["Kaos", "Kebaya", "Jaket", "Piyama"], c: 1, img: "foto/kebaya.jpg", kata: "kebaya" },
+      { q: "Rerahinan ane ngranayang gumi Baline sepi tur anake tusing pesu uli jumah madan...", o: ["Galungan", "Kuningan", "Nyepi", "Saraswati"], c: 2, img: "foto/nyepi.jpg", kata: "nyepi" },
+      { q: "Awai satonden Nyepi, anake ngarak togog gede ane aeng madan...", o: ["Ogoh-ogoh", "Wayang", "Robot", "Boneka salju"], c: 0, img: "foto/ogoh-ogoh.jpg", kata: "ogoh-ogoh" },
+      { q: "Rikala Galungan, di arep umahe kapasang tiing melengkung mapayas janur madan...", o: ["Bendera", "Penjor", "Umbul-umbul", "Layangan"], c: 1, img: "foto/penjor.jpg", kata: "penjor" },
+      { q: "Rerahinan ngerayaang ilmu pengetahuan, rikala buku lan lontare kabantenin, madan...", o: ["Nyepi", "Galungan", "Kuningan", "Saraswati"], c: 3, img: "foto/lontar.jpg", kata: "saraswati" },
+      { type: "text-to-image", text: "Klepon", img: "foto/klepon.jpg" },
+      { type: "text-to-image", text: "Sate Lilit", img: "foto/sate-lilit.jpg" },
+      { type: "text-to-image", text: "Udeng", img: "foto/udeng.jpg" },
+      { type: "text-to-image", text: "Kebaya", img: "foto/kebaya.jpg" },
+      { type: "text-to-image", text: "Penjor", img: "foto/penjor.jpg" }
+    ],
+    2: [ // PARAHYANGAN
+      { q: "Wewidangan utawi genah suci anggen umat Hindu maturan kawastanin...", o: ["Pura", "Bale banjar", "Sekolah", "Pasar"], c: 0, img: "foto/pura.jpg", kata: "pura" },
+      { q: "Tuhan ring agama Hindu kawastanin...", o: ["Sang Hyang Widhi Wasa", "Ratu Gede", "Jero Gede", "Mpu"], c: 0, img: "foto/padmasana.jpg", kata: "padmasana" },
+      { q: "Umat Hindu nunas ica ring Sang Hyang Widhi antuk ngaturang...", o: ["Sesajen miwah banten", "Pipis miwah perhiasan", "Batik miwah anduk", "Sepatu miwah tas"], c: 0, img: "foto/banten.jpg", kata: "banten" },
+      { q: "Manusia patut bakti miwah suksma ring Ida Sang Hyang Widhi Wasa santukan...", o: ["Ida sane ngasilang keneh", "Ida sane ngaturang banten", "Ida sane nyiptayang jagat miwah manusa", "Ida sane mekarya pura"], c: 2, img: "foto/subak.jpg", kata: "jagat" },
+      { q: "Rerahinan Saraswati, umat Hindu ngaturang banten ring...", o: ["Lontar miwah buku", "Beras miwah taluh", "Ayam miwah bebek", "Candi miwah arca"], c: 0, img: "foto/lontar.jpg", kata: "lontar" },
+      { q: "Upacara penyucian ke segara sane kalaksanayang olih umat Hindu sedurung Nyepi kawastanin...", o: ["Melasti", "Mepandes", "Mabyakala", "Matur piuning"], c: 0, img: "foto/melasti.jpg", kata: "melasti" },
+      { q: "Sarana upacara sane malakar don nyuh medaging bunga, kaanggen ngaturang banten ring sang hyang widhi inggih punika...", o: ["Tamas", "Canang", "Tumpeng", "Lamak"], c: 1, img: "foto/canang.jpg", kata: "canang" },
+      { q: "Ngaturang banten saiban utawi ajengan nasi semengan kawastanin...", o: ["Maturan", "Melukat", "Ngejot", "Melasti"], c: 2, img: "foto/saiban.jpg", kata: "ngejot" },
+      { q: "Genah palinggihan Sang Hyang Widhi Wasa ring pura inggih punika...", o: ["Padmasana", "Bale kulkul", "Wantilan", "Lumbung"], c: 0, img: "foto/padmasana.jpg", kata: "padmasana" },
+      { q: "Rerahinan Galungan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin...", o: ["Penjor", "Tamiang", "Sate", "Lawar"], c: 0, img: "foto/penjor.jpg", kata: "penjor" },
+      { type: "text-to-image", text: "Pura Besakih", img: "foto/pura-besakih.jpg" },
+      { type: "text-to-image", text: "Penjor", img: "foto/penjor.jpg" },
+      { type: "text-to-image", text: "Canang", img: "foto/canang.jpg" },
+      { type: "text-to-image", text: "Mebakti", img: "foto/mebakti.jpg" },
+      { type: "text-to-image", text: "Pura Tanah Lot", img: "foto/pura-tanah-lot.jpg" }
+    ],
+    3: [ // PAWONGAN
+      { q: "Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....", o: ["Sugih", "Uyut", "Lacur", "Adung"], c: 3, img: "foto/gotong-royong.jpg", kata: "adung" },
+      { q: "Rai demen masilihang teken timpale ane sing ngelah. Ento bacakan Solah ane....", o: ["Becik", "Jele", "Mayus", "Lengit"], c: 0, img: "foto/timpal.jpg", kata: "becik" },
+      { q: "Rerama sesai maang pitutur. Pitutur rerama patut....", o: ["Resepang", "Kelidin", "Saruin", "Kalahin"], c: 0, img: "foto/keluarga.jpg", kata: "pitutur" },
+      { q: "Putu Budi ngelah cita-cita dadi dokter. Dadi dokter geginane tuah....", o: ["Nyampur ubad", "Ngubadin anak gelem", "Menahin montor", "Ngae wewangunan"], c: 1, img: "foto/dokter.jpg", kata: "dokter" },
+      { q: "Ngomong sareng guru patut nganggen basa sane....", o: ["Kasar", "Alus tur sopan", "Keras", "Sengit"], c: 1, img: "foto/guru-murid.jpg", kata: "basa-alus" },
+      { q: "Ring waktu mebersih kelas, iraga patut....", o: ["Gotong royong", "Melaib", "Nyingakin kemawon", "Macepuk"], c: 0, img: "foto/gotong-royong.jpg", kata: "gotong-royong" },
+      { q: "Pianakne ane pertama suba ngajahin di SD. Anak ane geginane ngajahin di sekolah madan...", o: ["Guru", "Satpam", "Pengacara", "Polisi"], c: 0, img: "foto/guru-murid.jpg", kata: "guru" },
+      { q: "Tusing dadi lengit nulungin rerama magarapan. Lengit len raosne....", o: ["Jemet", "Seleg", "Mayus", "Anteng"], c: 2, img: "foto/nyampat.jpg", kata: "mayus" },
+      { q: "Yening ada timpal ane ulung patutne....", o: ["Kalahin", "Tolih", "Kedekin", "Tulungin"], c: 3, img: "foto/timpal.jpg", kata: "tulungin" },
+      { q: "Tresna asih metimpal. Tresna asih solah ane....", o: ["Melah", "Corah", "Jele", "Gedeg"], c: 0, img: "foto/timpal.jpg", kata: "tresna-asih" },
+      { type: "text-to-image", text: "Apaké balé gedé matampul abesik?", img: "foto/pajeng.jpg", answerLabel: "Pajeng (Payung)" },
+      { type: "text-to-image", text: "Apaké ngamah acepok betek sesai?", img: "foto/galeng.jpg", answerLabel: "Galeng (Bantal)" },
+      { type: "text-to-image", text: "Apaké anak cenik ngemu getih?", img: "foto/klepon.jpg", answerLabel: "Klepon" },
+      { type: "text-to-image", text: "Apaké menék bajang, tuun tua?", img: "foto/matan-ai.jpg", answerLabel: "Matan ai" },
+      { type: "text-to-image", text: "Apaké tolih ngejoh-ngejohang?", img: "foto/kuping.jpg", answerLabel: "Kuping (Telinga)" }
+    ],
+    4: [ // PALEMAHAN
+      { q: "Contoh sane ngamargiang pelestarian alam inggih punika ....", o: ["Ngutang luhu ring tukad", "Nanem entik-entikan", "Nembak kedis", "Ngusak alas"], c: 1, img: "foto/nanem-entik.jpg", kata: "nanem" },
+      { q: "Ngutang luu patutné di....", o: ["Tukad", "Sémér", "Got", "Tong sampah"], c: 3, img: "foto/tong-sampah.jpg", kata: "luu" },
+      { q: "Iraga patut nyaga kabresihan déwék lan lingkungan apang setata…", o: ["Seger", "Kual", "Kumel", "Daki"], c: 0, img: "foto/nyampat.jpg", kata: "seger" },
+      { q: "I Putu demen nyampat di natahe. Nyampat kruna lingganyane…", o: ["Sampat", "Sampate", "Nyampat", "Nyampatang"], c: 0, img: "foto/nyampat.jpg", kata: "nyampat" },
+      { q: "Betén ené conto parilaksana hémat yéh…", o: ["ngematiang listrik yén suba tengai", "tusing ngidupang AC masan ujan", "negakin sepéda ka sekolah", "ngematiang kran yén suba suud manjus"], c: 3, img: "foto/kran-air.jpg", kata: "yeh" },
+      { q: "Yên suba hémat énergi lakar ngranayang hemat…", o: ["Nasi", "Munyi", "Prabéya", "Bayu"], c: 2, img: "foto/hemat-listrik.jpg", kata: "prabeya" },
+      { q: "Tiang ngubuh sampi di désa. Ngubuh patuh artiné…", o: ["Miara", "Ngebus", "Ngalih", "Madep"], c: 0, img: "foto/sampi.jpg", kata: "ngubuh" },
+      { q: "Iraga patutné... tekén ubuh-ubuhan.", o: ["Gedeg", "Sayang", "Pedih", "Tusing Demen"], c: 1, img: "foto/sampi.jpg", kata: "sayang" },
+      { q: "Apang entik-entikané tusing layu patut…", o: ["Tumbeg", "Abut", "Tunjel", "Siam"], c: 3, img: "foto/nyiram.jpg", kata: "siam" },
+      { q: "Pidan anaké ngebuhang tanah di cariké nganggon buron sampi. Di zaman jani anaké ngebuhang tanah di carike nganggon...", o: ["Traktor", "Kambing", "HP", "Robot"], c: 0, img: "foto/traktor-sawah.jpg", kata: "traktor" },
+      { type: "text-to-image", text: "Subak", img: "foto/subak.jpg" },
+      { type: "text-to-image", text: "Tukad", img: "foto/tukad.jpg" },
+      { type: "text-to-image", text: "Luu", img: "foto/luu-tukad.jpg" },
+      { type: "text-to-image", text: "Entik-entikan layu", img: "foto/entik-layu.jpg" },
+      { type: "text-to-image", text: "Tong sampah", img: "foto/tong-sampah.jpg" }
+    ]
+  };
+  const arDatabaseLinks = {
+    1: "https://viewer.virtualtoureasy.com/?r=3xVcYDfAtJ",
+    2: "https://viewer.virtualtoureasy.com/?r=3xVcYDfAtJ",
+    3: "https://viewer.virtualtoureasy.com/?r=YvLu3pVjMd",
+    4: "https://viewer.virtualtoureasy.com/?r=TTbPZ8ajNS"
+  };
+
+  const JUMLAH_LEVEL = 4;
+  const levelNames = { 1: 'Budaya Bali', 2: 'Parahyangan', 3: 'Pawongan', 4: 'Palemahan' };
+
+  // ================================================================
+  //  GAME CONTROLLER LOGIC
   // ================================================================
   let currentLevel = 1;
   let activeQuestions = [];
@@ -1311,7 +1660,7 @@
 
   let selectedLeftNode = null;
   let activeLevelMatches = [];
-  let connectedMatches = [];
+  let connectedMatches = []; 
   let canvas, ctx;
 
   function navigateTo(pageId) {
@@ -1319,7 +1668,7 @@
     const target = document.getElementById('page-' + pageId);
     if (target) target.classList.add('active');
 
-    if (pageId !== 'main') { closeWorld3D(); }
+    if (pageId !== 'main') { closeARMode(); }
 
     if (pageId === 'play') updatePlayDashboard();
     if (pageId === 'peta') renderMapProgress();
@@ -1363,10 +1712,12 @@
     e.preventDefault();
     const name = document.getElementById('player-name').value.trim();
     const cls = document.getElementById('player-class').value;
-    
+
     localStorage.setItem('playerName', name);
     localStorage.setItem('playerClass', cls);
     if (!localStorage.getItem('unlockedLevel')) localStorage.setItem('unlockedLevel', '1');
+
+    syncScoreToFirebase(parseInt(localStorage.getItem('highScore')) || 0);
 
     playSFX('welcome');
     navigateTo('play');
@@ -1375,29 +1726,31 @@
   function updatePlayDashboard() {
     const name = localStorage.getItem('playerName') || 'Pemain';
     const cls = localStorage.getItem('playerClass') || '1';
-    
+
     document.getElementById('display-name').innerText = name.toUpperCase();
     document.getElementById('display-class').innerText = 'KELAS ' + cls;
-    document.getElementById('player-score').innerText = localStorage.getItem('totalScore') || '0';
+    
+    const highScore = localStorage.getItem('highScore') || '0';
+    document.getElementById('player-score').innerText = highScore;
   }
 
   function startAutoGame() {
     const currentProgress = parseInt(localStorage.getItem('unlockedLevel')) || 1;
-    const cat = currentProgress === 1 ? 'Parahyangan' : currentProgress === 2 ? 'Pawongan' : 'Palemahan';
-    selectLevel(currentProgress, cat);
+    selectLevel(currentProgress, levelNames[currentProgress] || 'Budaya Bali');
   }
 
   function renderMapProgress() {
     const name = localStorage.getItem('playerName') || 'PEMAIN';
     const cls = localStorage.getItem('playerClass') || '1';
-    
+
     document.getElementById('peta-name').innerText = name.toUpperCase();
     document.getElementById('peta-class').innerText = 'KELAS ' + cls;
 
     const unlocked = parseInt(localStorage.getItem('unlockedLevel')) || 1;
 
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= JUMLAH_LEVEL; i++) {
       const card = document.getElementById('lvlcard-' + i);
+      if (!card) continue;
       if (i > unlocked) {
         card.classList.add('locked');
       } else {
@@ -1424,13 +1777,15 @@
     connectedMatches = [];
     selectedLeftNode = null;
 
-    const catName = currentLevel === 1 ? 'PARAHYANGAN' : currentLevel === 2 ? 'PAWONGAN' : 'PALEMAHAN';
-    document.getElementById('level-title').innerText = 'KATEGORI: ' + catName;
+    // Judul cukup nama kategorinya saja -- di layar 360px, "LEVEL 1: BUDAYA
+    // BALI" kepotong jadi "LE...". Nomor levelnya sudah jelas dari peta.
+    const catName = (levelNames[currentLevel] || 'BUDAYA BALI').toUpperCase();
+    document.getElementById('level-title').innerText = catName;
     document.getElementById('live-score').innerText = score;
-    
+
     document.getElementById('reward-popup').style.display = 'none';
     document.getElementById('gameover-popup').style.display = 'none';
-    
+
     updateHeartsUI();
     displayQuestion();
   }
@@ -1446,8 +1801,29 @@
     document.getElementById('matching-quiz-layout').style.display = 'none';
 
     const data = activeQuestions[questionIndex];
-    document.getElementById('question-label').innerText = data.q;
-    document.getElementById('question-img').src = data.img;
+    hentikanSuara();
+    document.getElementById('teks-soal').innerText = data.q;
+
+    // FOTO ASLI (Wikimedia Commons) -- bukan gambar AI lagi
+    const img = document.getElementById('question-img');
+    const kotak = img.parentElement;
+    img.onerror = function () { kotak.classList.add('tanpa-foto'); };
+    img.onload = function () { kotak.classList.remove('tanpa-foto'); };
+    img.src = data.img;
+    document.getElementById('kredit-foto').innerText = kreditUntuk(data.img);
+
+    // Giliran bicara gantian: Putu untuk soal ganjil, Ni Luh untuk soal genap,
+    // supaya terasa seperti dua orang yang saling bertanya-jawab.
+    const gilirPutu = questionIndex % 2 === 0;
+    const sPutu = document.getElementById('slot-putu');
+    const sNiluh = document.getElementById('slot-niluh');
+    sPutu.classList.toggle('giliran', gilirPutu);
+    sNiluh.classList.toggle('giliran', !gilirPutu);
+    const kPutu = sPutu.querySelector('.kar'), kNiluh = sNiluh.querySelector('.kar');
+    if (kPutu) kPutu.classList.toggle('nunjuk', gilirPutu);
+    if (kNiluh) kNiluh.classList.toggle('nunjuk', !gilirPutu);
+    // ekor balon dialog ikut pindah ke sisi yang sedang bicara
+    document.getElementById('question-label').classList.toggle('dari-niluh', !gilirPutu);
 
     const optContainer = document.getElementById('options-container');
     optContainer.innerHTML = '';
@@ -1461,15 +1837,31 @@
     });
 
     initTimer();
+    // bacakan soal otomatis -- banyak anak SD belum lancar membaca
+    if (localStorage.getItem('bacaOtomatis') !== 'off') setTimeout(ucapkanSoal, 350);
+  }
+
+  /* Nama pemotret untuk ditulis kecil di pojok foto. */
+  let kreditFoto = {};
+  fetch('foto/kredit.json').then(r => r.json()).then(d => { kreditFoto = d; }).catch(() => {});
+  function kreditUntuk(src) {
+    const slug = (src || '').replace(/^foto\//, '').replace(/\.jpg$/, '');
+    const k = kreditFoto[slug];
+    if (!k) return '';
+    return '📷 ' + (k.pemotret || 'Wikimedia Commons') + ' · ' + (k.lisensi || '') + ' · Wikimedia Commons';
   }
 
   function initTimer() {
     clearInterval(timerInterval);
     timeLeft = 20;
-    document.getElementById('time-left').innerText = timeLeft;
+    const el = document.getElementById('time-left');
+    const chip = el.parentElement;
+    el.innerText = timeLeft;
+    chip.classList.remove('waktu-kritis');
     timerInterval = setInterval(() => {
       timeLeft--;
-      document.getElementById('time-left').innerText = timeLeft;
+      el.innerText = timeLeft;
+      chip.classList.toggle('waktu-kritis', timeLeft <= 5);
       if (timeLeft <= 0) {
         clearInterval(timerInterval);
         handleWrongAnswer();
@@ -1477,23 +1869,53 @@
     }, 1000);
   }
 
+  /* Kalimat balasan basa Bali. Yang menjawab adalah karakter LAWAN bicara --
+     kalau Putu yang bertanya, Ni Luh yang menanggapi, dan sebaliknya. */
+  const BALAS_BENAR = ['Beneh pesan!', 'Dueg sajan!', 'Nah, beneh!', 'Becik pisan!'];
+  const BALAS_SALAH = ['Durung beneh, nah.', 'Sing beneh, coba buin.', 'Uduh, tolih malih.'];
+
+  function tampilkanReaksi(benar) {
+    const balon = document.getElementById('balon-reaksi');
+    if (!balon) return;
+    const daftar = benar ? BALAS_BENAR : BALAS_SALAH;
+    const kata = daftar[questionIndex % daftar.length];
+    // yang bertanya Putu (soal genap) -> yang menjawab Ni Luh (kanan)
+    const putuBertanya = questionIndex % 2 === 0;
+    const slotJawab = document.getElementById(putuBertanya ? 'slot-niluh' : 'slot-putu');
+
+    balon.className = 'balon-reaksi tampil ' + (benar ? 'benar' : 'salah') +
+                      (putuBertanya ? ' dari-kanan' : ' dari-kiri');
+    balon.innerText = kata;
+
+    const svgKar = slotJawab && slotJawab.querySelector('.kar');
+    if (svgKar) {
+      svgKar.classList.add('bicara');
+      setTimeout(() => svgKar.classList.remove('bicara'), 900);
+    }
+    slotJawab.classList.add('giliran');
+    setTimeout(() => { balon.classList.remove('tampil'); }, 1500);
+  }
+
   function processAnswer(selected, btnElement) {
     clearInterval(timerInterval);
     const correctIdx = activeQuestions[questionIndex].c;
     const allButtons = document.querySelectorAll('#options-container .btn-option');
     allButtons.forEach(b => b.disabled = true);
+    hentikanSuara();
 
     if (selected === correctIdx) {
       btnElement.classList.add('correct');
       playSFX('benar');
+      tampilkanReaksi(true);
       score += 10;
       document.getElementById('live-score').innerText = score;
-      setTimeout(() => { questionIndex++; displayQuestion(); }, 1200);
+      setTimeout(() => { questionIndex++; displayQuestion(); }, 1700);
     } else {
       btnElement.classList.add('wrong');
       allButtons[correctIdx].classList.add('correct');
       playSFX('salah');
-      setTimeout(() => { handleWrongAnswer(); }, 1200);
+      tampilkanReaksi(false);
+      setTimeout(() => { handleWrongAnswer(); }, 1700);
     }
   }
 
@@ -1509,13 +1931,22 @@
     }
   }
 
-  function updateHeartsUI() {
-    let heartStr = '';
-    for (let i = 0; i < lives; i++) heartStr += '❤️';
-    document.getElementById('heart-container').innerText = heartStr || '💀';
+  /* Hati digambar sebagai 3 span tetap (terisi / kosong), bukan string yang
+     memendek. Lebarnya jadi konstan, jadi HUD tidak pernah bergeser dan hati
+     tidak bisa turun ke baris kedua. */
+  function updateHeartsUI(baruHilang) {
+    const box = document.getElementById('heart-container');
+    let html = '';
+    for (let i = 0; i < 3; i++) {
+      const hidup = i < lives;
+      const kelas = 'hati' + (!hidup && baruHilang && i === lives ? ' hilang' : '');
+      html += '<span class="' + kelas + '">' + (hidup ? '❤️' : '🖤') + '</span>';
+    }
+    box.innerHTML = html;
+    box.setAttribute('aria-label', 'Nyawa tersisa ' + lives + ' dari 3');
   }
 
-  // ================================================================
+   // ================================================================
   //  MODUL SISTEM TARIK GARIS MENCOCOKKAN GAMBAR (1 HALAMAN)
   // ================================================================
   function initMatchingGamePage() {
@@ -1528,9 +1959,9 @@
 
     const instrText = document.getElementById('matching-instruction-text');
     if (currentLevel === 3) {
-      instrText.innerText = "Hubungkan Gambar di Kiri dengan Gambar yang Sesuai di Kanan!";
+      instrText.innerText = "Adungang cecimpedan sareng gambar ring samping mangda patut";
     } else {
-      instrText.innerText = "Hubungkan Kata di Kiri dengan Gambar yang Sesuai di Kanan!";
+      instrText.innerText = "Adungang kruna sareng gambar ring samping mangda patut";
     }
 
     const leftCol = document.getElementById('match-left-col');
@@ -1542,9 +1973,9 @@
       return { type: d.type, text: d.text, leftImg: d.leftImg, originalIdx: i };
     });
     let rightSideData = activeLevelMatches.map((d, i) => {
-      return { img: d.img, originalIdx: i };
+      return { img: d.img, label: d.answerLabel || d.text, originalIdx: i };
     });
-    
+
     rightSideData.sort(() => Math.random() - 0.5);
 
     leftSideData.forEach((item) => {
@@ -1552,13 +1983,13 @@
       node.className = 'match-node';
       node.dataset.side = 'left';
       node.dataset.id = item.originalIdx;
-      
+
       if (item.type === "image-to-image") {
         node.innerHTML = `<div class="match-node-img-box"><img src="${item.leftImg}" class="match-node-img"></div><div class="match-dot"></div>`;
       } else {
         node.innerHTML = `<div class="match-node-text">${item.text}</div><div class="match-dot"></div>`;
       }
-      
+
       node.onclick = () => handleMatchingClick(node);
       leftCol.appendChild(node);
     });
@@ -1568,7 +1999,15 @@
       node.className = 'match-node';
       node.dataset.side = 'right';
       node.dataset.id = item.originalIdx;
-      node.innerHTML = `<div class="match-node-img-box"><img src="${item.img}" class="match-node-img"></div><div class="match-dot"></div>`;
+
+      let htmlContent = `<div class="match-node-img-box"><img src="${item.img}" class="match-node-img"></div>`;
+      if (currentLevel === 3) {
+        node.style.flexDirection = 'column';
+        htmlContent += `<div class="match-node-text" style="font-size: 0.7rem; margin-top: 5px; font-weight: bold; color: #542c0e; text-align: center;">${item.label}</div>`;
+      }
+      htmlContent += `<div class="match-dot"></div>`;
+
+      node.innerHTML = htmlContent;
       node.onclick = () => handleMatchingClick(node);
       rightCol.appendChild(node);
     });
@@ -1665,10 +2104,6 @@
     });
   }
 
-  function deleteProgressData() {
-    // Sesi internal cleanup state jika dibutuhkan
-  }
-
   function endLevelKuis() {
     clearInterval(timerInterval);
     document.getElementById('final-score-val').innerText = score;
@@ -1676,43 +2111,105 @@
   }
 
   // ================================================================
-  //  MODE DUNIA BUDAYA 3D
-  //  Seluruh logika (adegan 3D, sensor gyro, Kartu Pusaka) berada
-  //  di world3d.js. Fungsi startWorld3D() & closeWorld3D() berasal
-  //  dari file tersebut.
+  //  MODUL VIRTUAL TOUR AR 360
   // ================================================================
+  function startARMode() {
+    const arOverlay = document.getElementById('ar-overlay');
+    const arFrame = document.getElementById('ar-frame');
+    const nextBtn = document.getElementById('btn-ar-next-action');
 
-  // Fungsi penanganan aksi tombol navigasi di Dunia 3D
+    if (arFrame) {
+      arFrame.src = arDatabaseLinks[currentLevel] || "";
+    }
+
+    if (currentLevel >= JUMLAH_LEVEL) {
+      nextBtn.innerText = "Simpan & Selesai Kuis 🏁";
+    } else {
+      nextBtn.innerText = "Level Selanjutnya →";
+    }
+
+    arOverlay.style.display = 'flex';
+  }
+
+  function closeARMode() {
+    const arFrame = document.getElementById('ar-frame');
+    if (arFrame) {
+      arFrame.src = ""; 
+    }
+    document.getElementById('ar-overlay').style.display = 'none';
+  }
+
   function exitARToMap() {
     saveProgressState();
-    closeWorld3D();
+    closeARMode();
     navigateTo('peta');
   }
 
   function proceedToNextLevel() {
     saveProgressState();
-    closeWorld3D();
-    
-    if (currentLevel < 3) {
-      // Otomatis lanjut ke tingkatan level berikutnya
+    closeARMode();
+
+    if (currentLevel < JUMLAH_LEVEL) {
       const nextLvl = currentLevel + 1;
-      const categories = { 2: "Pawongan", 3: "Palemahan" };
-      selectLevel(nextLvl, categories[nextLvl]);
+      selectLevel(nextLvl, levelNames[nextLvl]);
     } else {
-      // Jika sudah tamat level 3, arahkan ke dashboard peta utama
       navigateTo('peta');
     }
   }
 
+  // ================================================================
+  //  LOGIKA PENYIMPANAN SKOR (FIREBASE + LOCALSTORAGE)
+  // ================================================================
   function saveProgressState() {
     const unlocked = parseInt(localStorage.getItem('unlockedLevel')) || 1;
-    if (currentLevel === unlocked && unlocked < 3) {
+    if (currentLevel === unlocked && unlocked < JUMLAH_LEVEL) {
       localStorage.setItem('unlockedLevel', unlocked + 1);
     }
-    const prevScore = parseInt(localStorage.getItem('totalScore')) || 0;
-    localStorage.setItem('totalScore', prevScore + score);
-    // Reset internal score agar tidak terakumulasi ganda saat submit ulang
+
+    // Update High Score Pribadi
+    const currentHighScore = parseInt(localStorage.getItem('highScore')) || 0;
+    let newHighScore = currentHighScore;
+    if (score > currentHighScore) {
+      newHighScore = score;
+      localStorage.setItem('highScore', newHighScore);
+    }
+
+    // Simpan Ke Firebase Realtime Database
+    syncScoreToFirebase(newHighScore);
+
+    // Simpan Riwayat Sesi Lokal
+    let history = JSON.parse(localStorage.getItem('scoreHistory')) || [];
+    const dateNow = new Date();
+    const formattedDate = dateNow.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) + ' ' + dateNow.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    const catName = levelNames[currentLevel] || 'Budaya Bali';
+
+    history.unshift({
+      date: formattedDate,
+      level: catName,
+      score: score
+    });
+
+    if (history.length > 10) history = history.slice(0, 10);
+    localStorage.setItem('scoreHistory', JSON.stringify(history));
+
     score = 0; 
+  }
+
+  function syncScoreToFirebase(highScoreVal) {
+    if (!db) return;
+
+    const pid = getOrCreatePlayerId();
+    const name = localStorage.getItem('playerName') || 'Pemain';
+    const cls = localStorage.getItem('playerClass') || '1';
+
+    db.ref('leaderboard/' + pid).set({
+      name: name,
+      classNum: cls,
+      score: highScoreVal,
+      updatedAt: Date.now()
+    }).catch(err => {
+      console.warn("Gagal sinkronisasi skor ke server Firebase:", err);
+    });
   }
 
   function saveAndExitQuiz() {
@@ -1721,15 +2218,747 @@
     navigateTo('peta');
   }
 
-  function switchMateri(id) {
-    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.materi-section').forEach(s => s.classList.remove('active'));
+  // ================================================================
+  //  MODUL PAPAN SKOR & RANGKING GLOBAL REAL-TIME
+  // ================================================================
+  function openLeaderboardModal() {
+    document.getElementById('leaderboard-modal').style.display = 'flex';
+    switchLeaderboardTab('global');
+  }
 
-    document.getElementById('tab-' + id).classList.add('active');
-    document.getElementById('mat-' + id).classList.add('active');
+  function closeLeaderboardModal() {
+    document.getElementById('leaderboard-modal').style.display = 'none';
+  }
+
+  function switchLeaderboardTab(tabType) {
+    document.getElementById('lbtab-global').classList.remove('active');
+    document.getElementById('lbtab-personal').classList.remove('active');
+
+    if (tabType === 'global') {
+      document.getElementById('lbtab-global').classList.add('active');
+      fetchAndRenderGlobalLeaderboard();
+    } else {
+      document.getElementById('lbtab-personal').classList.add('active');
+      renderPersonalLeaderboard();
+    }
+  }
+
+  function fetchAndRenderGlobalLeaderboard() {
+    const container = document.getElementById('lb-content-area');
+    container.innerHTML = `<p style="font-size:0.8rem; color:#facc15; margin-top:20px; text-align:center;">Mengambil data rangking pemain secara online...</p>`;
+
+    if (!db) {
+      renderOfflineGlobalFallback();
+      return;
+    }
+
+    // Mengambil data top skor dari Firebase secara Realtime
+    db.ref('leaderboard').orderByChild('score').limitToLast(20).once('value', (snapshot) => {
+      let players = [];
+      const myPid = getOrCreatePlayerId();
+
+      snapshot.forEach((childSnap) => {
+        const val = childSnap.val();
+        players.push({
+          id: childSnap.key,
+          name: val.name,
+          classNum: val.classNum,
+          score: val.score,
+          isUser: childSnap.key === myPid
+        });
+      });
+
+      // Firebase mengurutkan ascending, balik agar skor tertinggi berada di atas
+      players.reverse();
+
+      if (players.length === 0) {
+        container.innerHTML = `<p style="font-size:0.8rem; color:#d1d5db; margin-top:20px; text-align:center;">Belum ada skor pemain yang terdaftar secara online.</p>`;
+        return;
+      }
+
+      renderGlobalTableUI(players);
+    }).catch(err => {
+      console.warn("Server Firebase tidak merespons, beralih ke tampilan lokal.", err);
+      renderOfflineGlobalFallback();
+    });
+  }
+
+  function renderOfflineGlobalFallback() {
+    const myName = localStorage.getItem('playerName') || 'Pemain';
+    const myClass = localStorage.getItem('playerClass') || '1';
+    const myHighScore = parseInt(localStorage.getItem('highScore')) || 0;
+
+    const fallbackData = [
+      { name: myName + " (Saya)", classNum: myClass, score: myHighScore, isUser: true },
+      { name: "I Gede Made", classNum: "5", score: 280, isUser: false },
+      { name: "Ni Luh Putu", classNum: "6", score: 250, isUser: false },
+      { name: "Kadek Arta", classNum: "4", score: 210, isUser: false }
+    ];
+
+    fallbackData.sort((a, b) => b.score - a.score);
+    renderGlobalTableUI(fallbackData);
+  }
+
+  function renderGlobalTableUI(players) {
+    const container = document.getElementById('lb-content-area');
+
+    let html = `
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th style="width:15%; text-align:center;">Pos</th>
+            <th>Nama Pemain</th>
+            <th style="text-align:center;">Kelas</th>
+            <th style="text-align:right;">Skor Real</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    players.forEach((item, index) => {
+      const rank = index + 1;
+      const rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : 'rank-other';
+      const rowClass = item.isUser ? 'class="my-score-row"' : '';
+      const displayName = item.isUser ? item.name + " (Saya)" : item.name;
+
+      html += `
+        <tr ${rowClass}>
+          <td style="text-align:center;"><span class="rank-badge ${rankClass}">${rank}</span></td>
+          <td>${displayName}</td>
+          <td style="text-align:center;">Kelas ${item.classNum}</td>
+          <td style="text-align:right; font-weight:bold; color:#facc15;">${item.score}</td>
+        </tr>
+      `;
+    });
+
+    html += `</tbody></table>`;
+    container.innerHTML = html;
+  }
+
+  function renderPersonalLeaderboard() {
+    const myHighScore = parseInt(localStorage.getItem('highScore')) || 0;
+    const history = JSON.parse(localStorage.getItem('scoreHistory')) || [];
+    const container = document.getElementById('lb-content-area');
+
+    let html = `
+      <div style="background: rgba(84,44,14,0.6); padding:10px; border-radius:10px; border:1px solid #b0703c; margin-bottom:12px; text-align:left;">
+        <div style="font-size:0.8rem; color:#e5a96b;">Skor Tertinggi Anda (Highscore): <b style="color:#facc15; font-size:1rem;">${myHighScore}</b></div>
+      </div>
+      
+      <div style="font-size:0.8rem; font-weight:bold; color:#facc15; margin-bottom:6px; text-align:left;">Riwayat Sesi Bermain Terakhir:</div>
+    `;
+
+    if (history.length === 0) {
+      html += `<p style="font-size:0.75rem; color:#9ca3af; font-style:italic;">Belum ada riwayat permainan yang tersimpan.</p>`;
+    } else {
+      html += `
+        <table class="lb-table">
+          <thead>
+            <tr>
+              <th>Waktu</th>
+              <th>Tingkat</th>
+              <th style="text-align:right;">Skor</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      history.forEach(item => {
+        html += `
+          <tr>
+            <td style="font-size:0.7rem; color:#d1d5db;">${item.date}</td>
+            <td>${item.level}</td>
+            <td style="text-align:right; font-weight:bold; color:#facc15;">${item.score}</td>
+          </tr>
+        `;
+      });
+
+      html += `</tbody></table>`;
+    }
+
+    container.innerHTML = html;
+  }
+
+  // ================================================================
+  //  RIG KARAKTER SVG -- Putu & Ni Luh digambar lewat kode.
+  //  Tidak ada gambar AI dan tidak ada foto orang dipakai jadi karakter.
+  //  Tiap bagian punya kelas sendiri supaya bisa dianimasi dari CSS:
+  //  .kar-badan (napas) .kar-kelopak (kedip) .kar-bibir (bicara) .kar-tangan-*
+  // ================================================================
+  /* Tiap SVG yang dibuat harus punya id sendiri. Kalau dua SVG memakai id
+     <pattern>/<gradient> yang sama, url(#id) selalu menunjuk ke definisi
+     PERTAMA di dokumen -- yang ada di SVG lain -- sehingga isiannya tidak
+     terlukis sama sekali (kamen jadi putih, lentera jadi pucat). */
+  let nomorSvg = 0;
+  const idBaru = () => '_' + (++nomorSvg);
+
+  const KarakterBali = (function () {
+    const P = {
+      garis: '#54331a', kulit: '#f2c795', kulitGelap: '#dca66f', pipi: '#f0968a',
+      rambut: '#2f2118', putih: '#fffdf7', emas: '#d8a145', emasTua: '#a8762a',
+      kain: '#8d5a2b', kainMotif: '#e0b268', merah: '#c0392b'
+    };
+
+    function motif(id, dasar, atas) {
+      return '<pattern id="' + id + '" width="16" height="16" patternUnits="userSpaceOnUse">' +
+        '<rect width="16" height="16" fill="' + dasar + '"/>' +
+        '<path d="M0 8 L8 0 L16 8 L8 16 Z" fill="' + atas + '" opacity=".55"/>' +
+        '<circle cx="8" cy="8" r="1.8" fill="' + atas + '"/></pattern>';
+    }
+
+    function wajah() {
+      const y = 74, j = 15;
+      let s = '';
+      s += '<path d="M' + (100 - j - 9) + ' ' + (y - 13) + ' q9 -5 17 0" fill="none" stroke="' + P.garis + '" stroke-width="3.2" stroke-linecap="round"/>';
+      s += '<path d="M' + (100 + j - 8) + ' ' + (y - 13) + ' q9 -5 17 0" fill="none" stroke="' + P.garis + '" stroke-width="3.2" stroke-linecap="round"/>';
+      [-1, 1].forEach(function (d) {
+        const cx = 100 + d * j;
+        s += '<g class="kar-mata">' +
+          '<ellipse cx="' + cx + '" cy="' + y + '" rx="7.6" ry="8.6" fill="' + P.putih + '" stroke="' + P.garis + '" stroke-width="2.6"/>' +
+          '<circle cx="' + (cx + d * 0.8) + '" cy="' + (y + 1) + '" r="4.4" fill="' + P.rambut + '"/>' +
+          '<circle cx="' + (cx + d * 2.2) + '" cy="' + (y - 2) + '" r="1.7" fill="#fff"/>' +
+          '<ellipse class="kar-kelopak" cx="' + cx + '" cy="' + y + '" rx="8.4" ry="9.4" fill="' + P.kulit + '"/>' +
+          '</g>';
+      });
+      s += '<path d="M100 82 q3.5 4 -0.5 6" fill="none" stroke="' + P.garis + '" stroke-width="2.6" stroke-linecap="round"/>';
+      s += '<ellipse cx="72" cy="88" rx="7.5" ry="4.6" fill="' + P.pipi + '" opacity=".5"/>';
+      s += '<ellipse cx="128" cy="88" rx="7.5" ry="4.6" fill="' + P.pipi + '" opacity=".5"/>';
+      s += '<g class="kar-mulut">' +
+        '<path d="M89 96 q11 10 22 0" fill="none" stroke="' + P.garis + '" stroke-width="3" stroke-linecap="round"/>' +
+        '<ellipse class="kar-bibir" cx="100" cy="99" rx="8" ry="6.5" fill="#8c3b30" stroke="' + P.garis + '" stroke-width="2.4"/>' +
+        '<ellipse class="kar-lidah" cx="100" cy="102" rx="4.6" ry="2.8" fill="#e0736a"/></g>';
+      return s;
+    }
+
+    function kepalaPutu(uid) {
+      return '<path d="M58 78 q0 -46 42 -46 q42 0 42 46 q0 10 -4 16 l-8 -22 h-60 l-8 22 q-4 -6 -4 -16z" fill="' + P.rambut + '"/>' +
+        '<ellipse cx="100" cy="78" rx="42" ry="44" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3.4"/>' +
+        '<ellipse cx="58" cy="82" rx="7" ry="9" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3"/>' +
+        '<ellipse cx="142" cy="82" rx="7" ry="9" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3"/>' +
+        '<path d="M60 60 q14 -22 40 -22 q26 0 40 22 q-16 -10 -40 -10 q-24 0 -40 10z" fill="' + P.rambut + '"/>' +
+        '<path d="M56 58 q44 -26 88 0 l-4 12 q-40 -20 -80 0z" fill="url(#mUdeng' + uid + ')" stroke="' + P.garis + '" stroke-width="3.2" stroke-linejoin="round"/>' +
+        '<path d="M100 32 l14 22 h-28z" fill="' + P.putih + '" stroke="' + P.garis + '" stroke-width="3" stroke-linejoin="round"/>' +
+        '<path d="M100 38 v15" stroke="' + P.garis + '" stroke-width="2" stroke-linecap="round"/>' + wajah();
+    }
+
+    function kepalaNiluh() {
+      let bunga = '';
+      [0, 72, 144, 216, 288].forEach(function (a) {
+        bunga += '<ellipse cx="0" cy="-8" rx="5.2" ry="8.6" fill="' + P.putih + '" stroke="' + P.garis + '" stroke-width="2.2" transform="rotate(' + a + ')"/>';
+      });
+      return '<circle cx="100" cy="32" r="17" fill="' + P.rambut + '" stroke="' + P.garis + '" stroke-width="3"/>' +
+        '<path d="M56 76 q0 -48 44 -48 q44 0 44 48 q0 34 -10 52 l-16 -8 q6 -20 6 -40 h-48 q0 20 6 40 l-16 8 q-10 -18 -10 -52z" fill="' + P.rambut + '"/>' +
+        '<ellipse cx="100" cy="78" rx="41" ry="43" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3.4"/>' +
+        '<ellipse cx="59" cy="82" rx="6.6" ry="8.6" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3"/>' +
+        '<ellipse cx="141" cy="82" rx="6.6" ry="8.6" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3"/>' +
+        '<path d="M59 62 q10 -26 41 -26 q31 0 41 26 q-18 -14 -41 -14 q-23 0 -41 14z" fill="' + P.rambut + '"/>' +
+        '<g transform="translate(140,60)">' + bunga + '<circle r="4" fill="' + P.emas + '"/></g>' + wajah();
+    }
+
+    function badan(o, uid) {
+      let s = '';
+      s += '<path d="M80 246 v34 q0 7 8 7 q8 0 8 -7 v-34z" fill="' + P.kulitGelap + '" stroke="' + P.garis + '" stroke-width="3.2" stroke-linejoin="round"/>';
+      s += '<path d="M104 246 v34 q0 7 8 7 q8 0 8 -7 v-34z" fill="' + P.kulitGelap + '" stroke="' + P.garis + '" stroke-width="3.2" stroke-linejoin="round"/>';
+      s += '<rect x="76" y="283" width="24" height="8" rx="4" fill="' + P.emasTua + '" stroke="' + P.garis + '" stroke-width="2.6"/>';
+      s += '<rect x="100" y="283" width="24" height="8" rx="4" fill="' + P.emasTua + '" stroke="' + P.garis + '" stroke-width="2.6"/>';
+      s += '<path d="M66 196 h68 l10 56 q-44 12 -88 0z" fill="url(#mKamen' + uid + ')" stroke="' + P.garis + '" stroke-width="3.4" stroke-linejoin="round"/>';
+      s += '<path d="M64 194 h72 l3 14 q-39 9 -78 0z" fill="' + o.selendang + '" stroke="' + P.garis + '" stroke-width="3" stroke-linejoin="round"/>';
+      s += '<path d="M70 138 q30 -12 60 0 l6 62 q-36 10 -72 0z" fill="' + o.baju + '" stroke="' + P.garis + '" stroke-width="3.4" stroke-linejoin="round"/>';
+      if (o.renda) {
+        s += '<path d="M100 132 v66" stroke="' + P.garis + '" stroke-width="2" opacity=".45"/>';
+        s += '<path d="M84 140 q16 8 32 0" fill="none" stroke="' + P.emas + '" stroke-width="2.4"/>';
+        s += '<path d="M82 156 q18 8 36 0" fill="none" stroke="' + P.emas + '" stroke-width="2.4"/>';
+        s += '<path d="M80 172 q20 8 40 0" fill="none" stroke="' + P.emas + '" stroke-width="2.4"/>';
+      }
+      s += '<rect x="90" y="112" width="20" height="26" rx="7" fill="' + P.kulitGelap + '" stroke="' + P.garis + '" stroke-width="3"/>';
+      return s;
+    }
+
+    function lengan(o, d) {
+      const bx = 100 + d * 30, by = 144, sx = 100 + d * 45, sy = 182, tx = 100 + d * 49, ty = 214;
+      const atas = 'M' + bx + ' ' + by + ' Q' + (100 + d * 44) + ' 162 ' + sx + ' ' + sy;
+      const bawah = 'M' + sx + ' ' + sy + ' Q' + (100 + d * 50) + ' 198 ' + tx + ' ' + ty;
+      return '<g class="' + (d < 0 ? 'kar-tangan-ki' : 'kar-tangan-ka') + '" style="transform-origin:' + bx + 'px ' + by + 'px">' +
+        '<path d="' + atas + '" fill="none" stroke="' + P.garis + '" stroke-width="20" stroke-linecap="round"/>' +
+        '<path d="' + bawah + '" fill="none" stroke="' + P.garis + '" stroke-width="16.5" stroke-linecap="round"/>' +
+        '<path d="' + atas + '" fill="none" stroke="' + o.baju + '" stroke-width="14" stroke-linecap="round"/>' +
+        '<path d="' + bawah + '" fill="none" stroke="' + P.kulit + '" stroke-width="10.5" stroke-linecap="round"/>' +
+        '<circle cx="' + tx + '" cy="' + (ty + 4) + '" r="9.4" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3"/>' +
+        '<path d="M' + (tx - d * 7) + ' ' + (ty + 1) + ' q' + (-d * 4) + ' -5 ' + d + ' -7" fill="none" stroke="' + P.garis + '" stroke-width="3" stroke-linecap="round"/>' +
+        '</g>';
+    }
+
+    const SOSOK = {
+      putu:  { baju: P.putih, selendang: P.emas,  kepala: kepalaPutu },
+      niluh: { baju: '#f6e2c8', selendang: P.merah, kepala: kepalaNiluh, renda: true }
+    };
+
+    function svg(siapa, kelasExtra) {
+      const o = SOSOK[siapa] || SOSOK.putu;
+      const uid = idBaru();
+      return '<svg class="kar ' + (kelasExtra || '') + '" data-kar="' + siapa + '" viewBox="0 0 200 300" ' +
+        'xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + (siapa === 'putu' ? 'Putu' : 'Ni Luh') + '">' +
+        '<defs>' + motif('mKamen' + uid, P.kain, P.kainMotif) +
+                   motif('mUdeng' + uid, P.putih, '#c9b79a') + '</defs>' +
+        '<ellipse cx="100" cy="292" rx="54" ry="8" fill="#3a2410" opacity=".16"/>' +
+        '<g class="kar-badan">' + badan(o, uid) + lengan(o, -1) + lengan(o, 1) +
+        '<g class="kar-kepala">' + o.kepala(uid) + '</g></g></svg>';
+    }
+
+    return {
+      svg: svg,
+      pasang: function (el, siapa, kelas) { if (el) el.innerHTML = svg(siapa, kelas); return el; }
+    };
+  })();
+
+  // ================================================================
+  //  HIASAN SVG: lentera, ornamen patra, dan logo -- semua digambar lewat
+  //  kode supaya tidak ada satu pun gambar AI tersisa di dalam game.
+  // ================================================================
+  const Hiasan = {
+    /* Lentera Bali. Warna kacanya mengikuti warna level. */
+    lentera: function (warna, terang) {
+      const c = warna || '#f0a91e';
+      const u = idBaru();                 // id unik: lihat catatan di idBaru()
+      const K = 'kuningan' + u, G = 'kaca' + u;
+      return '<svg class="lentera" viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+        '<defs>' +
+          '<linearGradient id="' + K + '" x1="0" y1="0" x2="1" y2="0">' +
+            '<stop offset="0" stop-color="#7a4a18"/><stop offset=".35" stop-color="#d9a441"/>' +
+            '<stop offset=".6" stop-color="#f2d089"/><stop offset="1" stop-color="#8a5620"/>' +
+          '</linearGradient>' +
+          '<radialGradient id="' + G + '" cx=".5" cy=".55" r=".62">' +
+            '<stop offset="0" stop-color="#fff7d6"/><stop offset=".45" stop-color="' + c + '"/>' +
+            '<stop offset="1" stop-color="' + c + '" stop-opacity=".55"/>' +
+          '</radialGradient>' +
+        '</defs>' +
+        // gantungan
+        '<path d="M60 4 a9 9 0 0 1 0 18 a9 9 0 0 1 0 -18z" fill="none" stroke="url(#' + K + ')" stroke-width="4"/>' +
+        '<rect x="56" y="20" width="8" height="8" fill="url(#' + K + ')"/>' +
+        // tudung atas
+        '<path d="M60 26 l30 20 h-60z" fill="url(#' + K + ')" stroke="#5a3512" stroke-width="2.5" stroke-linejoin="round"/>' +
+        '<rect x="26" y="44" width="68" height="7" rx="3" fill="url(#' + K + ')" stroke="#5a3512" stroke-width="2.5"/>' +
+        // badan kaca
+        '<path d="M32 51 h56 l6 66 q-34 10 -68 0z" fill="url(#' + G + ')" stroke="#5a3512" stroke-width="3" stroke-linejoin="round"/>' +
+        // tiang rangka
+        '<path d="M32 51 l6 66 M88 51 l-6 66 M60 51 v66" stroke="#6b4018" stroke-width="2.6" opacity=".55"/>' +
+        // api
+        '<path d="M60 74 q11 12 8 22 q-2 9 -8 9 q-6 0 -8 -9 q-3 -10 8 -22z" fill="#fff3c4"/>' +
+        '<path d="M60 82 q6 8 4 14 q-1 5 -4 5 q-3 0 -4 -5 q-2 -6 4 -14z" fill="#ff9a2e"/>' +
+        // alas
+        '<rect x="24" y="117" width="72" height="9" rx="4" fill="url(#' + K + ')" stroke="#5a3512" stroke-width="2.5"/>' +
+        '<path d="M34 126 h52 l-6 12 h-40z" fill="url(#' + K + ')" stroke="#5a3512" stroke-width="2.5" stroke-linejoin="round"/>' +
+        // ukiran patra kecil di alas
+        '<path d="M44 132 q6 -5 12 0 q6 5 12 0" fill="none" stroke="#5a3512" stroke-width="2" opacity=".7"/>' +
+        '</svg>';
+    },
+
+    /* ---------------------------------------------------------------
+       IKON LEVEL: tiap level punya lambang yang mewakili isinya, bukan
+       lentera yang sama semua. Semuanya dibungkus medali bundar supaya
+       tetap terbaca satu keluarga di atas foto sawah yang ramai.
+         1 Budaya Bali  -> penjor (tiing melengkung mapayas janur)
+         2 Parahyangan  -> meru (atap pura bertingkat)
+         3 Pawongan     -> dua orang bergandengan tangan
+         4 Palemahan    -> sawah bersusun + tunas
+       --------------------------------------------------------------- */
+    ikonLevel: function (n, warna) {
+      const c = warna || '#f0a91e';
+      const g = '#4a2c15';                    // garis
+      const u = idBaru();
+      const emblem = {
+        1: // PENJOR: tiing tebal melengkung + juntaian janur + sanggah cucuk
+          '<path d="M38 98 C38 62 40 38 56 27 C74 15 90 22 94 34" fill="none" stroke="' + g + '" stroke-width="11" stroke-linecap="round"/>' +
+          '<path d="M38 98 C38 62 40 38 56 27 C74 15 90 22 94 34" fill="none" stroke="#d9a441" stroke-width="6" stroke-linecap="round"/>' +
+          // juntaian janur, makin ke ujung makin panjang
+          '<path d="M62 24 v20 M73 22 v26 M84 25 v22 M93 33 v17" stroke="' + g + '" stroke-width="7.5" stroke-linecap="round"/>' +
+          '<path d="M62 24 v20 M73 22 v26 M84 25 v22 M93 33 v17" stroke="' + c + '" stroke-width="3.6" stroke-linecap="round"/>' +
+          // sanggah cucuk di kaki penjor
+          '<path d="M26 98 h26 v-15 h-26z" fill="#f5e6c8" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>' +
+          '<path d="M23 83 h32 l-16 -12z" fill="' + c + '" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>',
+        2: // MERU: tiga atap bertingkat + badan pelinggih
+          '<path d="M60 22 L86 40 H34z" fill="' + c + '" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>' +
+          '<path d="M60 38 L92 58 H28z" fill="' + c + '" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>' +
+          '<path d="M60 55 L98 78 H22z" fill="' + c + '" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>' +
+          '<rect x="48" y="78" width="24" height="20" fill="#f5e6c8" stroke="' + g + '" stroke-width="4" stroke-linejoin="round"/>' +
+          '<path d="M60 14 v9" stroke="' + g + '" stroke-width="4.5" stroke-linecap="round"/>',
+        3: // PAWONGAN: dua orang bergandengan tangan.
+           // Badan sengaja dipisah jauh dengan sela jelas di tengah -- versi
+           // sebelumnya kedua kepalanya malah terbaca seperti sepasang mata
+           // pada satu wajah waktu ditampilkan kecil.
+          // kepala menempel ke bahu (versi sebelumnya melayang jauh di atas)
+          '<path d="M20 98 v-18 a14 14 0 0 1 28 0 v18z" fill="#f5e6c8" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>' +
+          '<path d="M72 98 v-18 a14 14 0 0 1 28 0 v18z" fill="#f5e6c8" stroke="' + g + '" stroke-width="4.5" stroke-linejoin="round"/>' +
+          '<circle cx="34" cy="52" r="11" fill="' + c + '" stroke="' + g + '" stroke-width="4.5"/>' +
+          '<circle cx="86" cy="52" r="11" fill="' + c + '" stroke="' + g + '" stroke-width="4.5"/>' +
+          // lengan bergandengan, bertemu di sela tengah
+          '<path d="M48 76 L60 83 L72 76" fill="none" stroke="' + g + '" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>' +
+          '<path d="M48 76 L60 83 L72 76" fill="none" stroke="' + c + '" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>' +
+          '<circle cx="60" cy="83" r="5.5" fill="' + c + '" stroke="' + g + '" stroke-width="3.5"/>',
+        4: // PALEMAHAN: petak sawah bersusun + tunas
+          '<path d="M20 92 h80 M26 78 h68 M32 64 h56" fill="none" stroke="' + g + '" stroke-width="7" stroke-linecap="round"/>' +
+          '<path d="M20 92 h80 M26 78 h68 M32 64 h56" fill="none" stroke="' + c + '" stroke-width="3.2" stroke-linecap="round"/>' +
+          '<path d="M60 58 v-16" stroke="' + g + '" stroke-width="5.5" stroke-linecap="round"/>' +
+          '<path d="M60 46 q-14 -4 -16 -16 q14 0 16 12z" fill="' + c + '" stroke="' + g + '" stroke-width="4" stroke-linejoin="round"/>' +
+          '<path d="M60 50 q14 -6 16 -18 q-14 2 -16 14z" fill="' + c + '" stroke="' + g + '" stroke-width="4" stroke-linejoin="round"/>'
+      }[n] || '';
+      return '<svg class="ikon-level" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+        '<defs><radialGradient id="med' + u + '" cx=".38" cy=".32" r=".78">' +
+          '<stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#f0dcb8"/>' +
+        '</radialGradient></defs>' +
+        '<circle cx="60" cy="60" r="54" fill="url(#med' + u + ')" stroke="' + g + '" stroke-width="5"/>' +
+        '<circle cx="60" cy="60" r="46" fill="none" stroke="' + c + '" stroke-width="3" opacity=".75"/>' +
+        emblem +
+        '</svg>';
+    },
+
+    /* Ornamen patra Bali untuk pinggiran kartu kuis (dipakai sebagai
+       background-image data-URI, diulang mendatar). */
+    patra: function (warna) {
+      const c = warna || '#c79a4b';
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="80" height="18" viewBox="0 0 80 18">' +
+        '<g fill="none" stroke="' + c + '" stroke-width="2" stroke-linecap="round">' +
+        '<path d="M2 14 q8 0 10 -6 q2 -6 8 -6 q6 0 8 6 q2 6 10 6"/>' +
+        '<path d="M40 14 q8 0 10 -6 q2 -6 8 -6 q6 0 8 6 q2 6 10 6"/>' +
+        '<path d="M20 4 q0 4 -4 5 M20 4 q0 4 4 5 M58 4 q0 4 -4 5 M58 4 q0 4 4 5"/>' +
+        '</g><circle cx="20" cy="3" r="2" fill="' + c + '"/><circle cx="58" cy="3" r="2" fill="' + c + '"/></svg>';
+      return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
+    },
+
+    /* Logo teks Lentera Bali. */
+    logo: function () {
+      return '<svg class="logo-svg" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lentera Bali">' +
+        '<g transform="translate(150,4) scale(.30) translate(-60,0)">' + Hiasan.lentera('#f7b733', true) + '</g>' +
+        '<text x="150" y="88" text-anchor="middle" font-family="Arial Rounded MT Bold, Comic Sans MS, sans-serif" ' +
+          'font-size="40" font-weight="900" fill="#facc15" stroke="#3a1d04" stroke-width="7" paint-order="stroke">LENTERA</text>' +
+        '<text x="150" y="122" text-anchor="middle" font-family="Arial Rounded MT Bold, Comic Sans MS, sans-serif" ' +
+          'font-size="40" font-weight="900" fill="#facc15" stroke="#3a1d04" stroke-width="7" paint-order="stroke">BALI</text>' +
+        '<text x="150" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="12.5" ' +
+          'font-weight="bold" fill="#fff7e0" stroke="#3a1d04" stroke-width="3.5" paint-order="stroke">Belajar Basa Bali Menjaga Harmoni</text>' +
+        '</svg>';
+    }
+  };
+
+  const WARNA_LEVEL = { 1: '#f0a91e', 2: '#e0533a', 3: '#4aa3e8', 4: '#57b14b' };
+
+  /* Pasang karakter, lentera, dan logo ke semua slot yang ada di halaman. */
+  function pasangSemuaKarakter() {
+    document.querySelectorAll('[data-karakter]').forEach(function (el) {
+      if (!el.querySelector('svg')) KarakterBali.pasang(el, el.dataset.karakter);
+    });
+    document.querySelectorAll('[data-lentera]').forEach(function (el) {
+      const n = parseInt(el.dataset.lentera, 10);
+      if (!el.querySelector('svg')) el.innerHTML = Hiasan.ikonLevel(n, WARNA_LEVEL[n]);
+    });
+    document.querySelectorAll('[data-logo]').forEach(function (el) {
+      if (!el.querySelector('svg')) el.innerHTML = Hiasan.logo();
+    });
+    document.querySelectorAll('.ornamen-top, .ornamen-bottom').forEach(function (el) {
+      el.style.backgroundImage = Hiasan.patra('#c79a4b');
+    });
+  }
+
+  // ================================================================
+  //  SUARA BASA BALI (TTS)
+  //  File mp3 sudah dibuat lebih dulu memakai Gemini TTS lalu disimpan di
+  //  folder audio/. API key TIDAK pernah ada di halaman ini. Kalau file-nya
+  //  belum ada, dipakai suara bawaan HP (Web Speech API) sebagai cadangan.
+  // ================================================================
+  let audioAktif = null;
+  let karakterBicara = null;
+
+  /* Daftar file suara yang benar-benar ada. Tanpa ini setiap kruna yang
+     belum sempat dibuatkan mp3 akan memicu 404 di konsol. Kalau daftarnya
+     tidak ada, semua nama dianggap mungkin ada (perilaku lama). */
+  let daftarAudio = null;
+  fetch('audio/daftar.json')
+    .then(r => r.ok ? r.json() : null)
+    .then(d => { if (Array.isArray(d)) daftarAudio = new Set(d); })
+    .catch(() => {});
+
+  function hentikanSuara() {
+    if (audioAktif) { try { audioAktif.pause(); } catch (e) {} audioAktif = null; }
+    if (window.speechSynthesis) { try { speechSynthesis.cancel(); } catch (e) {} }
+    if (karakterBicara) { karakterBicara.classList.remove('bicara'); karakterBicara = null; }
+    document.querySelectorAll('.btn-dengar.main').forEach(b => b.classList.remove('main'));
+  }
+
+  /**
+   * Bunyikan satu potong basa Bali.
+   * @param {string} berkas nama file di folder audio/ (tanpa .mp3)
+   * @param {string} teks   teks cadangan untuk Web Speech API
+   * @param {Element} slotKarakter slot karakter yang mulutnya digerakkan
+   * @param {Element} tombol tombol yang diberi tanda sedang berbunyi
+   */
+  function bunyikan(berkas, teks, slotKarakter, tombol) {
+    hentikanSuara();
+    if (localStorage.getItem('muted') === 'true') return;
+
+    const svgKar = slotKarakter ? slotKarakter.querySelector('.kar') : null;
+    const mulai = function () {
+      if (svgKar) { svgKar.classList.add('bicara'); karakterBicara = svgKar; }
+      if (tombol) tombol.classList.add('main');
+    };
+    const selesai = function () {
+      if (svgKar) svgKar.classList.remove('bicara');
+      if (tombol) tombol.classList.remove('main');
+      karakterBicara = null; audioAktif = null;
+    };
+
+    // belum ada mp3-nya -> langsung pakai suara bawaan HP
+    if (daftarAudio && !daftarAudio.has(berkas)) { suaraCadangan(teks, mulai, selesai); return; }
+
+    const a = new Audio('audio/' + berkas + '.mp3');
+    audioAktif = a;
+    a.onplay = mulai;
+    a.onended = selesai;
+    a.onerror = function () { audioAktif = null; suaraCadangan(teks, mulai, selesai); };
+    a.play().catch(function () { audioAktif = null; suaraCadangan(teks, mulai, selesai); });
+  }
+
+  /* Cadangan: mesin suara bawaan HP. Di Android/Chrome ini adalah mesin
+     "Google Text-to-Speech" itu sendiri, jadi tetap suara Google, gratis, dan
+     tanpa kuota. Basa Bali memakai ejaan Latin yang dekat dengan bahasa
+     Indonesia, jadi suara id-ID membacanya cukup mendekati. */
+  /* Urutan pilih suara cadangan:
+     1. id-ID yang localService (mesin DI DALAM HP -> tetap bunyi tanpa internet)
+     2. id-ID apa pun (mungkin suara jaringan, perlu internet)
+     3. Melayu, paling dekat pelafalannya
+     Bisa juga TIDAK KETEMU APA-APA: banyak HP tidak punya paket suara
+     Indonesia. Itulah sebabnya file mp3 tetap jadi sumber utama. */
+  function pilihSuaraBali() {
+    if (!window.speechSynthesis) return null;
+    const semua = speechSynthesis.getVoices() || [];
+    const id = semua.filter(v => /^id(-|_|$)/i.test(v.lang));
+    const idOffline = id.filter(v => v.localService);
+    return idOffline.find(v => /google/i.test(v.name)) || idOffline[0] ||
+           id.find(v => /google/i.test(v.name)) || id[0] ||
+           semua.find(v => /^ms(-|_|$)/i.test(v.lang)) || null;
+  }
+
+  /* Apakah HP ini sanggup membunyikan basa Bali tanpa file mp3? */
+  function adaSuaraCadangan() { return !!pilihSuaraBali(); }
+
+  // daftar suara sering baru siap setelah event ini
+  if (window.speechSynthesis) speechSynthesis.onvoiceschanged = pilihSuaraBali;
+
+  function suaraCadangan(teks, mulai, selesai) {
+    if (!window.speechSynthesis || !teks) { if (selesai) selesai(); return; }
+    const u = new SpeechSynthesisUtterance(teks);
+    u.lang = 'id-ID';
+    u.rate = 0.82;      // pelan: anak SD sedang belajar melafalkan
+    u.pitch = 1.05;
+    const v = pilihSuaraBali();
+    if (v) u.voice = v;
+    u.onstart = mulai;
+    u.onend = selesai;
+    u.onerror = selesai;
+    speechSynthesis.speak(u);
+  }
+
+  /* Tombol 🔊 di balon soal. */
+  function ucapkanSoal() {
+    const d = activeQuestions[questionIndex];
+    if (!d) return;
+    // yang menggerakkan mulut adalah karakter yang sedang gilirannya bicara
+    const slot = document.querySelector('#slot-putu.giliran') || document.getElementById('slot-niluh');
+    bunyikan('soal-' + currentLevel + '-' + questionIndex, d.q, slot,
+             document.getElementById('btn-dengar'));
+  }
+
+  function ucapkanKata(slug, teks, tombol) {
+    const slot = tombol ? tombol.closest('.kartu-kata') : null;
+    bunyikan('kata-' + slug, teks, slot ? slot.querySelector('.kar-slot') : null, tombol);
+  }
+
+  // ================================================================
+  //  PUSTAKA: menu berjenjang  Level -> Materi -> Kosakata
+  // ================================================================
+  const PUSTAKA = {
+    1: { nama: 'Budaya Bali', ikon: '🍢', warna: '#b45309', materi: [
+      { judul: 'Ajengan Bali', sub: 'Makanan khas Bali', kata: [
+        { bali: 'Klepon',     arti: 'Jaja bunter warna gadang, misi gula barak, kasambehin parutan nyuh. (Kue bulat hijau berisi gula merah, dibalur kelapa parut.)', foto: 'klepon', au: 'klepon' },
+        { bali: 'Sate Lilit', arti: 'Sate ané dagingné kalilitang di katiké. (Sate dari daging cincang yang dililitkan pada batang serai atau bambu.)', foto: 'sate-lilit', au: 'sate-lilit' },
+        { bali: 'Lawar',      arti: 'Ajengan malakar aji jukut, parutan nyuh, lan basa Bali. (Campuran sayur, kelapa parut, dan daging berbumbu.)', foto: 'lawar', au: 'lawar' }
+      ]},
+      { judul: 'Busana Adat', sub: 'Pakaian adat Bali', kata: [
+        { bali: 'Udeng',  arti: 'Ikat sirah anggon anak muani yén ka pura. (Ikat kepala yang dipakai laki-laki ke pura.)', foto: 'udeng', au: 'udeng' },
+        { bali: 'Kamen',  arti: 'Kain ané kailitang di bangkiang. (Kain yang dililitkan di pinggang.)', foto: 'kamen', au: 'kamen' },
+        { bali: 'Kebaya', arti: 'Baju ané kaanggon anak luh yén ka pura. (Baju yang dipakai perempuan ke pura.)', foto: 'kebaya', au: 'kebaya' }
+      ]},
+      { judul: 'Rerahinan', sub: 'Hari raya di Bali', kata: [
+        { bali: 'Nyepi',     arti: 'Rerahinan ané ngranayang gumi Baliné sepi, anaké tusing pesu uli jumah. (Hari raya saat Bali sunyi dan orang tidak keluar rumah.)', foto: 'nyepi', au: 'nyepi' },
+        { bali: 'Ogoh-ogoh', arti: 'Togog gedé ané kaarak awai satondén Nyepi. (Patung besar yang diarak sehari sebelum Nyepi.)', foto: 'ogoh-ogoh', au: 'ogoh-ogoh' },
+        { bali: 'Penjor',    arti: 'Tiing melengkung mapayas janur, kapasang rikala Galungan. (Bambu melengkung berhias janur saat Galungan.)', foto: 'penjor', au: 'penjor' },
+        { bali: 'Saraswati', arti: 'Rerahinan ngerayaang ilmu pengetahuan, buku lan lontaré kabantenin. (Hari raya ilmu pengetahuan.)', foto: 'lontar', au: 'saraswati' }
+      ]}
+    ]},
+    2: { nama: 'Parahyangan', ikon: '🛕', warna: '#b91c1c', materi: [
+      { judul: 'Genah Suci', sub: 'Tempat suci', kata: [
+        { bali: 'Pura',            arti: 'Genah suci anggén umat Hindu maturan. (Tempat suci umat Hindu untuk bersembahyang.)', foto: 'pura', au: 'pura' },
+        { bali: 'Padmasana',       arti: 'Genah palinggihan Sang Hyang Widhi Wasa ring pura. (Pelinggih tempat memuja Tuhan.)', foto: 'padmasana', au: 'padmasana' },
+        { bali: 'Pura Besakih',    arti: 'Pura ané paling gedé ring Bali, ring bucun Gunung Agung. (Pura terbesar di Bali di kaki Gunung Agung.)', foto: 'pura-besakih', au: 'pura-besakih' },
+        { bali: 'Pura Tanah Lot',  arti: 'Pura ané majujuk di duur batu ring segara. (Pura yang berdiri di atas batu karang di laut.)', foto: 'pura-tanah-lot', au: 'pura-tanah-lot' }
+      ]},
+      { judul: 'Sarana Upacara', sub: 'Perlengkapan upacara', kata: [
+        { bali: 'Canang', arti: 'Sarana malakar don nyuh medaging bunga. (Sarana persembahyangan dari janur berisi bunga.)', foto: 'canang', au: 'canang' },
+        { bali: 'Banten', arti: 'Sesajen ané katur ring Sang Hyang Widhi. (Sesajen yang dipersembahkan kepada Tuhan.)', foto: 'banten', au: 'banten' },
+        { bali: 'Ngejot', arti: 'Ngaturang saiban utawi ajengan nasi semengan. (Mempersembahkan sesajen nasi di pagi hari.)', foto: 'saiban', au: 'ngejot' }
+      ]},
+      { judul: 'Upacara', sub: 'Kegiatan keagamaan', kata: [
+        { bali: 'Melasti', arti: 'Upacara penyucian ka segara sadurung Nyepi. (Upacara penyucian ke laut sebelum Nyepi.)', foto: 'melasti', au: 'melasti' },
+        { bali: 'Mebakti', arti: 'Ngaturang sembah bakti ring Ida Sang Hyang Widhi. (Bersembahyang kepada Tuhan.)', foto: 'mebakti', au: 'mebakti' },
+        { bali: 'Lontar',  arti: 'Buku Bali malakar aji don ental. (Buku Bali dari daun lontar.)', foto: 'lontar', au: 'lontar' }
+      ]}
+    ]},
+    3: { nama: 'Pawongan', ikon: '🤝', warna: '#1d4ed8', materi: [
+      { judul: 'Solah Melah', sub: 'Perilaku baik', kata: [
+        { bali: 'Saling tulungin', arti: 'Saling tulung ngajak nyama. Nyiriang idupé adung. (Saling menolong sesama, tanda hidup rukun.)', foto: 'gotong-royong', au: 'saling-tulungin' },
+        { bali: 'Gotong royong',   arti: 'Magarapan bareng-bareng, conto rikala mebersih kelas. (Bekerja bersama-sama.)', foto: 'gotong-royong', au: 'gotong-royong' },
+        { bali: 'Tresna asih',     arti: 'Saling sayang ngajak timpal. Solah ané melah. (Saling menyayangi teman.)', foto: 'timpal', au: 'tresna-asih' },
+        { bali: 'Basa alus',       arti: 'Basa sopan ané kaanggon ngomong ngajak guru lan rerama. (Bahasa halus untuk berbicara dengan guru dan orang tua.)', foto: 'guru-murid', au: 'basa-alus' }
+      ]},
+      { judul: 'Anak lan Geginan', sub: 'Orang dan pekerjaannya', kata: [
+        { bali: 'Guru',   arti: 'Anak ané geginané ngajahin di sekolah. (Orang yang pekerjaannya mengajar di sekolah.)', foto: 'guru-murid', au: 'guru' },
+        { bali: 'Dokter', arti: 'Anak ané geginané ngubadin anak gelem. (Orang yang pekerjaannya mengobati orang sakit.)', foto: 'dokter', au: 'dokter' },
+        { bali: 'Rerama', arti: 'Bapa lan meme ané sesai maang pitutur. (Orang tua yang selalu memberi nasihat.)', foto: 'keluarga', au: 'rerama' }
+      ]},
+      { judul: 'Cecimpedan', sub: 'Teka-teki basa Bali', kata: [
+        { bali: 'Pajeng',   arti: 'Cecimpedan: apaké balé gedé matampul abesik? (Payung.)', foto: 'pajeng', au: 'pajeng' },
+        { bali: 'Galeng',   arti: 'Cecimpedan: apaké ngamah acepok betek sesai? (Bantal.)', foto: 'galeng', au: 'galeng' },
+        { bali: 'Matan ai', arti: 'Cecimpedan: apaké menék bajang, tuun tua? (Matahari.)', foto: 'matan-ai', au: 'matan-ai' },
+        { bali: 'Kuping',   arti: 'Cecimpedan: apaké tolih ngejoh-ngejohang? (Telinga.)', foto: 'kuping', au: 'kuping' }
+      ]}
+    ]},
+    4: { nama: 'Palemahan', ikon: '🌾', warna: '#15803d', materi: [
+      { judul: 'Nyaga Lingkungan', sub: 'Menjaga lingkungan', kata: [
+        { bali: 'Luu',         arti: 'Sampah. Luu patutné kaentungang di tong sampah, tusing di tukad. (Sampah harus dibuang di tempat sampah, bukan di sungai.)', foto: 'luu-tukad', au: 'luu' },
+        { bali: 'Tong sampah', arti: 'Genah ngentungang luu. (Tempat membuang sampah.)', foto: 'tong-sampah', au: 'tong-sampah' },
+        { bali: 'Nyampat',     arti: 'Ngedasin natah nganggon sampat. Kruna lingganné: sampat. (Menyapu halaman dengan sapu.)', foto: 'nyampat', au: 'nyampat' },
+        { bali: 'Nanem',       arti: 'Ngentungang entik-entikan ka tanah apang mentik. (Menanam tumbuhan.)', foto: 'nanem-entik', au: 'nanem' }
+      ]},
+      { judul: 'Hemat', sub: 'Berhemat', kata: [
+        { bali: 'Yéh',     arti: 'Air. Hemat yéh: ngematiang kran yén suba suud manjus. (Hemat air: matikan keran setelah selesai mandi.)', foto: 'kran-air', au: 'yeh' },
+        { bali: 'Prabéya', arti: 'Biaya. Yén suba hemat énergi lakar ngranayang hemat prabéya. (Hemat energi membuat hemat biaya.)', foto: 'hemat-listrik', au: 'prabeya' },
+        { bali: 'Siam',    arti: 'Menyiram. Apang entik-entikané tusing layu patut siam. (Agar tanaman tidak layu harus disiram.)', foto: 'nyiram', au: 'siam' }
+      ]},
+      { judul: 'Alam lan Ubuh-ubuhan', sub: 'Alam dan hewan peliharaan', kata: [
+        { bali: 'Sampi',   arti: 'Sapi. Ngubuh sampi patuh artiné miara sampi. (Memelihara sapi.)', foto: 'sampi', au: 'sampi' },
+        { bali: 'Subak',   arti: 'Organisasi pembagian yéh carik ané kapimpin Pekaseh. (Sistem irigasi sawah tradisional Bali.)', foto: 'subak', au: 'subak' },
+        { bali: 'Tukad',   arti: 'Sungai. Tukad patut kajaga apang bersih. (Sungai harus dijaga kebersihannya.)', foto: 'tukad', au: 'tukad' },
+        { bali: 'Traktor', arti: 'Mesin anggon ngebuhang tanah di cariké jani. (Mesin untuk membajak sawah zaman sekarang.)', foto: 'traktor-sawah', au: 'traktor' }
+      ]}
+    ]}
+  };
+
+  let pustakaLevel = null;   // level yang sedang dibuka
+  let pustakaMateri = null;  // indeks materi yang sedang dibuka
+
+  function bukaPustaka() {
+    pustakaLevel = null; pustakaMateri = null;
+    renderPustaka();
+    navigateTo('materi');
+  }
+
+  function pilihLevelPustaka(n) { pustakaLevel = n; pustakaMateri = null; renderPustaka(); }
+  function pilihMateriPustaka(i) { pustakaMateri = i; renderPustaka(); }
+
+  function kembaliPustaka() {
+    hentikanSuara();
+    if (pustakaMateri !== null) { pustakaMateri = null; renderPustaka(); }
+    else if (pustakaLevel !== null) { pustakaLevel = null; renderPustaka(); }
+    else navigateTo('peta');
+  }
+
+  function renderPustaka() {
+    const judul = document.getElementById('pustaka-judul');
+    const jalur = document.getElementById('pustaka-jalur');
+    const isi = document.getElementById('pustaka-isi');
+    if (!isi) return;
+    hentikanSuara();
+
+    // --- tingkat 1: daftar level ---
+    if (pustakaLevel === null) {
+      judul.innerText = '📖 Pustaka Basa Bali';
+      jalur.innerText = 'Pilih tingkatan materi';
+      isi.className = 'pustaka-isi daftar-menu';
+      isi.innerHTML = Object.keys(PUSTAKA).map(function (n) {
+        const L = PUSTAKA[n];
+        const jml = L.materi.reduce((a, m) => a + m.kata.length, 0);
+        return '<button class="menu-kartu" style="border-left-color:' + L.warna + '" onclick="pilihLevelPustaka(' + n + ')">' +
+          '<span class="menu-ikon">' + L.ikon + '</span>' +
+          '<span class="menu-teks"><b>' + n + '. ' + L.nama + '</b>' +
+          '<small>' + L.materi.length + ' materi · ' + jml + ' kosakata</small></span>' +
+          '<span class="menu-panah">›</span></button>';
+      }).join('') +
+        '<button class="menu-kartu" style="border-left-color:#6b7280" onclick="pilihLevelPustaka(\'kredit\')">' +
+          '<span class="menu-ikon">📷</span>' +
+          '<span class="menu-teks"><b>Sumber Foto</b>' +
+          '<small>Semua foto asli dari Wikimedia Commons</small></span>' +
+          '<span class="menu-panah">›</span></button>';
+      return;
+    }
+
+    // --- halaman kredit foto (kewajiban lisensi CC) ---
+    if (pustakaLevel === 'kredit') {
+      judul.innerText = '📷 Sumber Foto';
+      jalur.innerText = 'Pustaka › Sumber Foto';
+      isi.className = 'pustaka-isi daftar-kredit';
+      const daftar = Object.keys(kreditFoto).sort();
+      isi.innerHTML =
+        '<p class="kredit-intro">Semua gambar di dalam game ini adalah <b>foto asli</b> dari ' +
+        'Wikimedia Commons, bukan gambar buatan AI. Karakter Putu &amp; Ni Luh, lentera, dan ' +
+        'ornamen digambar sendiri memakai kode SVG.</p>' +
+        (daftar.length ? daftar.map(function (s) {
+          const k = kreditFoto[s];
+          return '<div class="baris-kredit">' +
+            '<img src="foto/' + s + '.jpg" alt="" loading="lazy">' +
+            '<div><b>' + s + '</b><br><span>' + (k.pemotret || 'Wikimedia Commons') +
+            '</span><br><i>' + (k.lisensi || '') + '</i></div></div>';
+        }).join('') : '<p class="kredit-intro">Memuat daftar…</p>');
+      return;
+    }
+
+    const L = PUSTAKA[pustakaLevel];
+
+    // --- tingkat 2: daftar materi dalam level ---
+    if (pustakaMateri === null) {
+      judul.innerText = L.ikon + ' ' + L.nama;
+      jalur.innerText = 'Pustaka › ' + L.nama;
+      isi.className = 'pustaka-isi daftar-menu';
+      isi.innerHTML = L.materi.map(function (m, i) {
+        return '<button class="menu-kartu" style="border-left-color:' + L.warna + '" onclick="pilihMateriPustaka(' + i + ')">' +
+          '<span class="menu-mini-foto"><img src="foto/' + m.kata[0].foto + '.jpg" alt=""></span>' +
+          '<span class="menu-teks"><b>' + m.judul + '</b><small>' + m.sub + ' · ' + m.kata.length + ' kruna</small></span>' +
+          '<span class="menu-panah">›</span></button>';
+      }).join('');
+      return;
+    }
+
+    // --- tingkat 3: kartu kosakata ---
+    const M = L.materi[pustakaMateri];
+    judul.innerText = M.judul;
+    jalur.innerText = 'Pustaka › ' + L.nama + ' › ' + M.judul;
+    isi.className = 'pustaka-isi daftar-kata';
+    isi.innerHTML = M.kata.map(function (k, i) {
+      const siapa = i % 2 === 0 ? 'putu' : 'niluh';
+      return '<div class="kartu-kata">' +
+        '<div class="kata-foto"><img src="foto/' + k.foto + '.jpg" alt="' + k.bali + '" loading="lazy"></div>' +
+        '<div class="kata-isi">' +
+          '<div class="kata-baris">' +
+            '<span class="kata-bali">' + k.bali + '</span>' +
+            '<button class="btn-dengar kecil" type="button" onclick="ucapkanKata(\'' + k.au + '\',\'' + k.bali.replace(/'/g, "\\'") + '\',this)" aria-label="Dengarkan ' + k.bali + '">🔊</button>' +
+          '</div>' +
+          '<p class="kata-arti">' + k.arti + '</p>' +
+        '</div>' +
+        '<div class="kar-slot mini" data-karakter="' + siapa + '"></div>' +
+      '</div>';
+    }).join('');
+    pasangSemuaKarakter();
   }
 
   window.onload = function() {
+    pasangSemuaKarakter();
     if (localStorage.getItem('playerName')) {
       navigateTo('play');
     } else {
@@ -1745,10 +2974,6 @@
     }
   }, { once: true });
 </script>
-
-<!-- Mesin 3D & mode Dunia Budaya 3D -->
-<script src="three.min.js"></script>
-<script src="world3d.js"></script>
 
 </body>
 </html>

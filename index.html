@@ -1109,9 +1109,13 @@
       50%     { transform: translateY(-1.1%) scaleY(1.008); }
     }
 
-    /* kepala mengangguk pelan */
-    .kar-kepala { animation: angguk 5.2s ease-in-out infinite; }
-    @keyframes angguk { 0%,100%{transform:rotate(-1.8deg)} 50%{transform:rotate(1.8deg)} }
+    /* Kepala mengangguk pelan. drop-shadow tipis memberi kedalaman sekaligus
+       menyamarkan sambungan leher saat kepala berputar. */
+    .kar-kepala {
+      animation: angguk 5.2s ease-in-out infinite;
+      filter: drop-shadow(0 3px 3px rgba(60,35,10,.28));
+    }
+    @keyframes angguk { 0%,100%{transform:rotate(-1.4deg)} 50%{transform:rotate(1.4deg)} }
 
     /* lentera berayun dari gantungannya */
     .kar-lentera { animation: ayunLentera 4.4s ease-in-out infinite; }
@@ -1142,8 +1146,8 @@
     /* bicara: mulut buka-tutup bergantian + kepala memantul halus */
     .kar.bicara .kar-kepala { animation: ngomongKepala .5s ease-in-out infinite; }
     @keyframes ngomongKepala {
-      0%,100% { transform: rotate(-.8deg) translateY(0); }
-      50%     { transform: rotate(1.2deg) translateY(.7%); }
+      0%,100% { transform: rotate(-.7deg) translateY(0); }
+      50%     { transform: rotate(1deg) translateY(.6%); }
     }
     .kar.bicara .fr-tutup  { animation: mulutTutup .34s steps(1) infinite; }
     .kar.bicara:has(.fr-tutup) .fr-normal { animation: mulutBuka .34s steps(1) infinite; }

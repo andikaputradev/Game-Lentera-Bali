@@ -2660,14 +2660,24 @@
      "Google Text-to-Speech" itu sendiri, jadi tetap suara Google, gratis, dan
      tanpa kuota. Basa Bali memakai ejaan Latin yang dekat dengan bahasa
      Indonesia, jadi suara id-ID membacanya cukup mendekati. */
+  /* Urutan pilih suara cadangan:
+     1. id-ID yang localService (mesin DI DALAM HP -> tetap bunyi tanpa internet)
+     2. id-ID apa pun (mungkin suara jaringan, perlu internet)
+     3. Melayu, paling dekat pelafalannya
+     Bisa juga TIDAK KETEMU APA-APA: banyak HP tidak punya paket suara
+     Indonesia. Itulah sebabnya file mp3 tetap jadi sumber utama. */
   function pilihSuaraBali() {
     if (!window.speechSynthesis) return null;
     const semua = speechSynthesis.getVoices() || [];
     const id = semua.filter(v => /^id(-|_|$)/i.test(v.lang));
-    // utamakan mesin Google, lalu suara id-ID apa pun, lalu Melayu (paling dekat)
-    return id.find(v => /google/i.test(v.name)) || id[0] ||
+    const idOffline = id.filter(v => v.localService);
+    return idOffline.find(v => /google/i.test(v.name)) || idOffline[0] ||
+           id.find(v => /google/i.test(v.name)) || id[0] ||
            semua.find(v => /^ms(-|_|$)/i.test(v.lang)) || null;
   }
+
+  /* Apakah HP ini sanggup membunyikan basa Bali tanpa file mp3? */
+  function adaSuaraCadangan() { return !!pilihSuaraBali(); }
 
   // daftar suara sering baru siap setelah event ini
   if (window.speechSynthesis) speechSynthesis.onvoiceschanged = pilihSuaraBali;

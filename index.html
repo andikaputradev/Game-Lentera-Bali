@@ -1091,41 +1091,69 @@
     #page-materi p { font-size: 0.8rem; line-height: 1.5; color: #321602; margin-bottom: 8px; }
 
     /* ============================================================
-       RIG KARAKTER SVG (Putu & Ni Luh) -- digambar lewat kode, bukan gambar AI
+       RIG KARAKTER ASLI (Putu & Ni Luh)
+       Gambar asli tidak diubah, hanya dipotong jadi lapisan lalu
+       digerakkan: badan bernapas, kepala mengangguk, lentera berayun
+       dan nyalanya berdenyut.
        ============================================================ */
-    .kar { width: 100%; height: 100%; display: block; overflow: visible; }
-    .kar-badan  { animation: napas 3.4s ease-in-out infinite; transform-origin: 100px 292px; }
-    @keyframes napas { 0%,100%{transform:translateY(0) scaleY(1)} 50%{transform:translateY(-3px) scaleY(1.012)} }
+    .kar { position: relative; width: 100%; aspect-ratio: 375 / 666; }
+    .kar img { position: absolute; display: block; }
+    .kar .kar-badan { left: 0; top: 0; width: 100%; }
+    .kar .kar-grup { position: absolute; }
+    .kar .kar-grup img { left: 0; top: 0; width: 100%; }
 
-    .kar-kepala { animation: dongak 5s ease-in-out infinite; transform-origin: 100px 118px; }
-    @keyframes dongak { 0%,100%{transform:rotate(-1.6deg)} 50%{transform:rotate(1.6deg)} }
+    /* napas halus pada seluruh sosok */
+    .kar { animation: napas 3.6s ease-in-out infinite; transform-origin: 50% 100%; }
+    @keyframes napas {
+      0%,100% { transform: translateY(0) scaleY(1); }
+      50%     { transform: translateY(-1.1%) scaleY(1.008); }
+    }
 
-    .kar-kelopak { transform-origin: center; transform: scaleY(0); animation: kedip 4.8s infinite; }
-    @keyframes kedip { 0%,92%,100%{transform:scaleY(0)} 94%,97%{transform:scaleY(1)} }
+    /* kepala mengangguk pelan */
+    .kar-kepala { animation: angguk 5.2s ease-in-out infinite; }
+    @keyframes angguk { 0%,100%{transform:rotate(-1.8deg)} 50%{transform:rotate(1.8deg)} }
 
-    /* mulut tertutup saat diam, membuka-tutup saat karakter "bicara" */
-    .kar-bibir, .kar-lidah { transform-origin: 100px 99px; transform: scaleY(.12); }
-    .kar.bicara .kar-bibir, .kar.bicara .kar-lidah { animation: ngomong .32s ease-in-out infinite; }
-    @keyframes ngomong { 0%,100%{transform:scaleY(.14)} 45%{transform:scaleY(1)} 70%{transform:scaleY(.55)} }
+    /* lentera berayun dari gantungannya */
+    .kar-lentera { animation: ayunLentera 4.4s ease-in-out infinite; }
+    @keyframes ayunLentera { 0%,100%{transform:rotate(-3.5deg)} 50%{transform:rotate(3.5deg)} }
 
-    .kar-tangan-ka { animation: lambaiKa 3.8s ease-in-out infinite; }
-    @keyframes lambaiKa { 0%,100%{transform:rotate(0)} 50%{transform:rotate(-8deg)} }
-    .kar-tangan-ki { animation: lambaiKi 4.3s ease-in-out infinite; }
-    @keyframes lambaiKi { 0%,100%{transform:rotate(0)} 50%{transform:rotate(7deg)} }
-    .kar.nunjuk .kar-tangan-ka { animation: nunjuk 1.8s ease-in-out infinite; }
-    @keyframes nunjuk { 0%,100%{transform:rotate(-30deg)} 50%{transform:rotate(-44deg)} }
+    /* nyala lentera berdenyut */
+    .kar-cahaya {
+      position: absolute; border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(255,228,140,.92) 0%,
+                  rgba(255,190,60,.5) 38%, rgba(255,170,40,0) 72%);
+      mix-blend-mode: screen;
+      animation: nyalaLentera 2.6s ease-in-out infinite;
+    }
+    @keyframes nyalaLentera {
+      0%,100% { opacity:.5; transform:scale(1); }
+      50%     { opacity:1;  transform:scale(1.15); }
+    }
 
-    /* karakter yang sedang gilirannya bicara sedikit lebih besar & terang */
-    /* Ni Luh dicerminkan supaya menghadap ke Putu -- dua orang saling
-       berhadapan, bukan dua orang menghadap penonton. */
-    #slot-niluh .kar { transform: scaleX(-1); }
-    .kar-slot { transition: transform .3s ease, opacity .3s ease; }
-    .kar-slot.giliran { transform: scale(1.07); }
-    .kar-slot:not(.giliran) { opacity: .82; }
+    /* --- frame wajah alternatif: ditumpuk, ditukar lewat opacity --- */
+    .kar .fr { opacity: 0; }
+    .kar .fr-normal { opacity: 1; }
+    /* berkedip: hanya kalau frame mata-tertutup tersedia */
+    .kar .fr-kedip { animation: kedipFrame 5.4s steps(1) infinite; }
+    .kar:has(.fr-kedip) .fr-normal { animation: kedipNormal 5.4s steps(1) infinite; }
+    @keyframes kedipFrame  { 0%,93%,98%,100%{opacity:0} 93.5%,97.5%{opacity:1} }
+    @keyframes kedipNormal { 0%,93%,98%,100%{opacity:1} 93.5%,97.5%{opacity:0} }
+
+    /* bicara: mulut buka-tutup bergantian + kepala memantul halus */
+    .kar.bicara .kar-kepala { animation: ngomongKepala .5s ease-in-out infinite; }
+    @keyframes ngomongKepala {
+      0%,100% { transform: rotate(-.8deg) translateY(0); }
+      50%     { transform: rotate(1.2deg) translateY(.7%); }
+    }
+    .kar.bicara .fr-tutup  { animation: mulutTutup .34s steps(1) infinite; }
+    .kar.bicara:has(.fr-tutup) .fr-normal { animation: mulutBuka .34s steps(1) infinite; }
+    @keyframes mulutTutup { 0%,50%{opacity:0} 50.01%,100%{opacity:1} }
+    @keyframes mulutBuka  { 0%,50%{opacity:1} 50.01%,100%{opacity:0} }
+    .kar.bicara .kar-cahaya { animation-duration: 1.1s; }
 
     @media (prefers-reduced-motion: reduce) {
-      .kar-badan, .kar-kepala, .kar-kelopak, .kar-tangan-ka, .kar-tangan-ki,
-      .kar.bicara .kar-bibir, .kar.bicara .kar-lidah { animation: none; }
+      .kar, .kar-kepala, .kar-lentera, .kar-cahaya, .kar .fr { animation: none !important; }
+      .kar .fr-normal { opacity: 1 !important; }
     }
 
     /* ============================================================
@@ -1393,25 +1421,20 @@
 
   <div class="map-scroll-viewport">
     <div class="map-grid-container">
-      <div class="category-card" id="lvlcard-1" onclick="selectLevel(1, 'Budaya Bali')">
-        <span class="thk-pillar pillar-budaya">Level 1</span>
+      <div class="category-card" id="lvlcard-1" onclick="selectLevel(1, 'Parahyangan')">
+        <span class="thk-pillar pillar-parahyangan">Level 1</span>
         <div class="lamp-frame" data-lentera="1"></div>
-        <div class="category-label">1. Budaya Bali</div>
+        <div class="category-label">1. Parahyangan</div>
       </div>
-      <div class="category-card" id="lvlcard-2" onclick="selectLevel(2, 'Parahyangan')">
-        <span class="thk-pillar pillar-parahyangan">Level 2</span>
+      <div class="category-card" id="lvlcard-2" onclick="selectLevel(2, 'Pawongan')">
+        <span class="thk-pillar pillar-pawongan">Level 2</span>
         <div class="lamp-frame" data-lentera="2"></div>
-        <div class="category-label">2. Parahyangan</div>
+        <div class="category-label">2. Pawongan</div>
       </div>
-      <div class="category-card" id="lvlcard-3" onclick="selectLevel(3, 'Pawongan')">
-        <span class="thk-pillar pillar-pawongan">Level 3</span>
+      <div class="category-card" id="lvlcard-3" onclick="selectLevel(3, 'Palemahan')">
+        <span class="thk-pillar pillar-palemahan">Level 3</span>
         <div class="lamp-frame" data-lentera="3"></div>
-        <div class="category-label">3. Pawongan</div>
-      </div>
-      <div class="category-card" id="lvlcard-4" onclick="selectLevel(4, 'Palemahan')">
-        <span class="thk-pillar pillar-palemahan">Level 4</span>
-        <div class="lamp-frame" data-lentera="4"></div>
-        <div class="category-label">4. Palemahan</div>
+        <div class="category-label">3. Palemahan</div>
       </div>
     </div>
   </div>
@@ -1568,24 +1591,7 @@
   //  DATABASE SOAL LENTERA BALI (10 PG + 5 Cocokkan Gambar)
   // ================================================================
   const quizDatabase = {
-    1: [ // BUDAYA BALI - ajengan, busana, rerahinan (paling gampang, pintu masuk)
-      { q: "Jaja Bali ane bunter tur gadang, misi gula barak, kasambehin parutan nyuh, madan...", o: ["Donat", "Klepon", "Roti", "Bakso"], c: 1, img: "foto/klepon.jpg", kata: "klepon" },
-      { q: "Sate khas Bali ane dagingne kalilitang di katikne madan...", o: ["Sate lilit", "Sate ayam", "Sate kambing", "Sate padang"], c: 0, img: "foto/sate-lilit.jpg", kata: "sate-lilit" },
-      { q: "Ajengan khas Bali ane malakar aji jukut tur parutan nyuh mabasa madan...", o: ["Bakso", "Mie goreng", "Lawar", "Pizza"], c: 2, img: "foto/lawar.jpg", kata: "lawar" },
-      { q: "Anak muani yen ka pura nganggon ikat sirah ane madan...", o: ["Topi", "Helm", "Peci", "Udeng"], c: 3, img: "foto/udeng.jpg", kata: "udeng" },
-      { q: "Kain ane kailitang di bangkiange yen mabusana adat Bali madan...", o: ["Kamen", "Celana", "Rok", "Topi"], c: 0, img: "foto/kamen.jpg", kata: "kamen" },
-      { q: "Baju ane kaanggon anak luh yen ka pura madan...", o: ["Kaos", "Kebaya", "Jaket", "Piyama"], c: 1, img: "foto/kebaya.jpg", kata: "kebaya" },
-      { q: "Rerahinan ane ngranayang gumi Baline sepi tur anake tusing pesu uli jumah madan...", o: ["Galungan", "Kuningan", "Nyepi", "Saraswati"], c: 2, img: "foto/nyepi.jpg", kata: "nyepi" },
-      { q: "Awai satonden Nyepi, anake ngarak togog gede ane aeng madan...", o: ["Ogoh-ogoh", "Wayang", "Robot", "Boneka salju"], c: 0, img: "foto/ogoh-ogoh.jpg", kata: "ogoh-ogoh" },
-      { q: "Rikala Galungan, di arep umahe kapasang tiing melengkung mapayas janur madan...", o: ["Bendera", "Penjor", "Umbul-umbul", "Layangan"], c: 1, img: "foto/penjor.jpg", kata: "penjor" },
-      { q: "Rerahinan ngerayaang ilmu pengetahuan, rikala buku lan lontare kabantenin, madan...", o: ["Nyepi", "Galungan", "Kuningan", "Saraswati"], c: 3, img: "foto/lontar.jpg", kata: "saraswati" },
-      { type: "text-to-image", text: "Klepon", img: "foto/klepon.jpg" },
-      { type: "text-to-image", text: "Sate Lilit", img: "foto/sate-lilit.jpg" },
-      { type: "text-to-image", text: "Udeng", img: "foto/udeng.jpg" },
-      { type: "text-to-image", text: "Kebaya", img: "foto/kebaya.jpg" },
-      { type: "text-to-image", text: "Penjor", img: "foto/penjor.jpg" }
-    ],
-    2: [ // PARAHYANGAN
+    1: [ // PARAHYANGAN
       { q: "Wewidangan utawi genah suci anggen umat Hindu maturan kawastanin...", o: ["Pura", "Bale banjar", "Sekolah", "Pasar"], c: 0, img: "foto/pura.jpg", kata: "pura" },
       { q: "Tuhan ring agama Hindu kawastanin...", o: ["Sang Hyang Widhi Wasa", "Ratu Gede", "Jero Gede", "Mpu"], c: 0, img: "foto/padmasana.jpg", kata: "padmasana" },
       { q: "Umat Hindu nunas ica ring Sang Hyang Widhi antuk ngaturang...", o: ["Sesajen miwah banten", "Pipis miwah perhiasan", "Batik miwah anduk", "Sepatu miwah tas"], c: 0, img: "foto/banten.jpg", kata: "banten" },
@@ -1602,7 +1608,7 @@
       { type: "text-to-image", text: "Mebakti", img: "foto/mebakti.jpg" },
       { type: "text-to-image", text: "Pura Tanah Lot", img: "foto/pura-tanah-lot.jpg" }
     ],
-    3: [ // PAWONGAN
+    2: [ // PAWONGAN
       { q: "Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....", o: ["Sugih", "Uyut", "Lacur", "Adung"], c: 3, img: "foto/gotong-royong.jpg", kata: "adung" },
       { q: "Rai demen masilihang teken timpale ane sing ngelah. Ento bacakan Solah ane....", o: ["Becik", "Jele", "Mayus", "Lengit"], c: 0, img: "foto/timpal.jpg", kata: "becik" },
       { q: "Rerama sesai maang pitutur. Pitutur rerama patut....", o: ["Resepang", "Kelidin", "Saruin", "Kalahin"], c: 0, img: "foto/keluarga.jpg", kata: "pitutur" },
@@ -1619,7 +1625,7 @@
       { type: "text-to-image", text: "Apaké menék bajang, tuun tua?", img: "foto/matan-ai.jpg", answerLabel: "Matan ai" },
       { type: "text-to-image", text: "Apaké tolih ngejoh-ngejohang?", img: "foto/kuping.jpg", answerLabel: "Kuping (Telinga)" }
     ],
-    4: [ // PALEMAHAN
+    3: [ // PALEMAHAN
       { q: "Contoh sane ngamargiang pelestarian alam inggih punika ....", o: ["Ngutang luhu ring tukad", "Nanem entik-entikan", "Nembak kedis", "Ngusak alas"], c: 1, img: "foto/nanem-entik.jpg", kata: "nanem" },
       { q: "Ngutang luu patutné di....", o: ["Tukad", "Sémér", "Got", "Tong sampah"], c: 3, img: "foto/tong-sampah.jpg", kata: "luu" },
       { q: "Iraga patut nyaga kabresihan déwék lan lingkungan apang setata…", o: ["Seger", "Kual", "Kumel", "Daki"], c: 0, img: "foto/nyampat.jpg", kata: "seger" },
@@ -1639,13 +1645,12 @@
   };
   const arDatabaseLinks = {
     1: "https://viewer.virtualtoureasy.com/?r=3xVcYDfAtJ",
-    2: "https://viewer.virtualtoureasy.com/?r=3xVcYDfAtJ",
-    3: "https://viewer.virtualtoureasy.com/?r=YvLu3pVjMd",
-    4: "https://viewer.virtualtoureasy.com/?r=TTbPZ8ajNS"
+    2: "https://viewer.virtualtoureasy.com/?r=YvLu3pVjMd",
+    3: "https://viewer.virtualtoureasy.com/?r=TTbPZ8ajNS"
   };
 
-  const JUMLAH_LEVEL = 4;
-  const levelNames = { 1: 'Budaya Bali', 2: 'Parahyangan', 3: 'Pawongan', 4: 'Palemahan' };
+  const JUMLAH_LEVEL = 3;
+  const levelNames = { 1: 'Parahyangan', 2: 'Pawongan', 3: 'Palemahan' };
 
   // ================================================================
   //  GAME CONTROLLER LOGIC
@@ -1819,9 +1824,6 @@
     const sNiluh = document.getElementById('slot-niluh');
     sPutu.classList.toggle('giliran', gilirPutu);
     sNiluh.classList.toggle('giliran', !gilirPutu);
-    const kPutu = sPutu.querySelector('.kar'), kNiluh = sNiluh.querySelector('.kar');
-    if (kPutu) kPutu.classList.toggle('nunjuk', gilirPutu);
-    if (kNiluh) kNiluh.classList.toggle('nunjuk', !gilirPutu);
     // ekor balon dialog ikut pindah ke sisi yang sedang bicara
     document.getElementById('question-label').classList.toggle('dari-niluh', !gilirPutu);
 
@@ -1958,7 +1960,7 @@
     selectedLeftNode = null;
 
     const instrText = document.getElementById('matching-instruction-text');
-    if (currentLevel === 3) {
+    if (currentLevel === 2) {
       instrText.innerText = "Adungang cecimpedan sareng gambar ring samping mangda patut";
     } else {
       instrText.innerText = "Adungang kruna sareng gambar ring samping mangda patut";
@@ -2001,7 +2003,7 @@
       node.dataset.id = item.originalIdx;
 
       let htmlContent = `<div class="match-node-img-box"><img src="${item.img}" class="match-node-img"></div>`;
-      if (currentLevel === 3) {
+      if (currentLevel === 2) {
         node.style.flexDirection = 'column';
         htmlContent += `<div class="match-node-text" style="font-size: 0.7rem; margin-top: 5px; font-weight: bold; color: #542c0e; text-align: center;">${item.label}</div>`;
       }
@@ -2392,125 +2394,71 @@
   let nomorSvg = 0;
   const idBaru = () => '_' + (++nomorSvg);
 
+  // ================================================================
+  //  RIG KARAKTER ASLI (Putu & Ni Luh)
+  //  Gambar aslinya dipakai apa adanya, hanya dipotong jadi lapisan:
+  //    <nama>-badan.png    badan tanpa kepala & lentera
+  //    <nama>-kepala.png   kepala (poros di leher)  -> mengangguk
+  //    <nama>-lentera.png  lentera (poros di gantungan) -> berayun
+  //  Kalau tersedia, frame tambahan dipakai untuk kedip & bicara:
+  //    <nama>-kepala-kedip.png   mata tertutup
+  //    <nama>-kepala-tutup.png   mulut tertutup
+  //  Semua ukuran dalam persen supaya ikut mengecil di layar HP.
+  // ================================================================
   const KarakterBali = (function () {
-    const P = {
-      garis: '#54331a', kulit: '#f2c795', kulitGelap: '#dca66f', pipi: '#f0968a',
-      rambut: '#2f2118', putih: '#fffdf7', emas: '#d8a145', emasTua: '#a8762a',
-      kain: '#8d5a2b', kainMotif: '#e0b268', merah: '#c0392b'
-    };
+    let RIG = null, siapFrame = {};
 
-    function motif(id, dasar, atas) {
-      return '<pattern id="' + id + '" width="16" height="16" patternUnits="userSpaceOnUse">' +
-        '<rect width="16" height="16" fill="' + dasar + '"/>' +
-        '<path d="M0 8 L8 0 L16 8 L8 16 Z" fill="' + atas + '" opacity=".55"/>' +
-        '<circle cx="8" cy="8" r="1.8" fill="' + atas + '"/></pattern>';
-    }
+    // pusat nyala lentera dalam koordinat gambar penuh (375x666)
+    const CAHAYA = { putu: {x:82, y:262, r:78}, niluh: {x:288, y:298, r:74} };
 
-    function wajah() {
-      const y = 74, j = 15;
-      let s = '';
-      s += '<path d="M' + (100 - j - 9) + ' ' + (y - 13) + ' q9 -5 17 0" fill="none" stroke="' + P.garis + '" stroke-width="3.2" stroke-linecap="round"/>';
-      s += '<path d="M' + (100 + j - 8) + ' ' + (y - 13) + ' q9 -5 17 0" fill="none" stroke="' + P.garis + '" stroke-width="3.2" stroke-linecap="round"/>';
-      [-1, 1].forEach(function (d) {
-        const cx = 100 + d * j;
-        s += '<g class="kar-mata">' +
-          '<ellipse cx="' + cx + '" cy="' + y + '" rx="7.6" ry="8.6" fill="' + P.putih + '" stroke="' + P.garis + '" stroke-width="2.6"/>' +
-          '<circle cx="' + (cx + d * 0.8) + '" cy="' + (y + 1) + '" r="4.4" fill="' + P.rambut + '"/>' +
-          '<circle cx="' + (cx + d * 2.2) + '" cy="' + (y - 2) + '" r="1.7" fill="#fff"/>' +
-          '<ellipse class="kar-kelopak" cx="' + cx + '" cy="' + y + '" rx="8.4" ry="9.4" fill="' + P.kulit + '"/>' +
-          '</g>';
-      });
-      s += '<path d="M100 82 q3.5 4 -0.5 6" fill="none" stroke="' + P.garis + '" stroke-width="2.6" stroke-linecap="round"/>';
-      s += '<ellipse cx="72" cy="88" rx="7.5" ry="4.6" fill="' + P.pipi + '" opacity=".5"/>';
-      s += '<ellipse cx="128" cy="88" rx="7.5" ry="4.6" fill="' + P.pipi + '" opacity=".5"/>';
-      s += '<g class="kar-mulut">' +
-        '<path d="M89 96 q11 10 22 0" fill="none" stroke="' + P.garis + '" stroke-width="3" stroke-linecap="round"/>' +
-        '<ellipse class="kar-bibir" cx="100" cy="99" rx="8" ry="6.5" fill="#8c3b30" stroke="' + P.garis + '" stroke-width="2.4"/>' +
-        '<ellipse class="kar-lidah" cx="100" cy="102" rx="4.6" ry="2.8" fill="#e0736a"/></g>';
-      return s;
-    }
+    fetch('karakter/rig.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d) { RIG = d;
+          Object.keys(d).forEach(n => (d[n].frame || []).forEach(t => siapFrame[n + '-' + t] = true));
+          pasangSemuaKarakter(); } })
+      .catch(() => {});
 
-    function kepalaPutu(uid) {
-      return '<path d="M58 78 q0 -46 42 -46 q42 0 42 46 q0 10 -4 16 l-8 -22 h-60 l-8 22 q-4 -6 -4 -16z" fill="' + P.rambut + '"/>' +
-        '<ellipse cx="100" cy="78" rx="42" ry="44" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3.4"/>' +
-        '<ellipse cx="58" cy="82" rx="7" ry="9" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3"/>' +
-        '<ellipse cx="142" cy="82" rx="7" ry="9" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3"/>' +
-        '<path d="M60 60 q14 -22 40 -22 q26 0 40 22 q-16 -10 -40 -10 q-24 0 -40 10z" fill="' + P.rambut + '"/>' +
-        '<path d="M56 58 q44 -26 88 0 l-4 12 q-40 -20 -80 0z" fill="url(#mUdeng' + uid + ')" stroke="' + P.garis + '" stroke-width="3.2" stroke-linejoin="round"/>' +
-        '<path d="M100 32 l14 22 h-28z" fill="' + P.putih + '" stroke="' + P.garis + '" stroke-width="3" stroke-linejoin="round"/>' +
-        '<path d="M100 38 v15" stroke="' + P.garis + '" stroke-width="2" stroke-linecap="round"/>' + wajah();
-    }
-
-    function kepalaNiluh() {
-      let bunga = '';
-      [0, 72, 144, 216, 288].forEach(function (a) {
-        bunga += '<ellipse cx="0" cy="-8" rx="5.2" ry="8.6" fill="' + P.putih + '" stroke="' + P.garis + '" stroke-width="2.2" transform="rotate(' + a + ')"/>';
-      });
-      return '<circle cx="100" cy="32" r="17" fill="' + P.rambut + '" stroke="' + P.garis + '" stroke-width="3"/>' +
-        '<path d="M56 76 q0 -48 44 -48 q44 0 44 48 q0 34 -10 52 l-16 -8 q6 -20 6 -40 h-48 q0 20 6 40 l-16 8 q-10 -18 -10 -52z" fill="' + P.rambut + '"/>' +
-        '<ellipse cx="100" cy="78" rx="41" ry="43" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3.4"/>' +
-        '<ellipse cx="59" cy="82" rx="6.6" ry="8.6" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3"/>' +
-        '<ellipse cx="141" cy="82" rx="6.6" ry="8.6" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3"/>' +
-        '<path d="M59 62 q10 -26 41 -26 q31 0 41 26 q-18 -14 -41 -14 q-23 0 -41 14z" fill="' + P.rambut + '"/>' +
-        '<g transform="translate(140,60)">' + bunga + '<circle r="4" fill="' + P.emas + '"/></g>' + wajah();
-    }
-
-    function badan(o, uid) {
-      let s = '';
-      s += '<path d="M80 246 v34 q0 7 8 7 q8 0 8 -7 v-34z" fill="' + P.kulitGelap + '" stroke="' + P.garis + '" stroke-width="3.2" stroke-linejoin="round"/>';
-      s += '<path d="M104 246 v34 q0 7 8 7 q8 0 8 -7 v-34z" fill="' + P.kulitGelap + '" stroke="' + P.garis + '" stroke-width="3.2" stroke-linejoin="round"/>';
-      s += '<rect x="76" y="283" width="24" height="8" rx="4" fill="' + P.emasTua + '" stroke="' + P.garis + '" stroke-width="2.6"/>';
-      s += '<rect x="100" y="283" width="24" height="8" rx="4" fill="' + P.emasTua + '" stroke="' + P.garis + '" stroke-width="2.6"/>';
-      s += '<path d="M66 196 h68 l10 56 q-44 12 -88 0z" fill="url(#mKamen' + uid + ')" stroke="' + P.garis + '" stroke-width="3.4" stroke-linejoin="round"/>';
-      s += '<path d="M64 194 h72 l3 14 q-39 9 -78 0z" fill="' + o.selendang + '" stroke="' + P.garis + '" stroke-width="3" stroke-linejoin="round"/>';
-      s += '<path d="M70 138 q30 -12 60 0 l6 62 q-36 10 -72 0z" fill="' + o.baju + '" stroke="' + P.garis + '" stroke-width="3.4" stroke-linejoin="round"/>';
-      if (o.renda) {
-        s += '<path d="M100 132 v66" stroke="' + P.garis + '" stroke-width="2" opacity=".45"/>';
-        s += '<path d="M84 140 q16 8 32 0" fill="none" stroke="' + P.emas + '" stroke-width="2.4"/>';
-        s += '<path d="M82 156 q18 8 36 0" fill="none" stroke="' + P.emas + '" stroke-width="2.4"/>';
-        s += '<path d="M80 172 q20 8 40 0" fill="none" stroke="' + P.emas + '" stroke-width="2.4"/>';
-      }
-      s += '<rect x="90" y="112" width="20" height="26" rx="7" fill="' + P.kulitGelap + '" stroke="' + P.garis + '" stroke-width="3"/>';
-      return s;
-    }
-
-    function lengan(o, d) {
-      const bx = 100 + d * 30, by = 144, sx = 100 + d * 45, sy = 182, tx = 100 + d * 49, ty = 214;
-      const atas = 'M' + bx + ' ' + by + ' Q' + (100 + d * 44) + ' 162 ' + sx + ' ' + sy;
-      const bawah = 'M' + sx + ' ' + sy + ' Q' + (100 + d * 50) + ' 198 ' + tx + ' ' + ty;
-      return '<g class="' + (d < 0 ? 'kar-tangan-ki' : 'kar-tangan-ka') + '" style="transform-origin:' + bx + 'px ' + by + 'px">' +
-        '<path d="' + atas + '" fill="none" stroke="' + P.garis + '" stroke-width="20" stroke-linecap="round"/>' +
-        '<path d="' + bawah + '" fill="none" stroke="' + P.garis + '" stroke-width="16.5" stroke-linecap="round"/>' +
-        '<path d="' + atas + '" fill="none" stroke="' + o.baju + '" stroke-width="14" stroke-linecap="round"/>' +
-        '<path d="' + bawah + '" fill="none" stroke="' + P.kulit + '" stroke-width="10.5" stroke-linecap="round"/>' +
-        '<circle cx="' + tx + '" cy="' + (ty + 4) + '" r="9.4" fill="' + P.kulit + '" stroke="' + P.garis + '" stroke-width="3"/>' +
-        '<path d="M' + (tx - d * 7) + ' ' + (ty + 1) + ' q' + (-d * 4) + ' -5 ' + d + ' -7" fill="none" stroke="' + P.garis + '" stroke-width="3" stroke-linecap="round"/>' +
-        '</g>';
-    }
-
-    const SOSOK = {
-      putu:  { baju: P.putih, selendang: P.emas,  kepala: kepalaPutu },
-      niluh: { baju: '#f6e2c8', selendang: P.merah, kepala: kepalaNiluh, renda: true }
-    };
+    // Frame tambahan didaftarkan di rig.json (field "frame"). Menebak lewat
+    // new Image() akan menembak 404 dan mengotori konsol setiap kali dimuat.
 
     function svg(siapa, kelasExtra) {
-      const o = SOSOK[siapa] || SOSOK.putu;
-      const uid = idBaru();
-      return '<svg class="kar ' + (kelasExtra || '') + '" data-kar="' + siapa + '" viewBox="0 0 200 300" ' +
-        'xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + (siapa === 'putu' ? 'Putu' : 'Ni Luh') + '">' +
-        '<defs>' + motif('mKamen' + uid, P.kain, P.kainMotif) +
-                   motif('mUdeng' + uid, P.putih, '#c9b79a') + '</defs>' +
-        '<ellipse cx="100" cy="292" rx="54" ry="8" fill="#3a2410" opacity=".16"/>' +
-        '<g class="kar-badan">' + badan(o, uid) + lengan(o, -1) + lengan(o, 1) +
-        '<g class="kar-kepala">' + o.kepala(uid) + '</g></g></svg>';
+      if (!RIG || !RIG[siapa]) return '';        // dipasang ulang saat rig.json tiba
+      const m = RIG[siapa], W = m.w, H = m.h;
+      const pc = (v, t) => (v / t * 100) + '%';
+      const k = m.lapis.kepala, l = m.lapis.lentera, c = CAHAYA[siapa];
+      let s = '<div class="kar ' + (kelasExtra || '') + '" data-kar="' + siapa + '" ' +
+              'role="img" aria-label="' + (siapa === 'putu' ? 'Putu' : 'Ni Luh') + '">';
+      s += '<img class="kar-badan" src="karakter/' + siapa + '-badan.png" alt="">';
+
+      // kepala + frame alternatifnya (ditumpuk, ditukar lewat opacity)
+      s += '<div class="kar-grup kar-kepala" style="left:' + pc(k.x, W) + ';top:' + pc(k.y, H) +
+           ';width:' + pc(k.w, W) + ';height:' + pc(k.h, H) +
+           ';transform-origin:' + pc(k.porosX, k.w) + ' ' + pc(k.porosY, k.h) + '">';
+      s += '<img class="fr fr-normal" src="karakter/' + siapa + '-kepala.png" alt="">';
+      if (siapFrame[siapa + '-kedip'])
+        s += '<img class="fr fr-kedip" src="karakter/' + siapa + '-kepala-kedip.png" alt="">';
+      if (siapFrame[siapa + '-tutup'])
+        s += '<img class="fr fr-tutup" src="karakter/' + siapa + '-kepala-tutup.png" alt="">';
+      s += '</div>';
+
+      // lentera + cahayanya
+      s += '<div class="kar-grup kar-lentera" style="left:' + pc(l.x, W) + ';top:' + pc(l.y, H) +
+           ';width:' + pc(l.w, W) + ';height:' + pc(l.h, H) +
+           ';transform-origin:' + pc(l.porosX, l.w) + ' ' + pc(l.porosY, l.h) + '">';
+      s += '<img src="karakter/' + siapa + '-lentera.png" alt="">';
+      s += '<div class="kar-cahaya" style="left:' + pc(c.x - l.x - c.r, l.w) + ';top:' +
+           pc(c.y - l.y - c.r, l.h) + ';width:' + pc(c.r * 2, l.w) + ';height:' +
+           pc(c.r * 2, l.h) + '"></div>';
+      s += '</div>';
+      return s + '</div>';
     }
 
     return {
       svg: svg,
+      siap: function () { return !!RIG; },
       pasang: function (el, siapa, kelas) { if (el) el.innerHTML = svg(siapa, kelas); return el; }
     };
   })();
-
   // ================================================================
   //  HIASAN SVG: lentera, ornamen patra, dan logo -- semua digambar lewat
   //  kode supaya tidak ada satu pun gambar AI tersisa di dalam game.
@@ -2639,7 +2587,7 @@
     }
   };
 
-  const WARNA_LEVEL = { 1: '#f0a91e', 2: '#e0533a', 3: '#4aa3e8', 4: '#57b14b' };
+  const WARNA_LEVEL = { 1: '#e0533a', 2: '#4aa3e8', 3: '#57b14b' };
 
   /* Pasang karakter, lentera, dan logo ke semua slot yang ada di halaman. */
   function pasangSemuaKarakter() {
@@ -2775,25 +2723,7 @@
   //  PUSTAKA: menu berjenjang  Level -> Materi -> Kosakata
   // ================================================================
   const PUSTAKA = {
-    1: { nama: 'Budaya Bali', ikon: '🍢', warna: '#b45309', materi: [
-      { judul: 'Ajengan Bali', sub: 'Makanan khas Bali', kata: [
-        { bali: 'Klepon',     arti: 'Jaja bunter warna gadang, misi gula barak, kasambehin parutan nyuh. (Kue bulat hijau berisi gula merah, dibalur kelapa parut.)', foto: 'klepon', au: 'klepon' },
-        { bali: 'Sate Lilit', arti: 'Sate ané dagingné kalilitang di katiké. (Sate dari daging cincang yang dililitkan pada batang serai atau bambu.)', foto: 'sate-lilit', au: 'sate-lilit' },
-        { bali: 'Lawar',      arti: 'Ajengan malakar aji jukut, parutan nyuh, lan basa Bali. (Campuran sayur, kelapa parut, dan daging berbumbu.)', foto: 'lawar', au: 'lawar' }
-      ]},
-      { judul: 'Busana Adat', sub: 'Pakaian adat Bali', kata: [
-        { bali: 'Udeng',  arti: 'Ikat sirah anggon anak muani yén ka pura. (Ikat kepala yang dipakai laki-laki ke pura.)', foto: 'udeng', au: 'udeng' },
-        { bali: 'Kamen',  arti: 'Kain ané kailitang di bangkiang. (Kain yang dililitkan di pinggang.)', foto: 'kamen', au: 'kamen' },
-        { bali: 'Kebaya', arti: 'Baju ané kaanggon anak luh yén ka pura. (Baju yang dipakai perempuan ke pura.)', foto: 'kebaya', au: 'kebaya' }
-      ]},
-      { judul: 'Rerahinan', sub: 'Hari raya di Bali', kata: [
-        { bali: 'Nyepi',     arti: 'Rerahinan ané ngranayang gumi Baliné sepi, anaké tusing pesu uli jumah. (Hari raya saat Bali sunyi dan orang tidak keluar rumah.)', foto: 'nyepi', au: 'nyepi' },
-        { bali: 'Ogoh-ogoh', arti: 'Togog gedé ané kaarak awai satondén Nyepi. (Patung besar yang diarak sehari sebelum Nyepi.)', foto: 'ogoh-ogoh', au: 'ogoh-ogoh' },
-        { bali: 'Penjor',    arti: 'Tiing melengkung mapayas janur, kapasang rikala Galungan. (Bambu melengkung berhias janur saat Galungan.)', foto: 'penjor', au: 'penjor' },
-        { bali: 'Saraswati', arti: 'Rerahinan ngerayaang ilmu pengetahuan, buku lan lontaré kabantenin. (Hari raya ilmu pengetahuan.)', foto: 'lontar', au: 'saraswati' }
-      ]}
-    ]},
-    2: { nama: 'Parahyangan', ikon: '🛕', warna: '#b91c1c', materi: [
+    1: { nama: 'Parahyangan', ikon: '🛕', warna: '#b91c1c', materi: [
       { judul: 'Genah Suci', sub: 'Tempat suci', kata: [
         { bali: 'Pura',            arti: 'Genah suci anggén umat Hindu maturan. (Tempat suci umat Hindu untuk bersembahyang.)', foto: 'pura', au: 'pura' },
         { bali: 'Padmasana',       arti: 'Genah palinggihan Sang Hyang Widhi Wasa ring pura. (Pelinggih tempat memuja Tuhan.)', foto: 'padmasana', au: 'padmasana' },
@@ -2811,7 +2741,7 @@
         { bali: 'Lontar',  arti: 'Buku Bali malakar aji don ental. (Buku Bali dari daun lontar.)', foto: 'lontar', au: 'lontar' }
       ]}
     ]},
-    3: { nama: 'Pawongan', ikon: '🤝', warna: '#1d4ed8', materi: [
+    2: { nama: 'Pawongan', ikon: '🤝', warna: '#1d4ed8', materi: [
       { judul: 'Solah Melah', sub: 'Perilaku baik', kata: [
         { bali: 'Saling tulungin', arti: 'Saling tulung ngajak nyama. Nyiriang idupé adung. (Saling menolong sesama, tanda hidup rukun.)', foto: 'gotong-royong', au: 'saling-tulungin' },
         { bali: 'Gotong royong',   arti: 'Magarapan bareng-bareng, conto rikala mebersih kelas. (Bekerja bersama-sama.)', foto: 'gotong-royong', au: 'gotong-royong' },
@@ -2830,7 +2760,7 @@
         { bali: 'Kuping',   arti: 'Cecimpedan: apaké tolih ngejoh-ngejohang? (Telinga.)', foto: 'kuping', au: 'kuping' }
       ]}
     ]},
-    4: { nama: 'Palemahan', ikon: '🌾', warna: '#15803d', materi: [
+    3: { nama: 'Palemahan', ikon: '🌾', warna: '#15803d', materi: [
       { judul: 'Nyaga Lingkungan', sub: 'Menjaga lingkungan', kata: [
         { bali: 'Luu',         arti: 'Sampah. Luu patutné kaentungang di tong sampah, tusing di tukad. (Sampah harus dibuang di tempat sampah, bukan di sungai.)', foto: 'luu-tukad', au: 'luu' },
         { bali: 'Tong sampah', arti: 'Genah ngentungang luu. (Tempat membuang sampah.)', foto: 'tong-sampah', au: 'tong-sampah' },

@@ -1620,10 +1620,10 @@
       { q: "Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....", o: ["Sugih", "Uyut", "Lacur", "Adung"], c: 3, img: "foto/gotong-royong.jpg", kata: "adung" },
       { q: "Rai demen masilihang teken timpale ane sing ngelah. Ento bacakan Solah ane....", o: ["Becik", "Jele", "Mayus", "Lengit"], c: 0, img: "foto/timpal.jpg", kata: "becik" },
       { q: "Rerama sesai maang pitutur. Pitutur rerama patut....", o: ["Resepang", "Kelidin", "Saruin", "Kalahin"], c: 0, img: "foto/keluarga.jpg", kata: "pitutur" },
-      { q: "Putu Budi ngelah cita-cita dadi dokter. Dadi dokter geginane tuah....", o: ["Nyampur ubad", "Ngubadin anak gelem", "Menahin montor", "Ngae wewangunan"], c: 1, img: null, kata: "dokter" },
+      { q: "Putu Budi ngelah cita-cita dadi dokter. Dadi dokter geginane tuah....", o: ["Nyampur ubad", "Ngubadin anak gelem", "Menahin montor", "Ngae wewangunan"], c: 1, img: "foto/dokter.jpg", kata: "dokter" },
       { q: "Ngomong sareng guru patut nganggen basa sane....", o: ["Kasar", "Alus tur sopan", "Keras", "Sengit"], c: 1, img: "foto/mebakti.jpg", kata: "basa-alus" },
       { q: "Ring waktu mebersih kelas, iraga patut....", o: ["Gotong royong", "Melaib", "Nyingakin kemawon", "Macepuk"], c: 0, img: "foto/gotong-royong.jpg", kata: "gotong-royong" },
-      { q: "Pianakne ane pertama suba ngajahin di SD. Anak ane geginane ngajahin di sekolah madan...", o: ["Guru", "Satpam", "Pengacara", "Polisi"], c: 0, img: null, kata: "guru" },
+      { q: "Pianakne ane pertama suba ngajahin di SD. Anak ane geginane ngajahin di sekolah madan...", o: ["Guru", "Satpam", "Pengacara", "Polisi"], c: 0, img: "foto/guru-murid.jpg", kata: "guru" },
       { q: "Tusing dadi lengit nulungin rerama magarapan. Lengit len raosne....", o: ["Jemet", "Seleg", "Mayus", "Anteng"], c: 2, img: null, kata: "mayus" },
       { q: "Yening ada timpal ane ulung patutne....", o: ["Kalahin", "Tolih", "Kedekin", "Tulungin"], c: 3, img: "foto/timpal.jpg", kata: "tulungin" },
       { q: "Tresna asih metimpal. Tresna asih solah ane....", o: ["Melah", "Corah", "Jele", "Gedeg"], c: 0, img: "foto/timpal.jpg", kata: "tresna-asih" },
@@ -1868,7 +1868,7 @@
     const slug = (src || '').replace(/^foto\//, '').replace(/\.jpg$/, '');
     const k = kreditFoto[slug];
     if (!k) return '';
-    return '📷 ' + (k.pemotret || 'Wikimedia Commons') + ' · ' + (k.lisensi || '') + ' · Wikimedia Commons';
+    return '📷 ' + (k.pemotret || '-') + ' · ' + (k.lisensi || '') + ' · ' + (k.asal || 'Openverse');
   }
 
   function initTimer() {
@@ -2842,7 +2842,7 @@
         '<button class="menu-kartu" style="border-left-color:#6b7280" onclick="pilihLevelPustaka(\'kredit\')">' +
           '<span class="menu-ikon">📷</span>' +
           '<span class="menu-teks"><b>Sumber Foto</b>' +
-          '<small>Semua foto asli dari Wikimedia Commons</small></span>' +
+          '<small>Foto asli berlisensi Creative Commons</small></span>' +
           '<span class="menu-panah">›</span></button>';
       return;
     }
@@ -2854,15 +2854,16 @@
       isi.className = 'pustaka-isi daftar-kredit';
       const daftar = Object.keys(kreditFoto).sort();
       isi.innerHTML =
-        '<p class="kredit-intro">Semua gambar di dalam game ini adalah <b>foto asli</b> dari ' +
-        'Wikimedia Commons, bukan gambar buatan AI. Karakter Putu &amp; Ni Luh, lentera, dan ' +
-        'ornamen digambar sendiri memakai kode SVG.</p>' +
+        '<p class="kredit-intro">Semua gambar materi di dalam game ini adalah <b>foto asli</b> ' +
+        'berlisensi Creative Commons dari <b>Wikimedia Commons</b> dan <b>Flickr</b> ' +
+        '(dicari lewat Openverse) — bukan gambar buatan AI. Lentera dan ornamen digambar ' +
+        'memakai kode SVG.</p>' +
         (daftar.length ? daftar.map(function (s) {
           const k = kreditFoto[s];
           return '<div class="baris-kredit">' +
             '<img src="foto/' + s + '.jpg" alt="" loading="lazy">' +
             '<div><b>' + s + '</b><br><span>' + (k.pemotret || 'Wikimedia Commons') +
-            '</span><br><i>' + (k.lisensi || '') + '</i></div></div>';
+            '</span><br><i>' + (k.lisensi || '') + ' — ' + (k.asal || '') + '</i></div></div>';
         }).join('') : '<p class="kredit-intro">Memuat daftar…</p>');
       return;
     }

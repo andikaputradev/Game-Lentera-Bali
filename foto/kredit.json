@@ -47,14 +47,6 @@
   "sumber": "https://commons.wikimedia.org/wiki/File:Almofadas.jpg",
   "asal": "Wikimedia Commons"
  },
- "gotong-royong": {
-  "berkas": "gotong-royong.jpg",
-  "judul": "Gotong Royong, Kerja Tanpa Pamrih.jpg",
-  "pemotret": "Adyagustian",
-  "lisensi": "CC BY-SA 4.0",
-  "sumber": "https://commons.wikimedia.org/wiki/File:Gotong_Royong,_Kerja_Tanpa_Pamrih.jpg",
-  "asal": "Wikimedia Commons"
- },
  "keluarga": {
   "berkas": "keluarga.jpg",
   "judul": "Marriage, Munduk",
@@ -125,14 +117,6 @@
   "pemotret": "Anandajoti Bhikkhu from Sadao, Thailand",
   "lisensi": "CC BY 2.0",
   "sumber": "https://commons.wikimedia.org/wiki/File:011_Umbrellas,_Siti_Inggil_(38638542700).jpg",
-  "asal": "Wikimedia Commons"
- },
- "penjor": {
-  "berkas": "penjor.jpg",
-  "judul": "Street decoration for Galungan celebration.jpg",
-  "pemotret": "Roland",
-  "lisensi": "CC BY-SA 2.0",
-  "sumber": "https://commons.wikimedia.org/wiki/File:Street_decoration_for_Galungan_celebration.jpg",
   "asal": "Wikimedia Commons"
  },
  "sampi": {
@@ -351,5 +335,11 @@
   "berkas": "aksara/cocok5.jpg",
   "judul": "Gambar jawaban aksara 5",
   "asal": "game Lentera Bali versi asli"
+ },
+ "s21-gotong-royong-kelas": {
+  "berkas": "s21-gotong-royong-kelas.jpg",
+  "judul": "Anak-anak membersihkan kelas bersama",
+  "asal": "diberikan pemilik game",
+  "catatan": "pemakaian pribadi / tugas sekolah"
  }
 }

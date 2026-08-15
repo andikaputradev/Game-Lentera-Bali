@@ -1243,9 +1243,12 @@
     }
     #page-main .foto-soal img {
       width: 100%; height: 100%;
-      object-fit: cover;
-      /* condong ke atas: foto orang (udeng, kebaya, kamen) jangan kepotong kepalanya */
-      object-position: center 32%;
+      /* contain, BUKAN cover. Ini foto soal - isinya yang menjawab pertanyaan,
+         jadi tidak boleh ada bagian yang hilang. Dengan cover, foto mendatar
+         terpotong sampai 68% lebarnya di layar HP, dan foto tegak terpotong
+         sampai 72% tingginya. Sisa ruang di kiri-kanan diisi warna bingkai. */
+      object-fit: contain;
+      object-position: center;
       display: block;
     }
     #page-main .foto-soal .kredit-foto {

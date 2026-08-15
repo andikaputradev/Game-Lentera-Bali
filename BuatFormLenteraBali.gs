@@ -77,7 +77,7 @@ function buatFormLenteraBali() {
   nomor++; tambahSoal(form, nomor, 'Wewidangan utawi genah suci anggen umat Hindu maturan kawastanin...', ['Pura', 'Bale banjar', 'Sekolah', 'Pasar'], 'Pura', 'foto/pura.jpg');
   nomor++; tambahSoal(form, nomor, 'Tuhan ring agama Hindu kawastanin...', ['Sang Hyang Widhi Wasa', 'Ratu Gede', 'Jero Gede', 'Mpu'], 'Sang Hyang Widhi Wasa', null);
   nomor++; tambahSoal(form, nomor, 'Umat Hindu nunas ica ring Sang Hyang Widhi antuk ngaturang...', ['Sesajen miwah banten', 'Pipis miwah perhiasan', 'Batik miwah anduk', 'Sepatu miwah tas'], 'Sesajen miwah banten', 'foto/banten.jpg');
-  nomor++; tambahSoal(form, nomor, 'Manusia patut bakti miwah suksma ring Ida Sang Hyang Widhi Wasa santukan...', ['Ida sane ngasilang keneh', 'Ida sane ngaturang banten', 'Ida sane nyiptayang jagat miwah manusa', 'Ida sane mekarya pura'], 'Ida sane nyiptayang jagat miwah manusa', null);
+  nomor++; tambahSoal(form, nomor, 'Manusia patut bakti miwah suksma ring Ida Sang Hyang Widhi Wasa santukan...', ['Ida sane ngasilang keneh', 'Ida sane ngaturang banten', 'Ida sane nyiptayang jagat miwah manusa', 'Ida sane mekarya pura'], 'Ida sane nyiptayang jagat miwah manusa', 'foto/s04-alam-manusa-ciptaan.jpg');
   nomor++; tambahSoal(form, nomor, 'Rerahinan Saraswati, umat Hindu ngaturang banten ring...', ['Lontar miwah buku', 'Beras miwah taluh', 'Ayam miwah bebek', 'Candi miwah arca'], 'Lontar miwah buku', 'foto/lontar.jpg');
   nomor++; tambahSoal(form, nomor, 'Upacara penyucian ke segara sane kalaksanayang olih umat Hindu sedurung Nyepi kawastanin...', ['Melasti', 'Mepandes', 'Mabyakala', 'Matur piuning'], 'Melasti', 'foto/melasti.jpg');
   nomor++; tambahSoal(form, nomor, 'Sarana upacara sane malakar don nyuh medaging bunga, kaanggen ngaturang banten ring sang hyang widhi inggih punika...', ['Tamas', 'Canang', 'Tumpeng', 'Lamak'], 'Canang', 'foto/canang.jpg');
@@ -95,13 +95,13 @@ function buatFormLenteraBali() {
   // ============ LEVEL 2: PAWONGAN ============
   form.addPageBreakItem().setTitle('Level 2: Pawongan')
       .setHelpText('10 soal pilihan ganda lan 5 soal ngadungang gambar.');
-  nomor++; tambahSoal(form, nomor, 'Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....', ['Sugih', 'Uyut', 'Lacur', 'Adung'], 'Adung', null);
+  nomor++; tambahSoal(form, nomor, 'Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....', ['Sugih', 'Uyut', 'Lacur', 'Adung'], 'Adung', 'foto/s16-adung-megibung.jpg');
   nomor++; tambahSoal(form, nomor, 'Rai demen masilihang teken timpale ane sing ngelah. Ento bacakan Solah ane....', ['Becik', 'Jele', 'Mayus', 'Lengit'], 'Becik', null);
   nomor++; tambahSoal(form, nomor, 'Rerama sesai maang pitutur. Pitutur rerama patut....', ['Resepang', 'Kelidin', 'Saruin', 'Kalahin'], 'Resepang', 'foto/keluarga.jpg');
   nomor++; tambahSoal(form, nomor, 'Putu Budi ngelah cita-cita dadi dokter. Dadi dokter geginane tuah....', ['Nyampur ubad', 'Ngubadin anak gelem', 'Menahin montor', 'Ngae wewangunan'], 'Ngubadin anak gelem', 'foto/s19-dokter-ngubadin-anak-gelem.jpg');
   nomor++; tambahSoal(form, nomor, 'Ngomong sareng guru patut nganggen basa sane....', ['Kasar', 'Alus tur sopan', 'Keras', 'Sengit'], 'Alus tur sopan', null);
   nomor++; tambahSoal(form, nomor, 'Ring waktu mebersih kelas, iraga patut....', ['Gotong royong', 'Melaib', 'Nyingakin kemawon', 'Macepuk'], 'Gotong royong', 'foto/gotong-royong.jpg');
-  nomor++; tambahSoal(form, nomor, 'Pianakne ane pertama suba ngajahin di SD. Anak ane geginane ngajahin di sekolah madan...', ['Guru', 'Satpam', 'Pengacara', 'Polisi'], 'Guru', 'foto/guru-murid.jpg');
+  nomor++; tambahSoal(form, nomor, 'Pianakne ane pertama suba ngajahin di SD. Anak ane geginane ngajahin di sekolah madan...', ['Guru', 'Satpam', 'Pengacara', 'Polisi'], 'Guru', 'foto/s22-guru-ngajahin.jpg');
   nomor++; tambahSoal(form, nomor, 'Tusing dadi lengit nulungin rerama magarapan. Lengit len raosne....', ['Jemet', 'Seleg', 'Mayus', 'Anteng'], 'Mayus', null);
   nomor++; tambahSoal(form, nomor, 'Yening ada timpal ane ulung patutne....', ['Kalahin', 'Tolih', 'Kedekin', 'Tulungin'], 'Tulungin', 'foto/timpal.jpg');
   nomor++; tambahSoal(form, nomor, 'Tresna asih metimpal. Tresna asih solah ane....', ['Melah', 'Corah', 'Jele', 'Gedeg'], 'Melah', null);

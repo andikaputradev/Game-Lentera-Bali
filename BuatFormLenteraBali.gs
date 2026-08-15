@@ -78,19 +78,19 @@ function buatFormLenteraBali() {
   nomor++; tambahSoal(form, nomor, 'Tuhan ring agama Hindu kawastanin...', ['Sang Hyang Widhi Wasa', 'Ratu Gede', 'Jero Gede', 'Mpu'], 'Sang Hyang Widhi Wasa', null);
   nomor++; tambahSoal(form, nomor, 'Umat Hindu nunas ica ring Sang Hyang Widhi antuk ngaturang...', ['Sesajen miwah banten', 'Pipis miwah perhiasan', 'Batik miwah anduk', 'Sepatu miwah tas'], 'Sesajen miwah banten', 'foto/banten.jpg');
   nomor++; tambahSoal(form, nomor, 'Manusia patut bakti miwah suksma ring Ida Sang Hyang Widhi Wasa santukan...', ['Ida sane ngasilang keneh', 'Ida sane ngaturang banten', 'Ida sane nyiptayang jagat miwah manusa', 'Ida sane mekarya pura'], 'Ida sane nyiptayang jagat miwah manusa', 'foto/s04-alam-manusa-ciptaan.jpg');
-  nomor++; tambahSoal(form, nomor, 'Rerahinan Saraswati, umat Hindu ngaturang banten ring...', ['Lontar miwah buku', 'Beras miwah taluh', 'Ayam miwah bebek', 'Candi miwah arca'], 'Lontar miwah buku', 'foto/lontar.jpg');
+  nomor++; tambahSoal(form, nomor, 'Rerahinan Saraswati, umat Hindu ngaturang banten ring...', ['Lontar miwah buku', 'Beras miwah taluh', 'Ayam miwah bebek', 'Candi miwah arca'], 'Lontar miwah buku', 'foto/s05-lontar-saraswati.jpg');
   nomor++; tambahSoal(form, nomor, 'Upacara penyucian ke segara sane kalaksanayang olih umat Hindu sedurung Nyepi kawastanin...', ['Melasti', 'Mepandes', 'Mabyakala', 'Matur piuning'], 'Melasti', 'foto/melasti.jpg');
   nomor++; tambahSoal(form, nomor, 'Sarana upacara sane malakar don nyuh medaging bunga, kaanggen ngaturang banten ring sang hyang widhi inggih punika...', ['Tamas', 'Canang', 'Tumpeng', 'Lamak'], 'Canang', 'foto/canang.jpg');
-  nomor++; tambahSoal(form, nomor, 'Ngaturang banten saiban utawi ajengan nasi semengan kawastanin...', ['Maturan', 'Melukat', 'Ngejot', 'Melasti'], 'Ngejot', null);
+  nomor++; tambahSoal(form, nomor, 'Ngaturang banten saiban utawi ajengan nasi semengan kawastanin...', ['Maturan', 'Melukat', 'Ngejot', 'Melasti'], 'Ngejot', 'foto/s08-ngejot-saiban.jpg');
   nomor++; tambahSoal(form, nomor, 'Genah palinggihan Sang Hyang Widhi Wasa ring pura inggih punika...', ['Padmasana', 'Bale kulkul', 'Wantilan', 'Lumbung'], 'Padmasana', 'foto/padmasana.jpg');
   nomor++; tambahSoal(form, nomor, 'Rerahinan Galungan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin...', ['Penjor', 'Tamiang', 'Sate', 'Lawar'], 'Penjor', 'foto/penjor.jpg');
 
   // -- soal ngadungang gambar (di game: tarik garis kata ke gambar) --
-  nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Pura Besakih', 'Penjor', 'Canang', 'Mebakti', 'Pura Tanah Lot'], 'Pura Besakih', 'foto/pura-besakih.jpg');
-  nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Pura Besakih', 'Penjor', 'Canang', 'Mebakti', 'Pura Tanah Lot'], 'Penjor', 'foto/s12-penjor-detail-janur.jpg');
+  nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Pura Besakih', 'Penjor', 'Canang', 'Mebakti', 'Pura Tanah Lot'], 'Pura Besakih', 'foto/s11-pura-besakih.jpg');
+  nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Pura Besakih', 'Penjor', 'Canang', 'Mebakti', 'Pura Tanah Lot'], 'Penjor', 'foto/s12-penjor.jpg');
   nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Pura Besakih', 'Penjor', 'Canang', 'Mebakti', 'Pura Tanah Lot'], 'Canang', 'foto/s13-canang-sari-detail.jpg');
   nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Pura Besakih', 'Penjor', 'Canang', 'Mebakti', 'Pura Tanah Lot'], 'Mebakti', 'foto/mebakti.jpg');
-  nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Pura Besakih', 'Penjor', 'Canang', 'Mebakti', 'Pura Tanah Lot'], 'Pura Tanah Lot', 'foto/pura-tanah-lot.jpg');
+  nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Pura Besakih', 'Penjor', 'Canang', 'Mebakti', 'Pura Tanah Lot'], 'Pura Tanah Lot', 'foto/s15-pura-tanah-lot.jpg');
 
   // ============ LEVEL 2: PAWONGAN ============
   form.addPageBreakItem().setTitle('Level 2: Pawongan')
@@ -117,22 +117,22 @@ function buatFormLenteraBali() {
   form.addPageBreakItem().setTitle('Level 3: Palemahan')
       .setHelpText('10 soal pilihan ganda lan 5 soal ngadungang gambar.');
   nomor++; tambahSoal(form, nomor, 'Contoh sane ngamargiang pelestarian alam inggih punika ....', ['Ngutang luhu ring tukad', 'Nanem entik-entikan', 'Nembak kedis', 'Ngusak alas'], 'Nanem entik-entikan', 'foto/nanem-entik.jpg');
-  nomor++; tambahSoal(form, nomor, 'Ngutang luu patutné di....', ['Tukad', 'Sémér', 'Got', 'Tong sampah'], 'Tong sampah', 'foto/tong-sampah.jpg');
+  nomor++; tambahSoal(form, nomor, 'Ngutang luu patutné di....', ['Tukad', 'Sémér', 'Got', 'Tong sampah'], 'Tong sampah', 'foto/s32-tong-sampah.jpg');
   nomor++; tambahSoal(form, nomor, 'Iraga patut nyaga kabresihan déwék lan lingkungan apang setata…', ['Seger', 'Kual', 'Kumel', 'Daki'], 'Seger', null);
   nomor++; tambahSoal(form, nomor, 'I Putu demen nyampat di natahe. Nyampat kruna lingganyane…', ['Sampat', 'Sampate', 'Nyampat', 'Nyampatang'], 'Sampat', 'foto/sampat.jpg');
-  nomor++; tambahSoal(form, nomor, 'Betén ené conto parilaksana hémat yéh…', ['ngematiang listrik yén suba tengai', 'tusing ngidupang AC masan ujan', 'negakin sepéda ka sekolah', 'ngematiang kran yén suba suud manjus'], 'ngematiang kran yén suba suud manjus', 'foto/kran-air.jpg');
+  nomor++; tambahSoal(form, nomor, 'Betén ené conto parilaksana hémat yéh…', ['ngematiang listrik yén suba tengai', 'tusing ngidupang AC masan ujan', 'negakin sepéda ka sekolah', 'ngematiang kran yén suba suud manjus'], 'ngematiang kran yén suba suud manjus', 'foto/s35-ngematiang-kran.jpg');
   nomor++; tambahSoal(form, nomor, 'Yên suba hémat énergi lakar ngranayang hemat…', ['Nasi', 'Munyi', 'Prabéya', 'Bayu'], 'Prabéya', 'foto/s36-hemat-prabeya-celengan.jpg');
   nomor++; tambahSoal(form, nomor, 'Tiang ngubuh sampi di désa. Ngubuh patuh artiné…', ['Miara', 'Ngebus', 'Ngalih', 'Madep'], 'Miara', 'foto/sampi.jpg');
-  nomor++; tambahSoal(form, nomor, 'Iraga patutné... tekén ubuh-ubuhan.', ['Gedeg', 'Sayang', 'Pedih', 'Tusing Demen'], 'Sayang', 'foto/s38-sayang-ubuh-ubuhan.jpg');
+  nomor++; tambahSoal(form, nomor, 'Iraga patutné... tekén ubuh-ubuhan.', ['Gedeg', 'Sayang', 'Pedih', 'Tusing Demen'], 'Sayang', 'foto/s38-sayang-ubuhan.jpg');
   nomor++; tambahSoal(form, nomor, 'Apang entik-entikané tusing layu patut…', ['Tumbeg', 'Abut', 'Tunjel', 'Siam'], 'Siam', 'foto/nyiram.jpg');
   nomor++; tambahSoal(form, nomor, 'Pidan anaké ngebuhang tanah di cariké nganggon buron sampi. Di zaman jani anaké ngebuhang tanah di carike nganggon...', ['Traktor', 'Kambing', 'HP', 'Robot'], 'Traktor', 'foto/traktor-sawah.jpg');
 
   // -- soal ngadungang gambar (di game: tarik garis kata ke gambar) --
-  nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Subak', 'Tukad', 'Luu', 'Entik-entikan layu', 'Tong sampah'], 'Subak', 'foto/subak.jpg');
-  nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Subak', 'Tukad', 'Luu', 'Entik-entikan layu', 'Tong sampah'], 'Tukad', 'foto/tukad.jpg');
-  nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Subak', 'Tukad', 'Luu', 'Entik-entikan layu', 'Tong sampah'], 'Luu', 'foto/luu-tukad.jpg');
-  nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Subak', 'Tukad', 'Luu', 'Entik-entikan layu', 'Tong sampah'], 'Entik-entikan layu', 'foto/entik-layu.jpg');
-  nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Subak', 'Tukad', 'Luu', 'Entik-entikan layu', 'Tong sampah'], 'Tong sampah', 'foto/s45-tong-sampah-benda.jpg');
+  nomor++; tambahSoal(form, nomor, 'Aksara Bali ené wacén. Krunané madan apa?', ['Bulan', 'Bintang', 'Sampi', 'Sampat', 'Matan ai'], 'Bulan', 'foto/aksara/soal1.jpg');
+  nomor++; tambahSoal(form, nomor, 'Aksara Bali ené wacén. Krunané madan apa?', ['Bulan', 'Bintang', 'Sampi', 'Sampat', 'Matan ai'], 'Bintang', 'foto/aksara/soal2.jpg');
+  nomor++; tambahSoal(form, nomor, 'Aksara Bali ené wacén. Krunané madan apa?', ['Bulan', 'Bintang', 'Sampi', 'Sampat', 'Matan ai'], 'Sampi', 'foto/aksara/soal3.jpg');
+  nomor++; tambahSoal(form, nomor, 'Aksara Bali ené wacén. Krunané madan apa?', ['Bulan', 'Bintang', 'Sampi', 'Sampat', 'Matan ai'], 'Sampat', 'foto/aksara/soal4.jpg');
+  nomor++; tambahSoal(form, nomor, 'Aksara Bali ené wacén. Krunané madan apa?', ['Bulan', 'Bintang', 'Sampi', 'Sampat', 'Matan ai'], 'Matan ai', 'foto/aksara/soal5.jpg');
 
   Logger.log('=================================================');
   Logger.log('Form dadi! Jumlah soal: ' + nomor);

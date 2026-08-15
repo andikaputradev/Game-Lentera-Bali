@@ -247,14 +247,6 @@
   "sumber": "https://commons.wikimedia.org/wiki/File:Sapu_lidi,_Indonesian_whisk_broom_20161208c.jpg",
   "asal": "Wikimedia Commons"
  },
- "guru-murid": {
-  "berkas": "guru-murid.jpg",
-  "judul": "Maths teacher solves a problem on the whiteboard",
-  "pemotret": "www.primeeducation.com.au",
-  "lisensi": "BY-NC 2.0",
-  "sumber": "https://www.flickr.com/photos/79155794@N03/7260309326",
-  "asal": "Flickr"
- },
  "s12-penjor-detail-janur": {
   "berkas": "s12-penjor-detail-janur.jpg",
   "judul": "Umbul-umbul Bali Red and White 1",
@@ -306,5 +298,25 @@
   "lisensi": "CC BY 4.0",
   "asal": "Wikimedia Commons",
   "perubahan": "dipotong rapat pada telinga"
+ },
+ "s04-alam-manusa-ciptaan": {
+  "berkas": "s04-alam-manusa-ciptaan.jpg",
+  "judul": "Foto: Petani sedang menanam padi | Mediatani",
+  "sumber": "https://mediatani.co/beda-jauh-nasib-petani-indonesia-dengan-negara-maju/petani-sedang-menanam-padi/",
+  "asal": "hasil pencarian web",
+  "catatan": "dipilih pemilik game dari sumber web umum"
+ },
+ "s16-adung-megibung": {
+  "berkas": "s16-adung-megibung.jpg",
+  "judul": "Ngayah! Tradisi Gotong Royong yang Memupuk Kebersamaan di Bali ...",
+  "sumber": "https://teropongmedia.id/ngayah-tradisi-gotong-royong-yang-memupuk-kebersamaan-di-bali/",
+  "asal": "hasil pencarian web",
+  "catatan": "dipilih pemilik game dari sumber web umum"
+ },
+ "s22-guru-ngajahin": {
+  "berkas": "s22-guru-ngajahin.jpg",
+  "judul": "Guru mengajar Bahasa Bali di kelas",
+  "asal": "diberikan pemilik game",
+  "catatan": "pemakaian pribadi/tugas sekolah"
  }
 }

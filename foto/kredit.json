@@ -39,14 +39,6 @@
   "sumber": "https://commons.wikimedia.org/wiki/File:Balinese_offering.jpg",
   "asal": "Wikimedia Commons"
  },
- "entik-layu": {
-  "berkas": "entik-layu.jpg",
-  "judul": "Spooky Container (8256112173).jpg",
-  "pemotret": "daryl_mitchell from Saskatoon, Saskatchewan, Canada",
-  "lisensi": "CC BY-SA 2.0",
-  "sumber": "https://commons.wikimedia.org/wiki/File:Spooky_Container_(8256112173).jpg",
-  "asal": "Wikimedia Commons"
- },
  "galeng": {
   "berkas": "galeng.jpg",
   "judul": "Almofadas.jpg",
@@ -247,35 +239,11 @@
   "sumber": "https://commons.wikimedia.org/wiki/File:Sapu_lidi,_Indonesian_whisk_broom_20161208c.jpg",
   "asal": "Wikimedia Commons"
  },
- "s12-penjor-detail-janur": {
-  "berkas": "s12-penjor-detail-janur.jpg",
-  "judul": "Umbul-umbul Bali Red and White 1",
-  "pemotret": "Gunawan Kartapranata",
-  "lisensi": "BY-SA 4.0",
-  "sumber": "https://commons.wikimedia.org/w/index.php?curid=97670842",
-  "asal": "wikimedia"
- },
- "s45-tong-sampah-benda": {
-  "berkas": "s45-tong-sampah-benda.jpg",
-  "judul": "Bali trash bin sorting system",
-  "pemotret": "Jnzl's Photos",
-  "lisensi": "BY 2.0",
-  "sumber": "https://www.flickr.com/photos/102748040@N03/23333761413",
-  "asal": "Flickr"
- },
- "s38-sayang-ubuh-ubuhan": {
-  "berkas": "s38-sayang-ubuh-ubuhan.jpg",
-  "judul": "Boy Feeding Calf (Petting Zoo)",
-  "pemotret": "Alabama Extension",
-  "lisensi": "CC0 1.0",
-  "sumber": "https://www.flickr.com/photos/184594136@N08/52453783680",
-  "asal": "Flickr"
- },
  "s19-dokter-ngubadin-anak-gelem": {
   "berkas": "s19-dokter-ngubadin-anak-gelem.jpg",
   "judul": "Konsultasi ke dokter",
   "asal": "diberikan pemilik game",
-  "catatan": "pemakaian pribadi/tugas sekolah"
+  "catatan": "pemakaian pribadi / tugas sekolah"
  },
  "s36-hemat-prabeya-celengan": {
   "berkas": "s36-hemat-prabeya-celengan.jpg",
@@ -315,8 +283,106 @@
  },
  "s22-guru-ngajahin": {
   "berkas": "s22-guru-ngajahin.jpg",
-  "judul": "Guru mengajar Bahasa Bali di kelas",
+  "judul": "Guru mengajar Bahasa Bali",
   "asal": "diberikan pemilik game",
-  "catatan": "pemakaian pribadi/tugas sekolah"
+  "catatan": "pemakaian pribadi / tugas sekolah"
+ },
+ "s05-lontar-saraswati": {
+  "berkas": "s05-lontar-saraswati.jpg",
+  "judul": "Lontar",
+  "asal": "diberikan pemilik game",
+  "catatan": "pemakaian pribadi / tugas sekolah"
+ },
+ "s08-ngejot-saiban": {
+  "berkas": "s08-ngejot-saiban.jpg",
+  "judul": "Ngejot / saiban",
+  "asal": "diberikan pemilik game",
+  "catatan": "pemakaian pribadi / tugas sekolah"
+ },
+ "s11-pura-besakih": {
+  "berkas": "s11-pura-besakih.jpg",
+  "judul": "Pura Besakih",
+  "asal": "diberikan pemilik game",
+  "catatan": "pemakaian pribadi / tugas sekolah"
+ },
+ "s12-penjor": {
+  "berkas": "s12-penjor.jpg",
+  "judul": "Penjor",
+  "asal": "diberikan pemilik game",
+  "catatan": "pemakaian pribadi / tugas sekolah"
+ },
+ "s15-pura-tanah-lot": {
+  "berkas": "s15-pura-tanah-lot.jpg",
+  "judul": "Pura Tanah Lot",
+  "asal": "diberikan pemilik game",
+  "catatan": "pemakaian pribadi / tugas sekolah"
+ },
+ "s32-tong-sampah": {
+  "berkas": "s32-tong-sampah.jpg",
+  "judul": "Tong sampah",
+  "asal": "diberikan pemilik game",
+  "catatan": "pemakaian pribadi / tugas sekolah"
+ },
+ "s35-ngematiang-kran": {
+  "berkas": "s35-ngematiang-kran.jpg",
+  "judul": "Mematikan kran air",
+  "asal": "diberikan pemilik game",
+  "catatan": "pemakaian pribadi / tugas sekolah"
+ },
+ "s38-sayang-ubuhan": {
+  "berkas": "s38-sayang-ubuhan.jpg",
+  "judul": "Sayang teken ubuh-ubuhan",
+  "asal": "diberikan pemilik game",
+  "catatan": "pemakaian pribadi / tugas sekolah"
+ },
+ "aksara-soal1": {
+  "berkas": "aksara/soal1.jpg",
+  "judul": "Aksara Bali soal 1",
+  "asal": "game Lentera Bali versi asli"
+ },
+ "aksara-cocok1": {
+  "berkas": "aksara/cocok1.jpg",
+  "judul": "Gambar jawaban aksara 1",
+  "asal": "game Lentera Bali versi asli"
+ },
+ "aksara-soal2": {
+  "berkas": "aksara/soal2.jpg",
+  "judul": "Aksara Bali soal 2",
+  "asal": "game Lentera Bali versi asli"
+ },
+ "aksara-cocok2": {
+  "berkas": "aksara/cocok2.jpg",
+  "judul": "Gambar jawaban aksara 2",
+  "asal": "game Lentera Bali versi asli"
+ },
+ "aksara-soal3": {
+  "berkas": "aksara/soal3.jpg",
+  "judul": "Aksara Bali soal 3",
+  "asal": "game Lentera Bali versi asli"
+ },
+ "aksara-cocok3": {
+  "berkas": "aksara/cocok3.jpg",
+  "judul": "Gambar jawaban aksara 3",
+  "asal": "game Lentera Bali versi asli"
+ },
+ "aksara-soal4": {
+  "berkas": "aksara/soal4.jpg",
+  "judul": "Aksara Bali soal 4",
+  "asal": "game Lentera Bali versi asli"
+ },
+ "aksara-cocok4": {
+  "berkas": "aksara/cocok4.jpg",
+  "judul": "Gambar jawaban aksara 4",
+  "asal": "game Lentera Bali versi asli"
+ },
+ "aksara-soal5": {
+  "berkas": "aksara/soal5.jpg",
+  "judul": "Aksara Bali soal 5",
+  "asal": "game Lentera Bali versi asli"
+ },
+ "aksara-cocok5": {
+  "berkas": "aksara/cocok5.jpg",
+  "judul": "Gambar jawaban aksara 5",
+  "asal": "game Lentera Bali versi asli"
  }
 }

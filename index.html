@@ -1334,7 +1334,22 @@
       /* tegak: panggung di atas, lalu balon soal, lalu pilihan 1 kolom yang
          memanjang mengisi SEMUA sisa tinggi kartu (tidak ada lagi ruang kosong) */
       #page-main .quiz-content-layout { flex-direction: column; justify-content: flex-start; gap: 10px; }
-      #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: 27%; min-height: 120px; }
+      /* Tegak: foto diberi BARIS SENDIRI selebar panel, karakter mengecil di
+         bawahnya. Sebelumnya foto terjepit di antara dua karakter sehingga
+         kotaknya cuma 107x178 px -- tegak sempit -- padahal hampir semua foto
+         soal mendatar, jadi 36 dari 45 foto kehilangan lebih dari separuh
+         lebarnya karena object-fit: cover. */
+      #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: 36%; min-height: 172px; }
+      #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 4px; }
+      #page-main .panggung .foto-soal { order: -1; flex: 1 1 100%; height: 64%; }
+      #page-main .panggung .kar-slot {
+        flex: 1 1 0; width: auto; max-width: 76px; min-width: 0;
+        height: 34%; aspect-ratio: auto; align-self: flex-end;
+      }
+      /* soal tanpa gambar tetap: karakter mengisi panggung seperti biasa */
+      #page-main .panggung.tanpa-foto .kar-slot {
+        flex: 0 0 auto; width: 44%; max-width: 150px; height: 100%;
+      }
       #page-main .quiz-left-panel { flex: 1 1 auto; width: 100%; min-height: 0; justify-content: flex-start; }
       #page-main .options-grid { grid-template-columns: 1fr; gap: 10px; }
       #page-main .btn-option { font-size: 1.1rem; }

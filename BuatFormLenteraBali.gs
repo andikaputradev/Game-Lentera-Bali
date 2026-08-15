@@ -83,7 +83,7 @@ function buatFormLenteraBali() {
   nomor++; tambahSoal(form, nomor, 'Sarana upacara sane malakar don nyuh medaging bunga, kaanggen ngaturang banten ring sang hyang widhi inggih punika...', ['Tamas', 'Canang', 'Tumpeng', 'Lamak'], 'Canang', 'foto/canang.jpg');
   nomor++; tambahSoal(form, nomor, 'Ngaturang banten saiban utawi ajengan nasi semengan kawastanin...', ['Maturan', 'Melukat', 'Ngejot', 'Melasti'], 'Ngejot', 'foto/s08-ngejot-saiban.jpg');
   nomor++; tambahSoal(form, nomor, 'Genah palinggihan Sang Hyang Widhi Wasa ring pura inggih punika...', ['Padmasana', 'Bale kulkul', 'Wantilan', 'Lumbung'], 'Padmasana', 'foto/padmasana.jpg');
-  nomor++; tambahSoal(form, nomor, 'Rerahinan Galungan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin...', ['Penjor', 'Tamiang', 'Sate', 'Lawar'], 'Penjor', 'foto/penjor.jpg');
+  nomor++; tambahSoal(form, nomor, 'Rerahinan Galungan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin...', ['Penjor', 'Tamiang', 'Sate', 'Lawar'], 'Penjor', 'foto/s12-penjor.jpg');
 
   // -- soal ngadungang gambar (di game: tarik garis kata ke gambar) --
   nomor++; tambahSoal(form, nomor, 'Gambar ené madan apa?', ['Pura Besakih', 'Penjor', 'Canang', 'Mebakti', 'Pura Tanah Lot'], 'Pura Besakih', 'foto/s11-pura-besakih.jpg');
@@ -100,7 +100,7 @@ function buatFormLenteraBali() {
   nomor++; tambahSoal(form, nomor, 'Rerama sesai maang pitutur. Pitutur rerama patut....', ['Resepang', 'Kelidin', 'Saruin', 'Kalahin'], 'Resepang', 'foto/keluarga.jpg');
   nomor++; tambahSoal(form, nomor, 'Putu Budi ngelah cita-cita dadi dokter. Dadi dokter geginane tuah....', ['Nyampur ubad', 'Ngubadin anak gelem', 'Menahin montor', 'Ngae wewangunan'], 'Ngubadin anak gelem', 'foto/s19-dokter-ngubadin-anak-gelem.jpg');
   nomor++; tambahSoal(form, nomor, 'Ngomong sareng guru patut nganggen basa sane....', ['Kasar', 'Alus tur sopan', 'Keras', 'Sengit'], 'Alus tur sopan', 'foto/s20-alus-sopan-guru.jpg');
-  nomor++; tambahSoal(form, nomor, 'Ring waktu mebersih kelas, iraga patut....', ['Gotong royong', 'Melaib', 'Nyingakin kemawon', 'Macepuk'], 'Gotong royong', 'foto/gotong-royong.jpg');
+  nomor++; tambahSoal(form, nomor, 'Ring waktu mebersih kelas, iraga patut....', ['Gotong royong', 'Melaib', 'Nyingakin kemawon', 'Macepuk'], 'Gotong royong', 'foto/s21-gotong-royong-kelas.jpg');
   nomor++; tambahSoal(form, nomor, 'Pianakne ane pertama suba ngajahin di SD. Anak ane geginane ngajahin di sekolah madan...', ['Guru', 'Satpam', 'Pengacara', 'Polisi'], 'Guru', 'foto/s22-guru-ngajahin.jpg');
   nomor++; tambahSoal(form, nomor, 'Tusing dadi lengit nulungin rerama magarapan. Lengit len raosne....', ['Jemet', 'Seleg', 'Mayus', 'Anteng'], 'Mayus', 'foto/s23-mayus.jpg');
   nomor++; tambahSoal(form, nomor, 'Yening ada timpal ane ulung patutne....', ['Kalahin', 'Tolih', 'Kedekin', 'Tulungin'], 'Tulungin', 'foto/timpal.jpg');

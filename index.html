@@ -1244,7 +1244,12 @@
          mengikuti lebar gambar supaya pita itu hilang. */
       width: auto;
       max-width: 100%;
+      /* align-items WAJIB center: bawaan flex adalah stretch, yang MEREGANGKAN
+         gambar mengikuti tinggi bingkai sehingga rasionya rusak (terukur: asli
+         1,78 jadi 1,62). Dengan center, gambar memakai rasio aslinya. */
       display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
       border-radius: 14px;
       border: 3px solid #b0703c;

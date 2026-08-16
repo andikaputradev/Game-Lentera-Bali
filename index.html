@@ -1368,7 +1368,7 @@
          kotaknya cuma 107x178 px -- tegak sempit -- padahal hampir semua foto
          soal mendatar, jadi 36 dari 45 foto kehilangan lebih dari separuh
          lebarnya karena object-fit: cover. */
-      #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: 52%; min-height: 300px; }
+      #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: auto; max-height: 58%; }
       #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 6px; }
       /* Bingkai MEMELUK gambar (width: fit-content), jadi tidak ada bidang krem
          tersisa di kiri-kanan foto tegak. ::after berperan sebagai pemutus baris
@@ -1381,9 +1381,9 @@
            di atas-bawah gambar. */
         height: auto; align-self: center; margin: 0 auto;
       }
-      #page-main .panggung .foto-soal img { max-height: 26vh; }
+      #page-main .panggung .foto-soal img { max-height: 21vh; }
       #page-main .panggung .kar-slot {
-        flex: 1 1 0; width: auto; max-width: 168px; min-width: 0;
+        flex: 1 1 0; width: auto; max-width: 200px; min-width: 0;
         height: auto; aspect-ratio: auto; align-self: flex-end;
       }
       /* Maskot diukur dari TINGGI supaya tidak meluber, tapi tingginya dinaikkan
@@ -1397,7 +1397,7 @@
       /* SATU aturan saja untuk tinggi maskot. Sebelumnya ada dua: 14vh lalu
          ditimpa 100% -- dan 100% dari slot bertinggi auto sama dengan NOL,
          jadi maskotnya hilang sama sekali. */
-      #page-main .panggung .kar-slot .kar { width: auto; height: 14vh; max-width: 100%; }
+      #page-main .panggung .kar-slot .kar { width: auto; height: 21vh; max-width: 100%; }
       /* soal tanpa gambar tetap: karakter mengisi panggung seperti biasa */
       #page-main .panggung.tanpa-foto .kar-slot {
         flex: 0 0 auto; width: 44%; max-width: 150px; height: 100%;

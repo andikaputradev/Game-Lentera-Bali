@@ -1324,7 +1324,11 @@
          satu kolom, kedua karakter menghabiskan tinggi dan fotonya tinggal
          segaris tipis. Karakter dibuat besar supaya busana adatnya kelihatan. */
       #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 4px; }
-      #page-main .panggung .foto-soal { order: -1; flex: 1 1 100%; height: 46%; }
+      #page-main .panggung::after { content: ''; flex-basis: 100%; height: 0; order: -1; }
+      #page-main .panggung .foto-soal {
+        order: -1; flex: 0 0 auto; width: fit-content; max-width: 100%;
+        height: 52%; margin: 0 auto;
+      }
       #page-main .panggung .kar-slot {
         flex: 1 1 0; width: auto; max-width: none; min-width: 0;
         height: 51%; aspect-ratio: auto; align-self: flex-end;
@@ -1357,10 +1361,17 @@
          lebarnya karena object-fit: cover. */
       #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: 46%; min-height: 250px; }
       #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 6px; }
-      #page-main .panggung .foto-soal { order: -1; flex: 1 1 100%; height: 66%; }
+      /* Bingkai MEMELUK gambar (width: fit-content), jadi tidak ada bidang krem
+         tersisa di kiri-kanan foto tegak. ::after berperan sebagai pemutus baris
+         supaya foto tetap sendirian di baris atas walau lebarnya menyusut. */
+      #page-main .panggung::after { content: ''; flex-basis: 100%; height: 0; order: -1; }
+      #page-main .panggung .foto-soal {
+        order: -1; flex: 0 0 auto; width: fit-content; max-width: 100%;
+        height: 72%; margin: 0 auto;
+      }
       #page-main .panggung .kar-slot {
         flex: 1 1 0; width: auto; max-width: 118px; min-width: 0;
-        height: 32%; aspect-ratio: auto; align-self: flex-end;
+        height: 26%; aspect-ratio: auto; align-self: flex-end;
       }
       /* .kar mengukur diri dari LEBAR (width:100% + aspect-ratio 375/666), jadi di
          slot sempit tingginya membengkak 1,78x lebar dan meluber ke bawah sampai

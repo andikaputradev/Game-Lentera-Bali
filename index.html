@@ -1381,7 +1381,7 @@
            di atas-bawah gambar. */
         height: auto; align-self: center; margin: 0 auto;
       }
-      #page-main .panggung .foto-soal img { max-height: 21vh; }
+      #page-main .panggung .foto-soal img { max-height: 20vh; }
       #page-main .panggung .kar-slot {
         flex: 1 1 0; width: auto; max-width: 200px; min-width: 0;
         height: auto; aspect-ratio: auto; align-self: flex-end;
@@ -1397,13 +1397,15 @@
       /* SATU aturan saja untuk tinggi maskot. Sebelumnya ada dua: 14vh lalu
          ditimpa 100% -- dan 100% dari slot bertinggi auto sama dengan NOL,
          jadi maskotnya hilang sama sekali. */
-      #page-main .panggung .kar-slot .kar { width: auto; height: 21vh; max-width: 100%; }
+      #page-main .panggung .kar-slot .kar { width: auto; height: 17.5vh; max-width: 100%; }
       /* soal tanpa gambar tetap: karakter mengisi panggung seperti biasa */
       #page-main .panggung.tanpa-foto .kar-slot {
         flex: 0 0 auto; width: 44%; max-width: 150px; height: 100%;
       }
       #page-main .quiz-left-panel { flex: 1 1 auto; width: 100%; min-height: 0; justify-content: flex-start; }
-      #page-main .options-grid { grid-template-columns: 1fr; gap: 10px; }
+      /* gap 10 -> 8 dan sedikit ruang di bawah: tombol terakhir tadinya
+         meluber 26px keluar kartu di layar 830px. */
+      #page-main .options-grid { grid-template-columns: 1fr; gap: 8px; padding-bottom: 4px; }
       #page-main .btn-option { font-size: 1.1rem; }
       #page-materi .main-layout { flex-direction: column; gap: 10px; }
       #page-materi .sidebar-tabs { width: 100%; flex-direction: row; }

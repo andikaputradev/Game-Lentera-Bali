@@ -1368,7 +1368,7 @@
          kotaknya cuma 107x178 px -- tegak sempit -- padahal hampir semua foto
          soal mendatar, jadi 36 dari 45 foto kehilangan lebih dari separuh
          lebarnya karena object-fit: cover. */
-      #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: 46%; min-height: 250px; }
+      #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: 52%; min-height: 300px; }
       #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 6px; }
       /* Bingkai MEMELUK gambar (width: fit-content), jadi tidak ada bidang krem
          tersisa di kiri-kanan foto tegak. ::after berperan sebagai pemutus baris
@@ -1381,11 +1381,15 @@
            di atas-bawah gambar. */
         height: auto; align-self: center; margin: 0 auto;
       }
-      #page-main .panggung .foto-soal img { max-height: 30vh; }
+      #page-main .panggung .foto-soal img { max-height: 26vh; }
       #page-main .panggung .kar-slot {
-        flex: 1 1 0; width: auto; max-width: 118px; min-width: 0;
-        height: 26%; aspect-ratio: auto; align-self: flex-end;
+        flex: 1 1 0; width: auto; max-width: 168px; min-width: 0;
+        height: auto; aspect-ratio: auto; align-self: flex-end;
       }
+      /* Maskot diukur dari TINGGI supaya tidak meluber, tapi tingginya dinaikkan
+         jauh (14vh) supaya busana adat Putu & Ni Luh benar-benar kelihatan.
+         Sebelumnya cuma 50x89 px -- terlalu kecil untuk dikenali anak. */
+      #page-main .panggung .kar-slot .kar { height: 14vh; width: auto; }
       /* .kar mengukur diri dari LEBAR (width:100% + aspect-ratio 375/666), jadi di
          slot sempit tingginya membengkak 1,78x lebar dan meluber ke bawah sampai
          menimpa balon soal. Di panggung, karakter diukur dari TINGGI slot. */
@@ -1664,7 +1668,7 @@
       { q: "Tuhan ring agama Hindu kawastanin...", o: ["Sang Hyang Widhi Wasa", "Ratu Gede", "Jero Gede", "Mpu"], c: 0, img: "foto/s02-sang-hyang-widhi.jpg", kata: "padmasana" },
       { q: "Umat Hindu nunas ica ring Sang Hyang Widhi antuk ngaturang...", o: ["Sesajen miwah banten", "Pipis miwah perhiasan", "Batik miwah anduk", "Sepatu miwah tas"], c: 0, img: "foto/banten.jpg", kata: "banten" },
       { q: "Manusia patut bakti miwah suksma ring Ida Sang Hyang Widhi Wasa santukan...", o: ["Ida sane ngasilang keneh", "Ida sane ngaturang banten", "Ida sane nyiptayang jagat miwah manusa", "Ida sane mekarya pura"], c: 2, img: "foto/s04-alam-manusa-ciptaan.jpg", kata: "jagat" },
-      { q: "Rerahinan Saraswati, umat Hindu ngaturang banten ring...", o: ["Lontar miwah buku", "Beras miwah taluh", "Ayam miwah bebek", "Candi miwah arca"], c: 0, img: "foto/s05-lontar-saraswati.jpg", kata: "lontar" },
+      { q: "Rerahinan Saraswati, umat Hindu ngaturang banten ring...", o: ["Lontar miwah buku", "Beras miwah taluh", "Ayam miwah bebek", "Candi miwah arca"], c: 0, img: "foto/s05-lontar-buku.jpg", kata: "lontar" },
       { q: "Upacara penyucian ke segara sane kalaksanayang olih umat Hindu sedurung Nyepi kawastanin...", o: ["Melasti", "Mepandes", "Mabyakala", "Matur piuning"], c: 0, img: "foto/melasti.jpg", kata: "melasti" },
       { q: "Sarana upacara sane malakar don nyuh medaging bunga, kaanggen ngaturang banten ring sang hyang widhi inggih punika...", o: ["Tamas", "Canang", "Tumpeng", "Lamak"], c: 1, img: "foto/canang.jpg", kata: "canang" },
       { q: "Ngaturang banten saiban utawi ajengan nasi semengan kawastanin...", o: ["Maturan", "Melukat", "Ngejot", "Melasti"], c: 2, img: "foto/s08-ngejot-saiban.jpg", kata: "ngejot" },
@@ -2816,7 +2820,7 @@
       { judul: 'Genah Suci', sub: 'Tempat suci', kata: [
         { bali: 'Pura',            arti: 'Genah suci anggén umat Hindu maturan. (Tempat suci umat Hindu untuk bersembahyang.)', foto: 'pura', au: 'pura' },
         { bali: 'Padmasana',       arti: 'Genah palinggihan Sang Hyang Widhi Wasa ring pura. (Pelinggih tempat memuja Tuhan.)', foto: 'padmasana', au: 'padmasana' },
-        { bali: 'Pura Besakih',    arti: 'Pura ané paling gedé ring Bali, ring bucun Gunung Agung. (Pura terbesar di Bali di kaki Gunung Agung.)', foto: 'pura-besakih', au: 'pura-besakih' },
+        { bali: 'Pura Besakih',    arti: 'Pura ané paling gedé ring Bali, ring bucun Gunung Agung. (Pura terbesar di Bali di kaki Gunung Agung.)', foto: 's11-pura-besakih', au: 'pura-besakih' },
         { bali: 'Pura Tanah Lot',  arti: 'Pura ané majujuk di duur batu ring segara. (Pura yang berdiri di atas batu karang di laut.)', foto: 'pura-tanah-lot', au: 'pura-tanah-lot' }
       ]},
       { judul: 'Sarana Upacara', sub: 'Perlengkapan upacara', kata: [
@@ -2827,7 +2831,7 @@
       { judul: 'Upacara', sub: 'Kegiatan keagamaan', kata: [
         { bali: 'Melasti', arti: 'Upacara penyucian ka segara sadurung Nyepi. (Upacara penyucian ke laut sebelum Nyepi.)', foto: 'melasti', au: 'melasti' },
         { bali: 'Mebakti', arti: 'Ngaturang sembah bakti ring Ida Sang Hyang Widhi. (Bersembahyang kepada Tuhan.)', foto: 'mebakti', au: 'mebakti' },
-        { bali: 'Lontar',  arti: 'Buku Bali malakar aji don ental. (Buku Bali dari daun lontar.)', foto: 'lontar', au: 'lontar' }
+        { bali: 'Lontar',  arti: 'Buku Bali malakar aji don ental. (Buku Bali dari daun lontar.)', foto: 's05-lontar-buku', au: 'lontar' }
       ]}
     ]},
     2: { nama: 'Pawongan', ikon: '🤝', warna: '#1d4ed8', materi: [

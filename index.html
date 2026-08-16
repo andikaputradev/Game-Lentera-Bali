@@ -1318,6 +1318,8 @@
         flex: 1 1 0; width: auto; max-width: none; min-width: 0;
         height: 51%; aspect-ratio: auto; align-self: flex-end;
       }
+      #page-main .panggung .kar-slot { display: flex; justify-content: center; overflow: hidden; }
+      #page-main .panggung .kar-slot .kar { width: auto; height: 100%; max-width: 100%; }
       #page-main .balon-reaksi { bottom: 46%; font-size: .9rem; padding: 6px 10px; }
     }
 
@@ -1349,6 +1351,11 @@
         flex: 1 1 0; width: auto; max-width: 76px; min-width: 0;
         height: 34%; aspect-ratio: auto; align-self: flex-end;
       }
+      /* .kar mengukur diri dari LEBAR (width:100% + aspect-ratio 375/666), jadi di
+         slot sempit tingginya membengkak 1,78x lebar dan meluber ke bawah sampai
+         menimpa balon soal. Di panggung, karakter diukur dari TINGGI slot. */
+      #page-main .panggung .kar-slot { display: flex; justify-content: center; overflow: hidden; }
+      #page-main .panggung .kar-slot .kar { width: auto; height: 100%; max-width: 100%; }
       /* soal tanpa gambar tetap: karakter mengisi panggung seperti biasa */
       #page-main .panggung.tanpa-foto .kar-slot {
         flex: 0 0 auto; width: 44%; max-width: 150px; height: 100%;

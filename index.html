@@ -1397,7 +1397,7 @@
       /* SATU aturan saja untuk tinggi maskot. Sebelumnya ada dua: 14vh lalu
          ditimpa 100% -- dan 100% dari slot bertinggi auto sama dengan NOL,
          jadi maskotnya hilang sama sekali. */
-      #page-main .panggung .kar-slot .kar { width: auto; height: 17.5vh; max-width: 100%; }
+      #page-main .panggung .kar-slot .kar { width: auto; height: 16vh; max-width: 100%; }
       /* soal tanpa gambar tetap: karakter mengisi panggung seperti biasa */
       #page-main .panggung.tanpa-foto .kar-slot {
         flex: 0 0 auto; width: 44%; max-width: 150px; height: 100%;
@@ -1405,7 +1405,7 @@
       #page-main .quiz-left-panel { flex: 1 1 auto; width: 100%; min-height: 0; justify-content: flex-start; }
       /* gap 10 -> 8 dan sedikit ruang di bawah: tombol terakhir tadinya
          meluber 26px keluar kartu di layar 830px. */
-      #page-main .options-grid { grid-template-columns: 1fr; gap: 8px; padding-bottom: 4px; }
+      #page-main .options-grid { grid-template-columns: 1fr; gap: 11px; padding-bottom: 4px; }
       #page-main .btn-option { font-size: 1.1rem; }
       #page-materi .main-layout { flex-direction: column; gap: 10px; }
       #page-materi .sidebar-tabs { width: 100%; flex-direction: row; }
@@ -1937,7 +1937,13 @@
     const slug = (src || '').replace(/^foto\//, '').replace(/\.jpg$/, '');
     const k = kreditFoto[slug];
     if (!k) return '';
-    return '📷 ' + (k.pemotret || '-') + ' · ' + (k.lisensi || '') + ' · ' + (k.asal || 'Openverse');
+    // Hanya bagian yang benar-benar ada yang ditulis. Versi lama selalu
+    // mencetak tiga ruas dipisah titik, sehingga foto tanpa nama pemotret
+    // tampil sebagai "📷 - · · diberikan pemilik game" -- berantakan.
+    const bagian = [k.pemotret, k.lisensi, k.asal].filter(function (x) {
+      return x && String(x).trim() && String(x).trim() !== '-';
+    });
+    return bagian.length ? '📷 ' + bagian.join(' · ') : '';
   }
 
   function initTimer() {

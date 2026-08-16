@@ -157,12 +157,6 @@
   "asal": "diberikan pemilik game",
   "catatan": "pemakaian pribadi / tugas sekolah"
  },
- "s13-canang-sari-detail": {
-  "berkas": "s13-canang-sari-detail.jpg",
-  "judul": "Daily offerings - canang sari is very important in Bali",
-  "lisensi": "CC0 1.0",
-  "asal": "Flickr via Openverse"
- },
  "s30-kuping-telinga-anak": {
   "berkas": "s30-kuping-telinga-anak.jpg",
   "judul": "Bali, Young boy, Balinese child, East Bali",
@@ -341,5 +335,10 @@
   "judul": "Anak-anak membersihkan kelas bersama",
   "asal": "diberikan pemilik game",
   "catatan": "pemakaian pribadi / tugas sekolah"
+ },
+ "logo-lentera-bali": {
+  "berkas": "logo-lentera-bali.png",
+  "judul": "Logo Lentera Bali",
+  "asal": "game Lentera Bali versi asli"
  }
 }

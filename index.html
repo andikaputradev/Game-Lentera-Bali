@@ -114,13 +114,17 @@
       top: 5%;
       left: 50%;
       transform: translateX(-50%);
-      width: 15%;
-      max-width: 110px;
+      width: 26%;
+      max-width: 220px;
       text-align: center;
       z-index: 10;
       animation: logoZoom 3s ease-in-out infinite;
     }
     .logo-container svg { width: 100%; height: auto; display: block; }
+    .logo-container .logo-gambar {
+      width: 100%; height: auto; display: block;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,.45));
+    }
     @keyframes logoZoom {
       0%, 100% { transform: translateX(-50%) scale(1); }
       50% { transform: translateX(-50%) scale(1.05); }
@@ -227,8 +231,8 @@
       top: 4%;
       left: 50%;
       transform: translateX(-50%);
-      width: 25%;
-      max-width: 180px; 
+      width: 34%;
+      max-width: 300px; 
       z-index: 10;
       text-align: center;
       animation: logoZoom 3s ease-in-out infinite;
@@ -1231,9 +1235,16 @@
     #page-main .panggung.tanpa-foto .kar-slot { width: 44%; max-width: 170px; }
 
     #page-main .foto-soal {
-      flex: 1 1 auto;
+      flex: 0 1 auto;
       height: 100%;
       min-width: 0;
+      /* Bingkai MEMELUK gambar. Dengan object-fit: contain di kotak selebar
+         panel, foto mendatar menyisakan bidang kosong di kiri-kanan DI DALAM
+         bingkai -- terlihat seperti dua pita putih. Lebar bingkai dibuat
+         mengikuti lebar gambar supaya pita itu hilang. */
+      width: auto;
+      max-width: 100%;
+      display: flex;
       position: relative;
       border-radius: 14px;
       border: 3px solid #b0703c;
@@ -1242,7 +1253,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,.25);
     }
     #page-main .foto-soal img {
-      width: 100%; height: 100%;
+      width: auto; height: 100%; max-width: 100%;
       /* contain, BUKAN cover. Ini foto soal - isinya yang menjawab pertanyaan,
          jadi tidak boleh ada bagian yang hilang. Dengan cover, foto mendatar
          terpotong sampai 68% lebarnya di layar HP, dan foto tegak terpotong
@@ -1291,9 +1302,9 @@
 
     /* Responsive Orientation */
     @media screen and (orientation: landscape) {
-      #page-login .logo-container { width: 10%; max-width: 65px; top: 4%; }
+      #page-login .logo-container { width: 18%; max-width: 130px; top: 3%; }
       #page-login .form-card { max-width: 420px; padding: 12px 20px; }
-      #page-play .logo-container { width: 16%; max-width: 110px; top: 2%; }
+      #page-play .logo-container { width: 24%; max-width: 190px; top: 1%; }
       #page-play .character { width: 12%; max-height: 48vh; bottom: 0; }
       #page-play #putu { left: 18%; }
       #page-play #niluh { right: 18%; }
@@ -1324,10 +1335,10 @@
     }
 
     @media screen and (orientation: portrait) {
-      #page-login .logo-container { width: 62%; max-width: 230px; top: 4%; }
+      #page-login .logo-container { width: 74%; max-width: 330px; top: 3%; }
       #page-login .character { width: 27%; max-height: 26vh; }
       #page-login .form-card { margin-top: 40px; }
-      #page-play .logo-container { width: 62%; max-width: 250px; top: 11%; }
+      #page-play .logo-container { width: 80%; max-width: 360px; top: 8%; }
       #page-play .character { width: 34%; max-height: 28vh; bottom: 22%; }
       #page-play .controls-container { bottom: 6%; flex-wrap: wrap; justify-content: center; }
       /* 4 level harus muat tanpa perlu digulir di layar HP 740px */
@@ -1344,12 +1355,12 @@
          kotaknya cuma 107x178 px -- tegak sempit -- padahal hampir semua foto
          soal mendatar, jadi 36 dari 45 foto kehilangan lebih dari separuh
          lebarnya karena object-fit: cover. */
-      #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: 36%; min-height: 172px; }
-      #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 4px; }
-      #page-main .panggung .foto-soal { order: -1; flex: 1 1 100%; height: 64%; }
+      #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: 46%; min-height: 250px; }
+      #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 6px; }
+      #page-main .panggung .foto-soal { order: -1; flex: 1 1 100%; height: 66%; }
       #page-main .panggung .kar-slot {
-        flex: 1 1 0; width: auto; max-width: 76px; min-width: 0;
-        height: 34%; aspect-ratio: auto; align-self: flex-end;
+        flex: 1 1 0; width: auto; max-width: 118px; min-width: 0;
+        height: 32%; aspect-ratio: auto; align-self: flex-end;
       }
       /* .kar mengukur diri dari LEBAR (width:100% + aspect-ratio 375/666), jadi di
          slot sempit tingginya membengkak 1,78x lebar dan meluber ke bawah sampai
@@ -1637,7 +1648,7 @@
       { q: "Rerahinan Galungan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin...", o: ["Penjor", "Tamiang", "Sate", "Lawar"], c: 0, img: "foto/s12-penjor.jpg", kata: "penjor" },
       { type: "text-to-image", text: "Pura Besakih", img: "foto/s11-pura-besakih.jpg" },
       { type: "text-to-image", text: "Penjor", img: "foto/s12-penjor.jpg" },
-      { type: "text-to-image", text: "Canang", img: "foto/s13-canang-sari-detail.jpg" },
+      { type: "text-to-image", text: "Canang", img: "foto/canang.jpg" },
       { type: "text-to-image", text: "Mebakti", img: "foto/mebakti.jpg" },
       { type: "text-to-image", text: "Pura Tanah Lot", img: "foto/s15-pura-tanah-lot.jpg" }
     ],
@@ -2650,7 +2661,10 @@
       if (!el.querySelector('svg')) el.innerHTML = Hiasan.ikonLevel(n, WARNA_LEVEL[n]);
     });
     document.querySelectorAll('[data-logo]').forEach(function (el) {
-      if (!el.querySelector('svg')) el.innerHTML = Hiasan.logo();
+      if (!el.querySelector('img')) {
+        el.innerHTML = '<img src="foto/logo-lentera-bali.png" alt="Lentera Bali" ' +
+                       'class="logo-gambar" loading="eager">';
+      }
     });
     document.querySelectorAll('.ornamen-top, .ornamen-bottom').forEach(function (el) {
       el.style.backgroundImage = Hiasan.patra('#c79a4b');

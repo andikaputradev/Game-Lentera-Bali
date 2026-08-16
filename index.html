@@ -1389,12 +1389,15 @@
       /* Maskot diukur dari TINGGI supaya tidak meluber, tapi tingginya dinaikkan
          jauh (14vh) supaya busana adat Putu & Ni Luh benar-benar kelihatan.
          Sebelumnya cuma 50x89 px -- terlalu kecil untuk dikenali anak. */
-      #page-main .panggung .kar-slot .kar { height: 14vh; width: auto; }
+
       /* .kar mengukur diri dari LEBAR (width:100% + aspect-ratio 375/666), jadi di
          slot sempit tingginya membengkak 1,78x lebar dan meluber ke bawah sampai
          menimpa balon soal. Di panggung, karakter diukur dari TINGGI slot. */
-      #page-main .panggung .kar-slot { display: flex; justify-content: center; overflow: hidden; }
-      #page-main .panggung .kar-slot .kar { width: auto; height: 100%; max-width: 100%; }
+      #page-main .panggung .kar-slot { display: flex; justify-content: center; overflow: visible; }
+      /* SATU aturan saja untuk tinggi maskot. Sebelumnya ada dua: 14vh lalu
+         ditimpa 100% -- dan 100% dari slot bertinggi auto sama dengan NOL,
+         jadi maskotnya hilang sama sekali. */
+      #page-main .panggung .kar-slot .kar { width: auto; height: 14vh; max-width: 100%; }
       /* soal tanpa gambar tetap: karakter mengisi panggung seperti biasa */
       #page-main .panggung.tanpa-foto .kar-slot {
         flex: 0 0 auto; width: 44%; max-width: 150px; height: 100%;

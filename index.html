@@ -1054,6 +1054,10 @@
     }
     .menu-kartu:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(84,44,14,.35); }
     .menu-ikon { font-size: 2.1rem; flex: 0 0 auto; }
+    .menu-medali { flex: 0 0 auto; width: 54px; height: 54px; object-fit: contain;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,.45)); }
+    .judul-medali { width: 1.5em; height: 1.5em; object-fit: contain;
+      vertical-align: -0.42em; margin-right: 2px; }
     .menu-mini-foto {
       flex: 0 0 auto; width: 62px; height: 62px; border-radius: 12px;
       overflow: hidden; border: 2px solid #b0703c; background: #f4ead8;
@@ -2908,7 +2912,7 @@
   //  PUSTAKA: menu berjenjang  Level -> Materi -> Kosakata
   // ================================================================
   const PUSTAKA = {
-    1: { nama: 'Parahyangan', ikon: '🛕', warna: '#b91c1c', materi: [
+    1: { nama: 'Parahyangan', ikon: '🛕', medali: 'foto/level/parahyangan.webp', warna: '#b91c1c', materi: [
       { judul: 'Genah Suci', sub: 'Tempat suci', kata: [
         { bali: 'Pura',            arti: 'Genah suci anggén umat Hindu maturan. (Tempat suci umat Hindu untuk bersembahyang.)', foto: 'pura', au: 'pura' },
         { bali: 'Padmasana',       arti: 'Genah palinggihan Sang Hyang Widhi Wasa ring pura. (Pelinggih tempat memuja Tuhan.)', foto: 'padmasana', au: 'padmasana' },
@@ -2926,7 +2930,7 @@
         { bali: 'Lontar',  arti: 'Buku Bali malakar aji don ental. (Buku Bali dari daun lontar.)', foto: 's05-lontar-buku', au: 'lontar' }
       ]}
     ]},
-    2: { nama: 'Pawongan', ikon: '🤝', warna: '#1d4ed8', materi: [
+    2: { nama: 'Pawongan', ikon: '🤝', medali: 'foto/level/pawongan.webp', warna: '#1d4ed8', materi: [
       { judul: 'Solah Melah', sub: 'Perilaku baik', kata: [
         { bali: 'Saling tulungin', arti: 'Saling tulung ngajak nyama. Nyiriang idupé adung. (Saling menolong sesama, tanda hidup rukun.)', foto: 's16-adung-tolong', au: 'saling-tulungin' },
         { bali: 'Gotong royong',   arti: 'Magarapan bareng-bareng, conto rikala mebersih kelas. (Bekerja bersama-sama.)', foto: 's21-gotong-royong-kelas', au: 'gotong-royong' },
@@ -2945,7 +2949,7 @@
         { bali: 'Kuping',   arti: 'Cecimpedan: apaké tolih ngejoh-ngejohang? (Telinga.)', foto: 's30-kuping-telinga-anak', au: 'kuping' }
       ]}
     ]},
-    3: { nama: 'Palemahan', ikon: '🌾', warna: '#15803d', materi: [
+    3: { nama: 'Palemahan', ikon: '🌾', medali: 'foto/level/palemahan.webp', warna: '#15803d', materi: [
       { judul: 'Nyaga Lingkungan', sub: 'Menjaga lingkungan', kata: [
         { bali: 'Luu',         arti: 'Sampah. Luu patutné kaentungang di tong sampah, tusing di tukad. (Sampah harus dibuang di tempat sampah, bukan di sungai.)', foto: 'luu-tukad', au: 'luu' },
         { bali: 'Tong sampah', arti: 'Genah ngentungang luu. (Tempat membuang sampah.)', foto: 's32-tong-sampah', au: 'tong-sampah' },
@@ -3001,7 +3005,9 @@
         const L = PUSTAKA[n];
         const jml = L.materi.reduce((a, m) => a + m.kata.length, 0);
         return '<button class="menu-kartu" style="border-left-color:' + L.warna + '" onclick="pilihLevelPustaka(' + n + ')">' +
-          '<span class="menu-ikon">' + L.ikon + '</span>' +
+          // medali yang sama dengan peta level - emoji 🛕/🤝/🌾 tidak
+          // nyambung dengan lambang yang sudah dilihat anak di peta
+          '<img class="menu-medali" src="' + L.medali + '" alt="" loading="lazy">' +
           '<span class="menu-teks"><b>' + n + '. ' + L.nama + '</b>' +
           '<small>' + L.materi.length + ' materi · ' + jml + ' kosakata</small></span>' +
           '<span class="menu-panah">›</span></button>';
@@ -3039,7 +3045,8 @@
 
     // --- tingkat 2: daftar materi dalam level ---
     if (pustakaMateri === null) {
-      judul.innerText = L.ikon + ' ' + L.nama;
+      judul.innerHTML = '<img class="judul-medali" src="' + L.medali +
+                        '" alt=""> ' + L.nama;
       jalur.innerText = 'Pustaka › ' + L.nama;
       isi.className = 'pustaka-isi daftar-menu';
       isi.innerHTML = L.materi.map(function (m, i) {

@@ -838,6 +838,9 @@
       .match-node-img-box { height: 74px; }
       .match-node-text { font-size: .8rem; }
       .match-node { padding: 7px; }
+      /* titik penghubung 12px terbaca sebagai noda kecil di layar HP; 17px
+         membuatnya jelas sebagai colokan yang bisa disentuh anak */
+      #page-main .match-dot { width: 17px; height: 17px; }
     }
     .match-node-img { max-height: 100%; max-width: 100%; object-fit: contain; }
 
@@ -1942,8 +1945,16 @@
     });
 
     initTimer();
-    // bacakan soal otomatis -- banyak anak SD belum lancar membaca
-    if (localStorage.getItem('bacaOtomatis') !== 'off') setTimeout(ucapkanSoal, 350);
+    // Bacakan soal otomatis -- banyak anak SD belum lancar membaca. Pegangannya
+    // disimpan: kalau anak keburu mengetuk tombol 🔊 dalam 350 ms itu, jadwal ini
+    // WAJIB dibatalkan. Dulu tidak, dan suara ketukan langsung disusul suara
+    // baca-otomatis -- terdengar seperti dua suara untuk satu ketukan.
+    if (localStorage.getItem('bacaOtomatis') !== 'off') {
+      timerBacaOtomatis = setTimeout(function () {
+        timerBacaOtomatis = null;
+        ucapkanSoal();
+      }, 350);
+    }
   }
 
   /* Nama pemotret untuk ditulis kecil di pojok foto. */
@@ -2732,17 +2743,30 @@
   }
 
   // ================================================================
-  //  SUARA BASA BALI (TTS)
-  //  File mp3 sudah dibuat lebih dulu memakai Gemini TTS lalu disimpan di
-  //  folder audio/. API key TIDAK pernah ada di halaman ini. Kalau file-nya
-  //  belum ada, dipakai suara bawaan HP (Web Speech API) sebagai cadangan.
+  //  SUARA BASA BALI - MURNI GEMINI TTS
+  //  Semua yang diucapkan game ini sudah dibuatkan mp3 lebih dulu memakai
+  //  Gemini TTS lalu disimpan di folder audio/: 30 soal dan 32 kruna, lengkap
+  //  tanpa sisa. API key TIDAK pernah ada di halaman ini.
+  //
+  //  TIDAK ADA lagi suara cadangan Web Speech. Dulu ada, dan itulah sumber
+  //  "suara dobel": onerror DAN play().catch() sama-sama memanggilnya, lalu di
+  //  HP play() kerap ditolak padahal mp3-nya tetap berjalan - jadi mesin suara
+  //  bawaan HP ikut membaca teks yang sama dan dua suara berbunyi bersamaan.
+  //  Lagipula suara bawaan HP melafalkan basa Bali dengan logat Indonesia.
   // ================================================================
   let audioAktif = null;
   let karakterBicara = null;
+  /* Dinaikkan setiap kali suara dihentikan atau diganti. Callback milik bunyi
+     lama yang datang terlambat dicocokkan dengan nomor ini lalu diabaikan,
+     supaya tidak mematikan animasi bicara milik bunyi yang BARU. */
+  let tokenSuara = 0;
+  /* Jadwal baca-otomatis yang belum sempat berbunyi. Dibatalkan oleh
+     hentikanSuara(), yang dipanggil di awal SETIAP bunyikan() - jadi ketukan
+     manual selalu membatalkan baca-otomatis yang masih tertunda. */
+  let timerBacaOtomatis = null;
 
-  /* Daftar file suara yang benar-benar ada. Tanpa ini setiap kruna yang
-     belum sempat dibuatkan mp3 akan memicu 404 di konsol. Kalau daftarnya
-     tidak ada, semua nama dianggap mungkin ada (perilaku lama). */
+  /* Daftar file suara yang benar-benar ada. Tanpa ini setiap kruna yang belum
+     sempat dibuatkan mp3 akan memicu 404 di konsol. */
   let daftarAudio = null;
   fetch('audio/daftar.json')
     .then(r => r.ok ? r.json() : null)
@@ -2750,87 +2774,58 @@
     .catch(() => {});
 
   function hentikanSuara() {
-    if (audioAktif) { try { audioAktif.pause(); } catch (e) {} audioAktif = null; }
-    if (window.speechSynthesis) { try { speechSynthesis.cancel(); } catch (e) {} }
+    tokenSuara++;
+    if (timerBacaOtomatis) { clearTimeout(timerBacaOtomatis); timerBacaOtomatis = null; }
+    if (audioAktif) {
+      try { audioAktif.pause(); audioAktif.currentTime = 0; } catch (e) {}
+      audioAktif = null;
+    }
     if (karakterBicara) { karakterBicara.classList.remove('bicara'); karakterBicara = null; }
     document.querySelectorAll('.btn-dengar.main').forEach(b => b.classList.remove('main'));
   }
 
   /**
-   * Bunyikan satu potong basa Bali.
+   * Bunyikan satu potong basa Bali dari mp3 Gemini TTS.
    * @param {string} berkas nama file di folder audio/ (tanpa .mp3)
-   * @param {string} teks   teks cadangan untuk Web Speech API
+   * @param {string} teks   tidak dipakai lagi; disimpan agar pemanggil tetap sama
    * @param {Element} slotKarakter slot karakter yang mulutnya digerakkan
    * @param {Element} tombol tombol yang diberi tanda sedang berbunyi
    */
   function bunyikan(berkas, teks, slotKarakter, tombol) {
-    hentikanSuara();
+    hentikanSuara();                       // menaikkan tokenSuara -> bunyi lama batal
     if (localStorage.getItem('muted') === 'true') return;
+    if (daftarAudio && !daftarAudio.has(berkas)) return;   // belum ada mp3 -> diam
 
+    const token = tokenSuara;
     const svgKar = slotKarakter ? slotKarakter.querySelector('.kar') : null;
     const mulai = function () {
+      if (token !== tokenSuara) return;
       if (svgKar) { svgKar.classList.add('bicara'); karakterBicara = svgKar; }
       if (tombol) tombol.classList.add('main');
     };
     const selesai = function () {
+      if (token !== tokenSuara) return;
       if (svgKar) svgKar.classList.remove('bicara');
       if (tombol) tombol.classList.remove('main');
       karakterBicara = null; audioAktif = null;
     };
 
-    // belum ada mp3-nya -> langsung pakai suara bawaan HP
-    if (daftarAudio && !daftarAudio.has(berkas)) { suaraCadangan(teks, mulai, selesai); return; }
-
     const a = new Audio('audio/' + berkas + '.mp3');
     audioAktif = a;
     a.onplay = mulai;
     a.onended = selesai;
-    a.onerror = function () { audioAktif = null; suaraCadangan(teks, mulai, selesai); };
-    a.play().catch(function () { audioAktif = null; suaraCadangan(teks, mulai, selesai); });
-  }
-
-  /* Cadangan: mesin suara bawaan HP. Di Android/Chrome ini adalah mesin
-     "Google Text-to-Speech" itu sendiri, jadi tetap suara Google, gratis, dan
-     tanpa kuota. Basa Bali memakai ejaan Latin yang dekat dengan bahasa
-     Indonesia, jadi suara id-ID membacanya cukup mendekati. */
-  /* Urutan pilih suara cadangan:
-     1. id-ID yang localService (mesin DI DALAM HP -> tetap bunyi tanpa internet)
-     2. id-ID apa pun (mungkin suara jaringan, perlu internet)
-     3. Melayu, paling dekat pelafalannya
-     Bisa juga TIDAK KETEMU APA-APA: banyak HP tidak punya paket suara
-     Indonesia. Itulah sebabnya file mp3 tetap jadi sumber utama. */
-  function pilihSuaraBali() {
-    if (!window.speechSynthesis) return null;
-    const semua = speechSynthesis.getVoices() || [];
-    const id = semua.filter(v => /^id(-|_|$)/i.test(v.lang));
-    const idOffline = id.filter(v => v.localService);
-    return idOffline.find(v => /google/i.test(v.name)) || idOffline[0] ||
-           id.find(v => /google/i.test(v.name)) || id[0] ||
-           semua.find(v => /^ms(-|_|$)/i.test(v.lang)) || null;
-  }
-
-  /* Apakah HP ini sanggup membunyikan basa Bali tanpa file mp3? */
-  function adaSuaraCadangan() { return !!pilihSuaraBali(); }
-
-  // daftar suara sering baru siap setelah event ini
-  if (window.speechSynthesis) speechSynthesis.onvoiceschanged = pilihSuaraBali;
-
-  function suaraCadangan(teks, mulai, selesai) {
-    if (!window.speechSynthesis || !teks) { if (selesai) selesai(); return; }
-    const u = new SpeechSynthesisUtterance(teks);
-    u.lang = 'id-ID';
-    u.rate = 0.82;      // pelan: anak SD sedang belajar melafalkan
-    u.pitch = 1.05;
-    const v = pilihSuaraBali();
-    if (v) u.voice = v;
-    u.onstart = mulai;
-    u.onend = selesai;
-    u.onerror = selesai;
-    speechSynthesis.speak(u);
+    a.onerror = selesai;
+    // play() bisa ditolak SEMENTARA audionya tetap berjalan; kalau ternyata
+    // masih jalan, jangan matikan animasi bicaranya.
+    a.play().catch(function () { if (a.paused) selesai(); });
   }
 
   /* Tombol 🔊 di balon soal. */
   function ucapkanSoal() {
+    // jangan membaca kalau layar soal biasa sudah tidak tampil (sudah pindah ke
+    // layar mencocokkan, atau sudah keluar dari kuis)
+    const layar = document.getElementById('standard-quiz-layout');
+    if (!layar || layar.style.display === 'none') return;
     const d = activeQuestions[questionIndex];
     if (!d) return;
     // yang menggerakkan mulut adalah karakter yang sedang gilirannya bicara

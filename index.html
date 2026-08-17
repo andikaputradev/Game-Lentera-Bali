@@ -1377,14 +1377,14 @@
       #page-peta .footer-banner { flex-direction: column; gap: 4px; text-align: center; height: auto; padding: 8px; }
       /* tegak: panggung di atas, lalu balon soal, lalu pilihan 1 kolom yang
          memanjang mengisi SEMUA sisa tinggi kartu (tidak ada lagi ruang kosong) */
-      #page-main .quiz-content-layout { flex-direction: column; justify-content: flex-start; gap: 14px; }
+      #page-main .quiz-content-layout { flex-direction: column; justify-content: flex-start; gap: 12px; }
       /* Tegak: foto diberi BARIS SENDIRI selebar panel, karakter mengecil di
          bawahnya. Sebelumnya foto terjepit di antara dua karakter sehingga
          kotaknya cuma 107x178 px -- tegak sempit -- padahal hampir semua foto
          soal mendatar, jadi 36 dari 45 foto kehilangan lebih dari separuh
          lebarnya karena object-fit: cover. */
       #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: auto; max-height: 58%; }
-      #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 10px; }
+      #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 6px; }
       /* Bingkai MEMELUK gambar (width: fit-content), jadi tidak ada bidang krem
          tersisa di kiri-kanan foto tegak. ::after berperan sebagai pemutus baris
          supaya foto tetap sendirian di baris atas walau lebarnya menyusut. */
@@ -1396,7 +1396,7 @@
            di atas-bawah gambar. */
         height: auto; align-self: center; margin: 0 auto;
       }
-      #page-main .panggung .foto-soal img { max-height: 20vh; }
+      #page-main .panggung .foto-soal img { max-height: 18.5vh; }
       #page-main .panggung .kar-slot {
         flex: 1 1 0; width: auto; max-width: 200px; min-width: 0;
         height: auto; aspect-ratio: auto; align-self: flex-end;
@@ -1416,7 +1416,7 @@
       /* SATU aturan saja untuk tinggi maskot. Sebelumnya ada dua: 14vh lalu
          ditimpa 100% -- dan 100% dari slot bertinggi auto sama dengan NOL,
          jadi maskotnya hilang sama sekali. */
-      #page-main .panggung .kar-slot .kar { width: auto; height: 18.5vh; max-width: 100%; }
+      #page-main .panggung .kar-slot .kar { width: auto; height: 18vh; max-width: 100%; }
       /* soal tanpa gambar tetap: karakter mengisi panggung seperti biasa */
       #page-main .panggung.tanpa-foto .kar-slot {
         flex: 0 0 auto; width: 44%; max-width: 150px; height: 100%;
@@ -1425,7 +1425,16 @@
         justify-content: flex-start; gap: 18px; }
       /* gap 10 -> 8 dan sedikit ruang di bawah: tombol terakhir tadinya
          meluber 26px keluar kartu di layar 830px. */
-      #page-main .options-grid { grid-template-columns: 1fr; gap: 11px; padding-bottom: 12px; }
+      /* Kisi pilihan MELUAP keluar kotaknya sendiri (isi 241px di kotak 223px),
+         jadi tombol terakhir menggantung 14px di luar kartu - di SEMUA soal,
+         bukan cuma yang panjang. Ruangnya diambil dari jarak dan sedikit dari
+         foto; maskot hampir tidak disentuh. min-height 0 + overflow membuat
+         luapan mustahil kembali: kalau kelak ada soal berpilihan lebih
+         panjang, kisinya menggulir di dalam, bukan menjulur keluar kartu. */
+      #page-main .options-grid {
+        grid-template-columns: 1fr; gap: 11px; padding-bottom: 8px;
+        min-height: 0; overflow-y: auto;
+      }
       #page-materi .main-layout { flex-direction: column; gap: 10px; }
       #page-materi .sidebar-tabs { width: 100%; flex-direction: row; }
       #page-materi .content-board { width: 100%; height: 80%; padding: 12px; }

@@ -1322,8 +1322,13 @@
 
     /* Responsive Orientation */
     @media screen and (orientation: landscape) {
-      #page-login .logo-container { width: 18%; max-width: 130px; top: 3%; }
-      #page-login .form-card { max-width: 420px; padding: 12px 20px; }
+      /* Mendatar tingginya cuma ~360-400px. Lebar logo diikat ke tinggi
+         layar juga; kalau hanya dari lebar, logo tetap 109px tinggi dan
+         kartu masuk tidak kebagian tempat. */
+      #page-login .logo-container { width: min(18%, 26vh); max-width: 130px; top: 3%; }
+      /* mendatar cuma setinggi ~400px: kartu diberi jarak supaya tidak
+         menimpa pita subjudul di bawah logo */
+      #page-login .form-card { max-width: 420px; padding: 12px 20px; margin-top: 58px; }
       #page-play .logo-container { width: 24%; max-width: 190px; top: 1%; }
       #page-play .character { width: 12%; max-height: 48vh; bottom: 0; }
       #page-play #putu { left: 18%; }
@@ -1363,9 +1368,24 @@
     }
 
     @media screen and (orientation: portrait) {
-      #page-login .logo-container { width: 74%; max-width: 330px; top: 3%; }
+      /* Logo baru memuat pita subjudul di bagian bawahnya, jadi tingginya
+         terpakai penuh - kalau terlalu lebar, pitanya tertimpa kartu masuk.
+         Lebarnya diikat ke tinggi layar juga: kalau hanya dari lebar, logo
+         tetap 230px tinggi di layar 580px dan menimpa kartu. */
+      #page-login .logo-container { width: min(70%, 39vh); max-width: 300px; top: 2%; }
       #page-login .character { width: 27%; max-height: 26vh; }
-      #page-login .form-card { margin-top: 40px; }
+      #page-login .form-card { margin-top: 76px; }
+      /* Layar pendek. Kartu tidak bisa sekadar dinaikkan: naik berarti makin
+         menimpa logo, turun berarti menimpa maskot. Jadi LOGO yang mengecil,
+         baru kartunya digeser. */
+      @media (max-height: 680px) {
+        #page-login .form-card { margin-top: 44px; }
+        #page-login .logo-container { width: min(70%, 34vh); }
+      }
+      @media (max-height: 610px) {
+        #page-login .form-card { margin-top: 26px; }
+        #page-login .logo-container { width: min(70%, 32vh); }
+      }
       #page-play .logo-container { width: 80%; max-width: 360px; top: 8%; }
       #page-play .character { width: 34%; max-height: 28vh; bottom: 22%; }
       #page-play .controls-container { bottom: 6%; flex-wrap: wrap; justify-content: center; }
@@ -1515,8 +1535,10 @@
   <div class="logo-container" data-logo="1" aria-label="Lentera Bali"></div>
   <div id="putu" class="character" data-karakter="putu" aria-label="Putu"></div>
   <div class="form-card">
-    <h2>LENTERA BALI</h2>
-    <p class="sub-title">Belajar Bahasa Bali Menjaga Harmoni</p>
+    <!-- Judul dan subjudul dihapus: logo di atasnya sudah memuat "LENTERA BALI"
+         beserta pita "Belajar Bahasa Bali Menjaga Harmoni", jadi kartu ini
+         menuliskannya untuk KEDUA kalinya - sekaligus memakan tinggi yang
+         membuat kartunya menimpa pita logo di layar 700px. -->
     <form id="login-form">
       <div class="input-group">
         <label>NAMA PENGGUNA</label>
@@ -2739,7 +2761,9 @@
     });
     document.querySelectorAll('[data-logo]').forEach(function (el) {
       if (!el.querySelector('img')) {
-        el.innerHTML = '<img src="foto/logo-lentera-bali.png" alt="Lentera Bali" ' +
+        // WebP: 104 KB, bukan 563 KB kalau PNG. Rasionya 1,194 - praktis sama
+        // dengan logo lama (1,197), jadi lebar di CSS tidak perlu diubah.
+        el.innerHTML = '<img src="foto/logo-lentera-bali.webp" alt="Lentera Bali" ' +
                        'class="logo-gambar" loading="eager">';
       }
     });

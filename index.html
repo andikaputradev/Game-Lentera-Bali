@@ -831,6 +831,14 @@
 
     .match-node-text { font-size: 0.75rem; font-weight: bold; color: #321602; width: 100%; text-align: center; line-height: 1.3; }
     .match-node-img-box { width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; }
+    /* Di HP tegak, tiap baris pencocokan punya sisa tinggi menganggur ~37px
+       sementara fotonya dipatok 50px - padahal foto itulah yang harus
+       dicocokkan anak. Dibesarkan sampai memakai ruang yang memang ada. */
+    @media screen and (orientation: portrait) {
+      .match-node-img-box { height: 74px; }
+      .match-node-text { font-size: .8rem; }
+      .match-node { padding: 7px; }
+    }
     .match-node-img { max-height: 100%; max-width: 100%; object-fit: contain; }
 
     .match-dot {
@@ -1270,7 +1278,8 @@
     #page-main .foto-soal .kredit-foto {
       position: absolute; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,.55);
-      color: #fff; font-size: .8rem; padding: 4px 7px;
+      color: rgba(255,255,255,.9); font-size: .74rem; padding: 3px 7px;
+      text-align: center; letter-spacing: .01em;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
@@ -1362,14 +1371,14 @@
       #page-peta .footer-banner { flex-direction: column; gap: 4px; text-align: center; height: auto; padding: 8px; }
       /* tegak: panggung di atas, lalu balon soal, lalu pilihan 1 kolom yang
          memanjang mengisi SEMUA sisa tinggi kartu (tidak ada lagi ruang kosong) */
-      #page-main .quiz-content-layout { flex-direction: column; justify-content: flex-start; gap: 15px; }
+      #page-main .quiz-content-layout { flex-direction: column; justify-content: flex-start; gap: 14px; }
       /* Tegak: foto diberi BARIS SENDIRI selebar panel, karakter mengecil di
          bawahnya. Sebelumnya foto terjepit di antara dua karakter sehingga
          kotaknya cuma 107x178 px -- tegak sempit -- padahal hampir semua foto
          soal mendatar, jadi 36 dari 45 foto kehilangan lebih dari separuh
          lebarnya karena object-fit: cover. */
       #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: auto; max-height: 58%; }
-      #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 6px; }
+      #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 10px; }
       /* Bingkai MEMELUK gambar (width: fit-content), jadi tidak ada bidang krem
          tersisa di kiri-kanan foto tegak. ::after berperan sebagai pemutus baris
          supaya foto tetap sendirian di baris atas walau lebarnya menyusut. */
@@ -1393,20 +1402,24 @@
       /* .kar mengukur diri dari LEBAR (width:100% + aspect-ratio 375/666), jadi di
          slot sempit tingginya membengkak 1,78x lebar dan meluber ke bawah sampai
          menimpa balon soal. Di panggung, karakter diukur dari TINGGI slot. */
+      /* Dua maskot yang sama-sama rapat ke tengah bikin area tengah sesak;
+         didorong ke tepi kiri dan kanan supaya membingkai foto soal. */
       #page-main .panggung .kar-slot { display: flex; justify-content: center; overflow: visible; }
+      #page-main .panggung > .kar-slot:nth-of-type(1) { justify-content: flex-start; padding-left: 2px; }
+      #page-main .panggung > .kar-slot:nth-of-type(3) { justify-content: flex-end;   padding-right: 2px; }
       /* SATU aturan saja untuk tinggi maskot. Sebelumnya ada dua: 14vh lalu
          ditimpa 100% -- dan 100% dari slot bertinggi auto sama dengan NOL,
          jadi maskotnya hilang sama sekali. */
-      #page-main .panggung .kar-slot .kar { width: auto; height: 16vh; max-width: 100%; }
+      #page-main .panggung .kar-slot .kar { width: auto; height: 18.5vh; max-width: 100%; }
       /* soal tanpa gambar tetap: karakter mengisi panggung seperti biasa */
       #page-main .panggung.tanpa-foto .kar-slot {
         flex: 0 0 auto; width: 44%; max-width: 150px; height: 100%;
       }
-      #page-main .quiz-left-panel { flex: 1 1 auto; width: 100%; min-height: 0; justify-content: flex-start; }
+      #page-main .quiz-left-panel { flex: 1 1 auto; width: 100%; min-height: 0;
+        justify-content: flex-start; gap: 18px; }
       /* gap 10 -> 8 dan sedikit ruang di bawah: tombol terakhir tadinya
          meluber 26px keluar kartu di layar 830px. */
-      #page-main .options-grid { grid-template-columns: 1fr; gap: 11px; padding-bottom: 4px; }
-      #page-main .btn-option { font-size: 1.1rem; }
+      #page-main .options-grid { grid-template-columns: 1fr; gap: 11px; padding-bottom: 12px; }
       #page-materi .main-layout { flex-direction: column; gap: 10px; }
       #page-materi .sidebar-tabs { width: 100%; flex-direction: row; }
       #page-materi .content-board { width: 100%; height: 80%; padding: 12px; }
@@ -1423,9 +1436,10 @@
       #page-main .status-bar { font-size: .82rem; gap: 6px; padding: 5px 8px; }
       #page-main .level-indicator { font-size: .72rem; padding: 5px 7px; }
       #page-main .btn-option { font-size: .98rem; min-height: 44px; }
-      /* padding kanan lega: tombol suara duduk di kanan balon, teks tadinya
-         mepet sampai terkesan sempit. */
-      #page-main .question-text { font-size: .95rem; padding: 12px 60px 12px 14px; }
+      /* Balon soal itu baris flex: teks lalu tombol dengar. Yang memberi jarak
+         adalah gap, bukan padding kanan - padding besar malah mendorong
+         tombolnya menempel ke tepi. */
+      #page-main .question-text { font-size: .95rem; padding: 12px 14px 12px 18px; gap: 14px; }
       #page-main .btn-exit { width: 30px; height: 30px; }
     }
   </style>
@@ -1942,6 +1956,11 @@
     // Hanya bagian yang benar-benar ada yang ditulis. Versi lama selalu
     // mencetak tiga ruas dipisah titik, sehingga foto tanpa nama pemotret
     // tampil sebagai "📷 - · · diberikan pemilik game" -- berantakan.
+    // Foto milik sendiri dan foto bawaan game versi lama tidak punya pemegang
+    // hak di luar sana; strip "diberikan pemilik game" cuma jadi tempelan yang
+    // menutupi gambar tanpa memberi tahu apa pun. Atribusi sumber luar tetap.
+    const TANPA_KREDIT = ['diberikan pemilik game', 'game Lentera Bali versi asli'];
+    if (!k.pemotret && !k.lisensi && TANPA_KREDIT.indexOf((k.asal || '').trim()) !== -1) return '';
     const bagian = [k.pemotret, k.lisensi, k.asal].filter(function (x) {
       return x && String(x).trim() && String(x).trim() !== '-';
     });

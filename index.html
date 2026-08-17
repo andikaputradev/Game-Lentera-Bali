@@ -1377,7 +1377,7 @@
       #page-peta .footer-banner { flex-direction: column; gap: 4px; text-align: center; height: auto; padding: 8px; }
       /* tegak: panggung di atas, lalu balon soal, lalu pilihan 1 kolom yang
          memanjang mengisi SEMUA sisa tinggi kartu (tidak ada lagi ruang kosong) */
-      #page-main .quiz-content-layout { flex-direction: column; justify-content: flex-start; gap: 12px; }
+      #page-main .quiz-content-layout { flex-direction: column; justify-content: flex-start; gap: 10px; }
       /* Tegak: foto diberi BARIS SENDIRI selebar panel, karakter mengecil di
          bawahnya. Sebelumnya foto terjepit di antara dua karakter sehingga
          kotaknya cuma 107x178 px -- tegak sempit -- padahal hampir semua foto
@@ -1396,7 +1396,7 @@
            di atas-bawah gambar. */
         height: auto; align-self: center; margin: 0 auto;
       }
-      #page-main .panggung .foto-soal img { max-height: 18.5vh; }
+      #page-main .panggung .foto-soal img { max-height: 15.5vh; }
       #page-main .panggung .kar-slot {
         flex: 1 1 0; width: auto; max-width: 200px; min-width: 0;
         height: auto; aspect-ratio: auto; align-self: flex-end;
@@ -1416,13 +1416,13 @@
       /* SATU aturan saja untuk tinggi maskot. Sebelumnya ada dua: 14vh lalu
          ditimpa 100% -- dan 100% dari slot bertinggi auto sama dengan NOL,
          jadi maskotnya hilang sama sekali. */
-      #page-main .panggung .kar-slot .kar { width: auto; height: 18vh; max-width: 100%; }
+      #page-main .panggung .kar-slot .kar { width: auto; height: 15.5vh; max-width: 100%; }
       /* soal tanpa gambar tetap: karakter mengisi panggung seperti biasa */
       #page-main .panggung.tanpa-foto .kar-slot {
         flex: 0 0 auto; width: 44%; max-width: 150px; height: 100%;
       }
       #page-main .quiz-left-panel { flex: 1 1 auto; width: 100%; min-height: 0;
-        justify-content: flex-start; gap: 18px; }
+        justify-content: flex-start; gap: 14px; }
       /* gap 10 -> 8 dan sedikit ruang di bawah: tombol terakhir tadinya
          meluber 26px keluar kartu di layar 830px. */
       /* Kisi pilihan MELUAP keluar kotaknya sendiri (isi 241px di kotak 223px),
@@ -1432,12 +1432,67 @@
          luapan mustahil kembali: kalau kelak ada soal berpilihan lebih
          panjang, kisinya menggulir di dalam, bukan menjulur keluar kartu. */
       #page-main .options-grid {
-        grid-template-columns: 1fr; gap: 11px; padding-bottom: 8px;
+        grid-template-columns: 1fr; gap: 9px; padding-bottom: 6px;
         min-height: 0; overflow-y: auto;
       }
+      /* Tombol jawaban adalah pemakan ruang terbesar: aturan dasar memasang
+         min-height 52px, jadi empat tombol menuntut 241px sementara kisinya
+         cuma kebagian 211px di layar HP yang tinggi nyatanya ~700px. Yang
+         dipendekkan tombolnya, bukan maskot atau foto yang dikecilkan --
+         lebarnya tetap penuh 325px jadi masih gampang disentuh jari anak. */
+      #page-main .btn-option { min-height: 42px; padding: 7px 11px; font-size: 1rem; }
+
+      /* Jawaban pendek -> dua kolom: blok jawaban jadi separuh tingginya,
+         ruangnya dikembalikan ke foto dan maskot. */
+      #page-main .options-grid.dua-kolom { grid-template-columns: 1fr 1fr; }
+      #page-main .options-grid.dua-kolom .btn-option { font-size: .95rem; padding: 7px 6px; }
+
+      /* Ruang yang dibebaskan dua kolom dikembalikan ke foto dan maskot -
+         kalau tidak, sisanya lari ke tombol dan jadi tombol setinggi 82px
+         berisi satu kata. Di layar 700px (tinggi NYATA sebuah HP) maskot jadi
+         154px, bukan 98px. */
+      #page-main:not(.pilihan-panjang) .panggung .foto-soal img { max-height: 20vh; }
+      #page-main:not(.pilihan-panjang) .panggung .kar-slot .kar { height: 22vh; }
+
+      /* Soal berjawaban panjang tetap satu kolom; di situ foto, maskot, dan
+         huruf soal yang mengalah supaya keempat tombol tetap terlihat utuh
+         tanpa harus digulir. */
+      #page-main.pilihan-panjang .panggung .foto-soal img { max-height: 13.5vh; }
+      #page-main.pilihan-panjang .panggung .kar-slot .kar { height: 14vh; }
+      #page-main.pilihan-panjang .question-text { font-size: .88rem; }
       #page-materi .main-layout { flex-direction: column; gap: 10px; }
       #page-materi .sidebar-tabs { width: 100%; flex-direction: row; }
       #page-materi .content-board { width: 100%; height: 80%; padding: 12px; }
+    }
+
+    /* ------------------------------------------------------------------
+       TINGGI LAYAR NYATA, bukan tinggi perangkat.
+       Di HP, bilah alamat peramban dan bilah navigasi memakan ruang: layar
+       "830px" menyisakan sekitar 700px untuk halaman. Ukuran di atas dihitung
+       untuk 700px. Yang di bawah ini menyesuaikan ke dua ujungnya:
+         - layar lega  -> foto dan maskot dibesarkan kembali
+         - layar sempit -> semuanya dikecilkan supaya keempat tombol jawaban
+           tetap masuk, karena isi kisi pilihan TIDAK ikut mengecil sendiri
+             (tingginya dari huruf dan padding, bukan dari vh).
+       ------------------------------------------------------------------ */
+    @media screen and (orientation: portrait) and (min-height: 790px) {
+      #page-main .panggung .foto-soal img { max-height: 18.5vh; }
+      #page-main .panggung .kar-slot .kar { height: 18vh; }
+      #page-main.pilihan-panjang .panggung .foto-soal img { max-height: 16vh; }
+      #page-main.pilihan-panjang .panggung .kar-slot .kar { height: 16.5vh; }
+      #page-main .quiz-left-panel { gap: 18px; }
+      #page-main .quiz-content-layout { gap: 12px; }
+      #page-main .options-grid { gap: 11px; padding-bottom: 8px; }
+    }
+
+    @media screen and (orientation: portrait) and (max-height: 699px) {
+      #page-main .panggung .foto-soal img { max-height: 13vh; }
+      #page-main .panggung .kar-slot .kar { height: 13vh; }
+      #page-main .question-text { font-size: .88rem; padding: 9px 12px 9px 14px; }
+      #page-main .quiz-left-panel { gap: 11px; }
+      #page-main .quiz-content-layout { gap: 8px; }
+      #page-main .options-grid { gap: 8px; padding-bottom: 5px; }
+      #page-main .btn-option { min-height: 40px; font-size: .92rem; padding: 6px 9px; }
     }
 
     /* layar HP sempit: rampingkan HUD supaya nama level tetap terbaca penuh */
@@ -1450,7 +1505,7 @@
     @media screen and (max-width: 340px) {
       #page-main .status-bar { font-size: .82rem; gap: 6px; padding: 5px 8px; }
       #page-main .level-indicator { font-size: .72rem; padding: 5px 7px; }
-      #page-main .btn-option { font-size: .98rem; min-height: 44px; }
+      #page-main .btn-option { font-size: .98rem; min-height: 42px; padding: 7px 11px; }
       /* Balon soal itu baris flex: teks lalu tombol dengar. Yang memberi jarak
          adalah gap, bukan padding kanan - padding besar malah mendorong
          tombolnya menempel ke tepi. */
@@ -1955,6 +2010,16 @@
       btn.onclick = function() { processAnswer(idx, this); };
       optContainer.appendChild(btn);
     });
+
+    // Di HP tegak tinggi layarnya cuma ~700px setelah bilah alamat dan bilah
+    // navigasi. Satu kolom untuk empat jawaban memakan 200px dan menyisakan
+    // terlalu sedikit untuk foto dan maskot. 22 dari 30 soal jawabannya <=14
+    // huruf -- cukup satu baris di kolom selebar 158px -- jadi soal-soal itu
+    // dipasang DUA kolom dan tingginya jadi separuh. Sisanya tetap satu kolom,
+    // dan halaman diberi tanda supaya foto serta maskotnya mengalah.
+    const pilihanPendek = data.o.every(function (t) { return String(t).length <= 14; });
+    optContainer.classList.toggle('dua-kolom', pilihanPendek);
+    document.getElementById('page-main').classList.toggle('pilihan-panjang', !pilihanPendek);
 
     initTimer();
     // Bacakan soal otomatis -- banyak anak SD belum lancar membaca. Pegangannya

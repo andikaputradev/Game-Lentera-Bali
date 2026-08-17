@@ -1,0 +1,632 @@
+[
+ {
+  "no": 1,
+  "level": "1",
+  "thk": "Parahyangan",
+  "urut": 1,
+  "jenis": "pilihan",
+  "q": "Wewidangan utawi genah suci anggen umat Hindu maturan kawastanin...",
+  "o": [
+   "Pura",
+   "Bale banjar",
+   "Sekolah",
+   "Pasar"
+  ],
+  "c": 0,
+  "img": "foto/s01-pura.jpg"
+ },
+ {
+  "no": 2,
+  "level": "1",
+  "thk": "Parahyangan",
+  "urut": 2,
+  "jenis": "pilihan",
+  "q": "Tuhan ring agama Hindu kawastanin...",
+  "o": [
+   "Sang Hyang Widhi Wasa",
+   "Ratu Gede",
+   "Jero Gede",
+   "Mpu"
+  ],
+  "c": 0,
+  "img": "foto/s02-sang-hyang-widhi.jpg"
+ },
+ {
+  "no": 3,
+  "level": "1",
+  "thk": "Parahyangan",
+  "urut": 3,
+  "jenis": "pilihan",
+  "q": "Umat Hindu nunas ica ring Sang Hyang Widhi antuk ngaturang...",
+  "o": [
+   "Sesajen miwah banten",
+   "Pipis miwah perhiasan",
+   "Batik miwah anduk",
+   "Sepatu miwah tas"
+  ],
+  "c": 0,
+  "img": "foto/banten.jpg"
+ },
+ {
+  "no": 4,
+  "level": "1",
+  "thk": "Parahyangan",
+  "urut": 4,
+  "jenis": "pilihan",
+  "q": "Manusia patut bakti miwah suksma ring Ida Sang Hyang Widhi Wasa santukan...",
+  "o": [
+   "Ida sane ngasilang keneh",
+   "Ida sane ngaturang banten",
+   "Ida sane nyiptayang jagat miwah manusa",
+   "Ida sane mekarya pura"
+  ],
+  "c": 2,
+  "img": "foto/s04-alam-manusa-ciptaan.jpg"
+ },
+ {
+  "no": 5,
+  "level": "1",
+  "thk": "Parahyangan",
+  "urut": 5,
+  "jenis": "pilihan",
+  "q": "Rerahinan Saraswati, umat Hindu ngaturang banten ring...",
+  "o": [
+   "Lontar miwah buku",
+   "Beras miwah taluh",
+   "Ayam miwah bebek",
+   "Candi miwah arca"
+  ],
+  "c": 0,
+  "img": "foto/s05-lontar-buku.jpg"
+ },
+ {
+  "no": 6,
+  "level": "1",
+  "thk": "Parahyangan",
+  "urut": 6,
+  "jenis": "pilihan",
+  "q": "Upacara penyucian ke segara sane kalaksanayang olih umat Hindu sedurung Nyepi kawastanin...",
+  "o": [
+   "Melasti",
+   "Mepandes",
+   "Mabyakala",
+   "Matur piuning"
+  ],
+  "c": 0,
+  "img": "foto/melasti.jpg"
+ },
+ {
+  "no": 7,
+  "level": "1",
+  "thk": "Parahyangan",
+  "urut": 7,
+  "jenis": "pilihan",
+  "q": "Sarana upacara sane malakar don nyuh medaging bunga, kaanggen ngaturang banten ring sang hyang widhi inggih punika...",
+  "o": [
+   "Tamas",
+   "Canang",
+   "Tumpeng",
+   "Lamak"
+  ],
+  "c": 1,
+  "img": "foto/canang.jpg"
+ },
+ {
+  "no": 8,
+  "level": "1",
+  "thk": "Parahyangan",
+  "urut": 8,
+  "jenis": "pilihan",
+  "q": "Ngaturang banten saiban utawi ajengan nasi semengan kawastanin...",
+  "o": [
+   "Maturan",
+   "Melukat",
+   "Ngejot",
+   "Melasti"
+  ],
+  "c": 2,
+  "img": "foto/s08-ngejot-saiban.jpg"
+ },
+ {
+  "no": 9,
+  "level": "1",
+  "thk": "Parahyangan",
+  "urut": 9,
+  "jenis": "pilihan",
+  "q": "Genah palinggihan Sang Hyang Widhi Wasa ring pura inggih punika...",
+  "o": [
+   "Padmasana",
+   "Bale kulkul",
+   "Wantilan",
+   "Lumbung"
+  ],
+  "c": 0,
+  "img": "foto/padmasana.jpg"
+ },
+ {
+  "no": 10,
+  "level": "1",
+  "thk": "Parahyangan",
+  "urut": 10,
+  "jenis": "pilihan",
+  "q": "Rerahinan Galungan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin...",
+  "o": [
+   "Penjor",
+   "Tamiang",
+   "Sate",
+   "Lawar"
+  ],
+  "c": 0,
+  "img": "foto/s12-penjor.jpg"
+ },
+ {
+  "no": 11,
+  "level": "1",
+  "thk": "Parahyangan",
+  "jenis": "cocok-text-to-image",
+  "text": "Pura Besakih",
+  "label": null,
+  "img": "foto/s11-pura-besakih.jpg",
+  "leftImg": null
+ },
+ {
+  "no": 12,
+  "level": "1",
+  "thk": "Parahyangan",
+  "jenis": "cocok-text-to-image",
+  "text": "Penjor",
+  "label": null,
+  "img": "foto/s12-penjor.jpg",
+  "leftImg": null
+ },
+ {
+  "no": 13,
+  "level": "1",
+  "thk": "Parahyangan",
+  "jenis": "cocok-text-to-image",
+  "text": "Canang",
+  "label": null,
+  "img": "foto/canang.jpg",
+  "leftImg": null
+ },
+ {
+  "no": 14,
+  "level": "1",
+  "thk": "Parahyangan",
+  "jenis": "cocok-text-to-image",
+  "text": "Mebakti",
+  "label": null,
+  "img": "foto/mebakti.jpg",
+  "leftImg": null
+ },
+ {
+  "no": 15,
+  "level": "1",
+  "thk": "Parahyangan",
+  "jenis": "cocok-text-to-image",
+  "text": "Pura Tanah Lot",
+  "label": null,
+  "img": "foto/s15-pura-tanah-lot.jpg",
+  "leftImg": null
+ },
+ {
+  "no": 16,
+  "level": "2",
+  "thk": "Pawongan",
+  "urut": 1,
+  "jenis": "pilihan",
+  "q": "Ngajak nyama patutne saling tulungin. Saling tulungin nyiriang idupe....",
+  "o": [
+   "Sugih",
+   "Uyut",
+   "Lacur",
+   "Adung"
+  ],
+  "c": 3,
+  "img": "foto/s16-adung-tolong.jpg"
+ },
+ {
+  "no": 17,
+  "level": "2",
+  "thk": "Pawongan",
+  "urut": 2,
+  "jenis": "pilihan",
+  "q": "Rai demen masilihang teken timpale ane sing ngelah. Ento bacakan Solah ane....",
+  "o": [
+   "Becik",
+   "Jele",
+   "Mayus",
+   "Lengit"
+  ],
+  "c": 0,
+  "img": "foto/s17-becik-ngayah.jpg"
+ },
+ {
+  "no": 18,
+  "level": "2",
+  "thk": "Pawongan",
+  "urut": 3,
+  "jenis": "pilihan",
+  "q": "Rerama sesai maang pitutur. Pitutur rerama patut....",
+  "o": [
+   "Resepang",
+   "Kelidin",
+   "Saruin",
+   "Kalahin"
+  ],
+  "c": 0,
+  "img": "foto/keluarga.jpg"
+ },
+ {
+  "no": 19,
+  "level": "2",
+  "thk": "Pawongan",
+  "urut": 4,
+  "jenis": "pilihan",
+  "q": "Putu Budi ngelah cita-cita dadi dokter. Dadi dokter geginane tuah....",
+  "o": [
+   "Nyampur ubad",
+   "Ngubadin anak gelem",
+   "Menahin montor",
+   "Ngae wewangunan"
+  ],
+  "c": 1,
+  "img": "foto/s19-dokter-ngubadin-anak-gelem.jpg"
+ },
+ {
+  "no": 20,
+  "level": "2",
+  "thk": "Pawongan",
+  "urut": 5,
+  "jenis": "pilihan",
+  "q": "Ngomong sareng guru patut nganggen basa sane....",
+  "o": [
+   "Kasar",
+   "Alus tur sopan",
+   "Keras",
+   "Sengit"
+  ],
+  "c": 1,
+  "img": "foto/s20-alus-sopan-guru.jpg"
+ },
+ {
+  "no": 21,
+  "level": "2",
+  "thk": "Pawongan",
+  "urut": 6,
+  "jenis": "pilihan",
+  "q": "Ring waktu mebersih kelas, iraga patut....",
+  "o": [
+   "Gotong royong",
+   "Melaib",
+   "Nyingakin kemawon",
+   "Macepuk"
+  ],
+  "c": 0,
+  "img": "foto/s21-gotong-royong-kelas.jpg"
+ },
+ {
+  "no": 22,
+  "level": "2",
+  "thk": "Pawongan",
+  "urut": 7,
+  "jenis": "pilihan",
+  "q": "Pianakne ane pertama suba ngajahin di SD. Anak ane geginane ngajahin di sekolah madan...",
+  "o": [
+   "Guru",
+   "Satpam",
+   "Pengacara",
+   "Polisi"
+  ],
+  "c": 0,
+  "img": "foto/s22-guru-ngajahin.jpg"
+ },
+ {
+  "no": 23,
+  "level": "2",
+  "thk": "Pawongan",
+  "urut": 8,
+  "jenis": "pilihan",
+  "q": "Tusing dadi lengit nulungin rerama magarapan. Lengit len raosne....",
+  "o": [
+   "Jemet",
+   "Seleg",
+   "Mayus",
+   "Anteng"
+  ],
+  "c": 2,
+  "img": "foto/s23-mayus.jpg"
+ },
+ {
+  "no": 24,
+  "level": "2",
+  "thk": "Pawongan",
+  "urut": 9,
+  "jenis": "pilihan",
+  "q": "Yening ada timpal ane ulung patutne....",
+  "o": [
+   "Kalahin",
+   "Tolih",
+   "Kedekin",
+   "Tulungin"
+  ],
+  "c": 3,
+  "img": "foto/timpal.jpg"
+ },
+ {
+  "no": 25,
+  "level": "2",
+  "thk": "Pawongan",
+  "urut": 10,
+  "jenis": "pilihan",
+  "q": "Tresna asih metimpal. Tresna asih solah ane....",
+  "o": [
+   "Melah",
+   "Corah",
+   "Jele",
+   "Gedeg"
+  ],
+  "c": 0,
+  "img": "foto/s25-melah-tresna-asih.jpg"
+ },
+ {
+  "no": 26,
+  "level": "2",
+  "thk": "Pawongan",
+  "jenis": "cocok-text-to-image",
+  "text": "Apaké balé gedé matampul abesik?",
+  "label": null,
+  "img": "foto/pajeng.jpg",
+  "leftImg": null
+ },
+ {
+  "no": 27,
+  "level": "2",
+  "thk": "Pawongan",
+  "jenis": "cocok-text-to-image",
+  "text": "Apaké ngamah acepok betek sesai?",
+  "label": null,
+  "img": "foto/galeng.jpg",
+  "leftImg": null
+ },
+ {
+  "no": 28,
+  "level": "2",
+  "thk": "Pawongan",
+  "jenis": "cocok-text-to-image",
+  "text": "Apaké anak cenik ngemu getih?",
+  "label": null,
+  "img": "foto/klepon.jpg",
+  "leftImg": null
+ },
+ {
+  "no": 29,
+  "level": "2",
+  "thk": "Pawongan",
+  "jenis": "cocok-text-to-image",
+  "text": "Apaké menék bajang, tuun tua?",
+  "label": null,
+  "img": "foto/matan-ai.jpg",
+  "leftImg": null
+ },
+ {
+  "no": 30,
+  "level": "2",
+  "thk": "Pawongan",
+  "jenis": "cocok-text-to-image",
+  "text": "Apaké tolih ngejoh-ngejohang?",
+  "label": null,
+  "img": "foto/s30-kuping-telinga-anak.jpg",
+  "leftImg": null
+ },
+ {
+  "no": 31,
+  "level": "3",
+  "thk": "Palemahan",
+  "urut": 1,
+  "jenis": "pilihan",
+  "q": "Contoh sane ngamargiang pelestarian alam inggih punika ....",
+  "o": [
+   "Ngutang luhu ring tukad",
+   "Nanem entik-entikan",
+   "Nembak kedis",
+   "Ngusak alas"
+  ],
+  "c": 1,
+  "img": "foto/nanem-entik.jpg"
+ },
+ {
+  "no": 32,
+  "level": "3",
+  "thk": "Palemahan",
+  "urut": 2,
+  "jenis": "pilihan",
+  "q": "Ngutang luu patutné di....",
+  "o": [
+   "Tukad",
+   "Sémér",
+   "Got",
+   "Tong sampah"
+  ],
+  "c": 3,
+  "img": "foto/s32-tong-sampah.jpg"
+ },
+ {
+  "no": 33,
+  "level": "3",
+  "thk": "Palemahan",
+  "urut": 3,
+  "jenis": "pilihan",
+  "q": "Iraga patut nyaga kabresihan déwék lan lingkungan apang setata…",
+  "o": [
+   "Seger",
+   "Kual",
+   "Kumel",
+   "Daki"
+  ],
+  "c": 0,
+  "img": "foto/s33-seger-bersih.jpg"
+ },
+ {
+  "no": 34,
+  "level": "3",
+  "thk": "Palemahan",
+  "urut": 4,
+  "jenis": "pilihan",
+  "q": "I Putu demen nyampat di natahe. Nyampat kruna lingganyane…",
+  "o": [
+   "Sampat",
+   "Sampate",
+   "Nyampat",
+   "Nyampatang"
+  ],
+  "c": 0,
+  "img": "foto/sampat.jpg"
+ },
+ {
+  "no": 35,
+  "level": "3",
+  "thk": "Palemahan",
+  "urut": 5,
+  "jenis": "pilihan",
+  "q": "Betén ené conto parilaksana hémat yéh…",
+  "o": [
+   "ngematiang listrik yén suba tengai",
+   "tusing ngidupang AC masan ujan",
+   "negakin sepéda ka sekolah",
+   "ngematiang kran yén suba suud manjus"
+  ],
+  "c": 3,
+  "img": "foto/s35-ngematiang-kran.jpg"
+ },
+ {
+  "no": 36,
+  "level": "3",
+  "thk": "Palemahan",
+  "urut": 6,
+  "jenis": "pilihan",
+  "q": "Yên suba hémat énergi lakar ngranayang hemat…",
+  "o": [
+   "Nasi",
+   "Munyi",
+   "Prabéya",
+   "Bayu"
+  ],
+  "c": 2,
+  "img": "foto/s36-prabeya-hemat.jpg"
+ },
+ {
+  "no": 37,
+  "level": "3",
+  "thk": "Palemahan",
+  "urut": 7,
+  "jenis": "pilihan",
+  "q": "Tiang ngubuh sampi di désa. Ngubuh patuh artiné…",
+  "o": [
+   "Miara",
+   "Ngebus",
+   "Ngalih",
+   "Madep"
+  ],
+  "c": 0,
+  "img": "foto/sampi.jpg"
+ },
+ {
+  "no": 38,
+  "level": "3",
+  "thk": "Palemahan",
+  "urut": 8,
+  "jenis": "pilihan",
+  "q": "Iraga patutné... tekén ubuh-ubuhan.",
+  "o": [
+   "Gedeg",
+   "Sayang",
+   "Pedih",
+   "Tusing Demen"
+  ],
+  "c": 1,
+  "img": "foto/s38-sayang-ubuhan.jpg"
+ },
+ {
+  "no": 39,
+  "level": "3",
+  "thk": "Palemahan",
+  "urut": 9,
+  "jenis": "pilihan",
+  "q": "Apang entik-entikané tusing layu patut…",
+  "o": [
+   "Tumbeg",
+   "Abut",
+   "Tunjel",
+   "Siam"
+  ],
+  "c": 3,
+  "img": "foto/nyiram.jpg"
+ },
+ {
+  "no": 40,
+  "level": "3",
+  "thk": "Palemahan",
+  "urut": 10,
+  "jenis": "pilihan",
+  "q": "Pidan anaké ngebuhang tanah di cariké nganggon buron sampi. Di zaman jani anaké ngebuhang tanah di carike nganggon...",
+  "o": [
+   "Traktor",
+   "Kambing",
+   "HP",
+   "Robot"
+  ],
+  "c": 0,
+  "img": "foto/traktor-sawah.jpg"
+ },
+ {
+  "no": 41,
+  "level": "3",
+  "thk": "Palemahan",
+  "jenis": "cocok-image-to-image",
+  "text": null,
+  "label": null,
+  "img": "foto/aksara/cocok1.jpg",
+  "leftImg": "foto/aksara/soal1.jpg"
+ },
+ {
+  "no": 42,
+  "level": "3",
+  "thk": "Palemahan",
+  "jenis": "cocok-image-to-image",
+  "text": null,
+  "label": null,
+  "img": "foto/aksara/cocok2.jpg",
+  "leftImg": "foto/aksara/soal2.jpg"
+ },
+ {
+  "no": 43,
+  "level": "3",
+  "thk": "Palemahan",
+  "jenis": "cocok-image-to-image",
+  "text": null,
+  "label": null,
+  "img": "foto/aksara/cocok3.jpg",
+  "leftImg": "foto/aksara/soal3.jpg"
+ },
+ {
+  "no": 44,
+  "level": "3",
+  "thk": "Palemahan",
+  "jenis": "cocok-image-to-image",
+  "text": null,
+  "label": null,
+  "img": "foto/aksara/cocok4.jpg",
+  "leftImg": "foto/aksara/soal4.jpg"
+ },
+ {
+  "no": 45,
+  "level": "3",
+  "thk": "Palemahan",
+  "jenis": "cocok-image-to-image",
+  "text": null,
+  "label": null,
+  "img": "foto/aksara/cocok5.jpg",
+  "leftImg": "foto/aksara/soal5.jpg"
+ }
+]

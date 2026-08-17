@@ -178,12 +178,6 @@
   "asal": "diberikan pemilik game",
   "catatan": "pemakaian pribadi / tugas sekolah"
  },
- "s05-lontar-saraswati": {
-  "berkas": "s05-lontar-saraswati.jpg",
-  "judul": "Lontar",
-  "asal": "diberikan pemilik game",
-  "catatan": "pemakaian pribadi / tugas sekolah"
- },
  "s08-ngejot-saiban": {
   "berkas": "s08-ngejot-saiban.jpg",
   "judul": "Ngejot / saiban",
@@ -340,5 +334,11 @@
   "berkas": "logo-lentera-bali.png",
   "judul": "Logo Lentera Bali",
   "asal": "game Lentera Bali versi asli"
+ },
+ "s05-lontar-buku": {
+  "berkas": "s05-lontar-buku.jpg",
+  "judul": "Lontar miwah buku sane katurang ring rahina Saraswati",
+  "asal": "diberikan pemilik game",
+  "catatan": "pemakaian pribadi / tugas sekolah"
  }
 }

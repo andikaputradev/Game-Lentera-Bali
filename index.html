@@ -2013,11 +2013,15 @@
 
     // Di HP tegak tinggi layarnya cuma ~700px setelah bilah alamat dan bilah
     // navigasi. Satu kolom untuk empat jawaban memakan 200px dan menyisakan
-    // terlalu sedikit untuk foto dan maskot. 22 dari 30 soal jawabannya <=14
-    // huruf -- cukup satu baris di kolom selebar 158px -- jadi soal-soal itu
-    // dipasang DUA kolom dan tingginya jadi separuh. Sisanya tetap satu kolom,
-    // dan halaman diberi tanda supaya foto serta maskotnya mengalah.
-    const pilihanPendek = data.o.every(function (t) { return String(t).length <= 14; });
+    // terlalu sedikit untuk foto dan maskot. Jadi jawaban yang muat satu baris
+    // di kolom selebar 158px dipasang DUA kolom -- tinggi blok jawaban jadi
+    // separuh. Sisanya tetap satu kolom, dan halaman diberi tanda supaya foto
+    // serta maskotnya mengalah.
+    //
+    // Ambang 17 huruf diukur, bukan ditebak: dengan Range.getClientRects() pada
+    // ke-30 soal, 24 soal masih satu baris sampai 17 huruf dan yang pertama
+    // pecah baru di 19 huruf.
+    const pilihanPendek = data.o.every(function (t) { return String(t).length <= 17; });
     optContainer.classList.toggle('dua-kolom', pilihanPendek);
     document.getElementById('page-main').classList.toggle('pilihan-panjang', !pilihanPendek);
 

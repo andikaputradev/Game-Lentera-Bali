@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Lentera Bali - Belajar Basa Bali Menjaga Harmoni</title>
 
-  <!-- FIREBASE SDK (Realtime Database Online) -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <style>
     /* ============================================================
@@ -330,26 +327,6 @@
       border-left: 14px solid #fff;
       border-bottom: 8px solid transparent;
       margin-left: 4px;
-    }
-
-    .btn-leaderboard {
-      background: linear-gradient(to bottom, #facc15, #ca8a04);
-      border: 2.5px solid #542c0e;
-      border-radius: 20px;
-      padding: 8px 16px;
-      color: #321602;
-      font-weight: 900;
-      font-size: 0.8rem;
-      cursor: pointer;
-      box-shadow: 0 4px 0px #321602, 0 4px 8px rgba(0,0,0,0.3);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-    .btn-leaderboard:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0px #321602;
     }
 
     #page-play .top-right-group {
@@ -908,70 +885,6 @@
     .btn-continue { background: #16803d; }
     .btn-retry { background: #ea580c; }
     .btn-ar { background: #2563eb; }
-
-    /* ============================================================
-       STYLES UNTUK POPUP PAPAN SKOR & RANGKING REAL-TIME
-       ============================================================ */
-    .leaderboard-box {
-      max-width: 480px;
-      width: 100%;
-      max-height: 85vh;
-      display: flex;
-      flex-direction: column;
-    }
-    .leaderboard-tabs {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 12px;
-      border-bottom: 2px solid #b0703c;
-      padding-bottom: 6px;
-    }
-    .lb-tab {
-      flex: 1;
-      padding: 8px 4px;
-      background: #542c0e;
-      border: 1px solid #b0703c;
-      color: #e5a96b;
-      font-weight: bold;
-      font-size: 0.75rem;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .lb-tab.active {
-      background: #facc15;
-      color: #321602;
-      border-color: #fff;
-    }
-    .lb-content {
-      overflow-y: auto;
-      max-height: 260px;
-      margin-bottom: 12px;
-    }
-    .lb-content::-webkit-scrollbar { width: 5px; }
-    .lb-content::-webkit-scrollbar-thumb { background: #facc15; border-radius: 4px; }
-    
-    .lb-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.8rem;
-      text-align: left;
-    }
-    .lb-table th {
-      background: #542c0e;
-      color: #facc15;
-      padding: 8px;
-      border-bottom: 2px solid #b0703c;
-      font-size: 0.75rem;
-    }
-    .lb-table td {
-      padding: 8px;
-      border-bottom: 1px solid rgba(176,112,60,0.4);
-      color: #fff;
-    }
-    .lb-table tr.my-score-row {
-      background: rgba(250, 204, 21, 0.25);
-      font-weight: bold;
-    }
     .rank-badge {
       display: inline-block;
       width: 22px;
@@ -1603,7 +1516,6 @@
   <div class="controls-container">
     <div class="btn-circle" onclick="navigateTo('peta')" title="Pilih Level"><div class="inner-circle-white"><div class="icon-map-marker"></div></div></div>
     <div class="btn-circle" onclick="startAutoGame()" title="Mulai Bermain"><div class="inner-circle-green"><div class="icon-play-triangle"></div></div></div>
-    <button class="btn-leaderboard" onclick="openLeaderboardModal()">🏆 Rangking Global</button>
   </div>
   <div id="niluh" class="character" data-karakter="niluh" aria-label="Ni Luh"></div>
   <div class="top-right-group">
@@ -1729,23 +1641,6 @@
   </div>
 </div>
 
-<!-- MODAL RANGKING GLOBAL REAL-TIME -->
-<div class="popup-overlay" id="leaderboard-modal">
-  <div class="popup-box leaderboard-box">
-    <h2>🏆 PAPAN SKOR REAL-TIME 🏆</h2>
-    
-    <div class="leaderboard-tabs">
-      <button class="lb-tab active" id="lbtab-global" onclick="switchLeaderboardTab('global')">Rangking Global (Pemain Lain)</button>
-      <button class="lb-tab" id="lbtab-personal" onclick="switchLeaderboardTab('personal')">Skor Saya & Riwayat</button>
-    </div>
-
-    <div class="lb-content" id="lb-content-area">
-      <p style="font-size:0.8rem; color:#facc15; margin-top:20px;">Memuat data skor dari server...</p>
-    </div>
-
-    <button class="btn-popup" style="background:#4b5563;" onclick="closeLeaderboardModal()">Tutup</button>
-  </div>
-</div>
 
 <div id="page-materi" class="page">
   <div class="header-nav">
@@ -1761,38 +1656,6 @@
 </div>
 
 <script>
-  // ================================================================
-  //  KONFIGURASI FIREBASE REALTIME DATABASE (SKOR GLOBAL ONLINE)
-  // ================================================================
-  // Silakan ganti firebaseConfig di bawah ini dengan kredensial Firebase milik Anda jika diperlukan.
-  const firebaseConfig = {
-    apiKey: "AIzaSyD-LENTERA-BALI-DEMO-KEY",
-    authDomain: "lentera-bali-game.firebaseapp.com",
-    databaseURL: "https://lentera-bali-game-default-rtdb.firebaseio.com",
-    projectId: "lentera-bali-game",
-    storageBucket: "lentera-bali-game.appspot.com",
-    messagingSenderId: "1234567890",
-    appId: "1:1234567890:web:abcdef123456"
-  };
-
-  let db = null;
-  try {
-    firebase.initializeApp(firebaseConfig);
-    db = firebase.database();
-  } catch (err) {
-    console.warn("Firebase belum terkonfigurasi penuh, game akan beralih ke mode penyimpanan lokal offline.", err);
-  }
-
-  // Generate Unique Player ID agar skor tidak bertabrakan dengan nama pemain yang sama
-  function getOrCreatePlayerId() {
-    let pid = localStorage.getItem('playerId');
-    if (!pid) {
-      pid = 'player_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
-      localStorage.setItem('playerId', pid);
-    }
-    return pid;
-  }
-
   // ================================================================
   //  DATABASE SOAL LENTERA BALI (10 PG + 5 Cocokkan Gambar)
   // ================================================================
@@ -1927,8 +1790,6 @@
     localStorage.setItem('playerName', name);
     localStorage.setItem('playerClass', cls);
     if (!localStorage.getItem('unlockedLevel')) localStorage.setItem('unlockedLevel', '1');
-
-    syncScoreToFirebase(parseInt(localStorage.getItem('highScore')) || 0);
 
     playSFX('welcome');
     navigateTo('play');
@@ -2395,7 +2256,7 @@
   }
 
   // ================================================================
-  //  LOGIKA PENYIMPANAN SKOR (FIREBASE + LOCALSTORAGE)
+  //  LOGIKA PENYIMPANAN SKOR (LOKAL SAJA)
   // ================================================================
   function saveProgressState() {
     const unlocked = parseInt(localStorage.getItem('unlockedLevel')) || 1;
@@ -2410,9 +2271,6 @@
       newHighScore = score;
       localStorage.setItem('highScore', newHighScore);
     }
-
-    // Simpan Ke Firebase Realtime Database
-    syncScoreToFirebase(newHighScore);
 
     // Simpan Riwayat Sesi Lokal
     let history = JSON.parse(localStorage.getItem('scoreHistory')) || [];
@@ -2432,188 +2290,10 @@
     score = 0; 
   }
 
-  function syncScoreToFirebase(highScoreVal) {
-    if (!db) return;
-
-    const pid = getOrCreatePlayerId();
-    const name = localStorage.getItem('playerName') || 'Pemain';
-    const cls = localStorage.getItem('playerClass') || '1';
-
-    db.ref('leaderboard/' + pid).set({
-      name: name,
-      classNum: cls,
-      score: highScoreVal,
-      updatedAt: Date.now()
-    }).catch(err => {
-      console.warn("Gagal sinkronisasi skor ke server Firebase:", err);
-    });
-  }
-
   function saveAndExitQuiz() {
     saveProgressState();
     document.getElementById('reward-popup').style.display = 'none';
     navigateTo('peta');
-  }
-
-  // ================================================================
-  //  MODUL PAPAN SKOR & RANGKING GLOBAL REAL-TIME
-  // ================================================================
-  function openLeaderboardModal() {
-    document.getElementById('leaderboard-modal').style.display = 'flex';
-    switchLeaderboardTab('global');
-  }
-
-  function closeLeaderboardModal() {
-    document.getElementById('leaderboard-modal').style.display = 'none';
-  }
-
-  function switchLeaderboardTab(tabType) {
-    document.getElementById('lbtab-global').classList.remove('active');
-    document.getElementById('lbtab-personal').classList.remove('active');
-
-    if (tabType === 'global') {
-      document.getElementById('lbtab-global').classList.add('active');
-      fetchAndRenderGlobalLeaderboard();
-    } else {
-      document.getElementById('lbtab-personal').classList.add('active');
-      renderPersonalLeaderboard();
-    }
-  }
-
-  function fetchAndRenderGlobalLeaderboard() {
-    const container = document.getElementById('lb-content-area');
-    container.innerHTML = `<p style="font-size:0.8rem; color:#facc15; margin-top:20px; text-align:center;">Mengambil data rangking pemain secara online...</p>`;
-
-    if (!db) {
-      renderOfflineGlobalFallback();
-      return;
-    }
-
-    // Mengambil data top skor dari Firebase secara Realtime
-    db.ref('leaderboard').orderByChild('score').limitToLast(20).once('value', (snapshot) => {
-      let players = [];
-      const myPid = getOrCreatePlayerId();
-
-      snapshot.forEach((childSnap) => {
-        const val = childSnap.val();
-        players.push({
-          id: childSnap.key,
-          name: val.name,
-          classNum: val.classNum,
-          score: val.score,
-          isUser: childSnap.key === myPid
-        });
-      });
-
-      // Firebase mengurutkan ascending, balik agar skor tertinggi berada di atas
-      players.reverse();
-
-      if (players.length === 0) {
-        container.innerHTML = `<p style="font-size:0.8rem; color:#d1d5db; margin-top:20px; text-align:center;">Belum ada skor pemain yang terdaftar secara online.</p>`;
-        return;
-      }
-
-      renderGlobalTableUI(players);
-    }).catch(err => {
-      console.warn("Server Firebase tidak merespons, beralih ke tampilan lokal.", err);
-      renderOfflineGlobalFallback();
-    });
-  }
-
-  function renderOfflineGlobalFallback() {
-    const myName = localStorage.getItem('playerName') || 'Pemain';
-    const myClass = localStorage.getItem('playerClass') || '1';
-    const myHighScore = parseInt(localStorage.getItem('highScore')) || 0;
-
-    const fallbackData = [
-      { name: myName + " (Saya)", classNum: myClass, score: myHighScore, isUser: true },
-      { name: "I Gede Made", classNum: "5", score: 280, isUser: false },
-      { name: "Ni Luh Putu", classNum: "6", score: 250, isUser: false },
-      { name: "Kadek Arta", classNum: "4", score: 210, isUser: false }
-    ];
-
-    fallbackData.sort((a, b) => b.score - a.score);
-    renderGlobalTableUI(fallbackData);
-  }
-
-  function renderGlobalTableUI(players) {
-    const container = document.getElementById('lb-content-area');
-
-    let html = `
-      <table class="lb-table">
-        <thead>
-          <tr>
-            <th style="width:15%; text-align:center;">Pos</th>
-            <th>Nama Pemain</th>
-            <th style="text-align:center;">Kelas</th>
-            <th style="text-align:right;">Skor Real</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
-
-    players.forEach((item, index) => {
-      const rank = index + 1;
-      const rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : 'rank-other';
-      const rowClass = item.isUser ? 'class="my-score-row"' : '';
-      const displayName = item.isUser ? item.name + " (Saya)" : item.name;
-
-      html += `
-        <tr ${rowClass}>
-          <td style="text-align:center;"><span class="rank-badge ${rankClass}">${rank}</span></td>
-          <td>${displayName}</td>
-          <td style="text-align:center;">Kelas ${item.classNum}</td>
-          <td style="text-align:right; font-weight:bold; color:#facc15;">${item.score}</td>
-        </tr>
-      `;
-    });
-
-    html += `</tbody></table>`;
-    container.innerHTML = html;
-  }
-
-  function renderPersonalLeaderboard() {
-    const myHighScore = parseInt(localStorage.getItem('highScore')) || 0;
-    const history = JSON.parse(localStorage.getItem('scoreHistory')) || [];
-    const container = document.getElementById('lb-content-area');
-
-    let html = `
-      <div style="background: rgba(84,44,14,0.6); padding:10px; border-radius:10px; border:1px solid #b0703c; margin-bottom:12px; text-align:left;">
-        <div style="font-size:0.8rem; color:#e5a96b;">Skor Tertinggi Anda (Highscore): <b style="color:#facc15; font-size:1rem;">${myHighScore}</b></div>
-      </div>
-      
-      <div style="font-size:0.8rem; font-weight:bold; color:#facc15; margin-bottom:6px; text-align:left;">Riwayat Sesi Bermain Terakhir:</div>
-    `;
-
-    if (history.length === 0) {
-      html += `<p style="font-size:0.75rem; color:#9ca3af; font-style:italic;">Belum ada riwayat permainan yang tersimpan.</p>`;
-    } else {
-      html += `
-        <table class="lb-table">
-          <thead>
-            <tr>
-              <th>Waktu</th>
-              <th>Tingkat</th>
-              <th style="text-align:right;">Skor</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
-
-      history.forEach(item => {
-        html += `
-          <tr>
-            <td style="font-size:0.7rem; color:#d1d5db;">${item.date}</td>
-            <td>${item.level}</td>
-            <td style="text-align:right; font-weight:bold; color:#facc15;">${item.score}</td>
-          </tr>
-        `;
-      });
-
-      html += `</tbody></table>`;
-    }
-
-    container.innerHTML = html;
   }
 
   // ================================================================

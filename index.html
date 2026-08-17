@@ -125,6 +125,10 @@
       width: 100%; height: auto; display: block;
       filter: drop-shadow(0 3px 6px rgba(0,0,0,.45));
     }
+    /* Keterangan ini hanya untuk HALAMAN DEPAN. Di halaman bermain ruangnya
+       sudah dipakai maskot dan tombol, dan judul panjang di sana malah
+       menutupi permainan. */
+    #page-play .logo-container .logo-ket { display: none; }
     .logo-container .logo-ket {
       /* Lebarnya BERDIRI SENDIRI, tidak mengikuti wadah logo. Di mode mendatar
          wadahnya cuma ~118px dan kalimat ini membungkus jadi delapan baris,
@@ -141,8 +145,6 @@
          tidak menentu, jadi warna saja tidak cukup untuk terbaca */
       text-shadow: 0 2px 3px rgba(0,0,0,.9), 0 0 6px rgba(0,0,0,.75);
     }
-    /* hanya di layar judul; di halaman bermain ruangnya sudah dipakai maskot */
-    #page-play .logo-container .logo-ket { display: none; }
     /* Mendatar yang pendek (HP dimiringkan, tinggi ~360px) tidak muat memuat
        logo + keterangan + kartu masuk sekaligus. Yang dikorbankan keterangan:
        formulir masuk lebih penting, dan permainan ini dirancang untuk tegak. */
@@ -1410,7 +1412,9 @@
         #page-login .form-card { margin-top: 26px; }
         #page-login .logo-container { width: min(64%, 27vh); }
       }
-      #page-play .logo-container { width: 80%; max-width: 360px; top: 8%; }
+      /* sama seperti halaman depan: kalau hanya diukur dari lebar, logo tetap
+         setinggi itu di layar pendek dan menimpa maskot */
+      #page-play .logo-container { width: min(72%, 34vh); max-width: 300px; top: 7%; }
       #page-play .character { width: 34%; max-height: 28vh; bottom: 22%; }
       #page-play .controls-container { bottom: 6%; flex-wrap: wrap; justify-content: center; }
       /* 4 level harus muat tanpa perlu digulir di layar HP 740px */

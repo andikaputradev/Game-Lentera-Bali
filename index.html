@@ -134,9 +134,12 @@
          wadahnya cuma ~118px dan kalimat ini membungkus jadi delapan baris,
          membuat blok logo lebih tinggi daripada logonya sendiri. */
       position: relative; left: 50%; transform: translateX(-50%);
-      width: 268px; max-width: 88vw;
-      margin: 5px 0 0;
-      font-size: .7rem;
+      /* Dilebarkan supaya kalimat ini tetap DUA baris. Di 280px ia pecah jadi
+         tiga baris, dan baris ketiga itu (+24px) membuat kartu masuk menimpa
+         logo di tujuh ukuran layar. */
+      width: 344px; max-width: 92vw;
+      margin: 7px 0 0;
+      font-size: .86rem;
       font-weight: bold;
       line-height: 1.32;
       color: #fff7e0;
@@ -1410,7 +1413,7 @@
       }
       @media (max-height: 610px) {
         #page-login .form-card { margin-top: 26px; }
-        #page-login .logo-container { width: min(64%, 27vh); }
+        #page-login .logo-container { width: min(58%, 23vh); }
       }
       /* sama seperti halaman depan: kalau hanya diukur dari lebar, logo tetap
          setinggi itu di layar pendek dan menimpa maskot */

@@ -125,6 +125,30 @@
       width: 100%; height: auto; display: block;
       filter: drop-shadow(0 3px 6px rgba(0,0,0,.45));
     }
+    .logo-container .logo-ket {
+      /* Lebarnya BERDIRI SENDIRI, tidak mengikuti wadah logo. Di mode mendatar
+         wadahnya cuma ~118px dan kalimat ini membungkus jadi delapan baris,
+         membuat blok logo lebih tinggi daripada logonya sendiri. */
+      position: relative; left: 50%; transform: translateX(-50%);
+      width: 268px; max-width: 88vw;
+      margin: 5px 0 0;
+      font-size: .7rem;
+      font-weight: bold;
+      line-height: 1.32;
+      color: #fff7e0;
+      text-align: center;
+      /* pinggir gelap: teks ini berdiri di atas foto sawah yang terang-gelapnya
+         tidak menentu, jadi warna saja tidak cukup untuk terbaca */
+      text-shadow: 0 2px 3px rgba(0,0,0,.9), 0 0 6px rgba(0,0,0,.75);
+    }
+    /* hanya di layar judul; di halaman bermain ruangnya sudah dipakai maskot */
+    #page-play .logo-container .logo-ket { display: none; }
+    /* Mendatar yang pendek (HP dimiringkan, tinggi ~360px) tidak muat memuat
+       logo + keterangan + kartu masuk sekaligus. Yang dikorbankan keterangan:
+       formulir masuk lebih penting, dan permainan ini dirancang untuk tegak. */
+    @media screen and (orientation: landscape) and (max-height: 430px) {
+      .logo-container .logo-ket { display: none; }
+    }
     @keyframes logoZoom {
       0%, 100% { transform: translateX(-50%) scale(1); }
       50% { transform: translateX(-50%) scale(1.05); }
@@ -1325,7 +1349,7 @@
       /* Mendatar tingginya cuma ~360-400px. Lebar logo diikat ke tinggi
          layar juga; kalau hanya dari lebar, logo tetap 109px tinggi dan
          kartu masuk tidak kebagian tempat. */
-      #page-login .logo-container { width: min(18%, 26vh); max-width: 130px; top: 3%; }
+      #page-login .logo-container { width: min(16%, 21vh); max-width: 118px; top: 3%; }
       /* mendatar cuma setinggi ~400px: kartu diberi jarak supaya tidak
          menimpa pita subjudul di bawah logo */
       #page-login .form-card { max-width: 420px; padding: 12px 20px; margin-top: 58px; }
@@ -1372,7 +1396,7 @@
          terpakai penuh - kalau terlalu lebar, pitanya tertimpa kartu masuk.
          Lebarnya diikat ke tinggi layar juga: kalau hanya dari lebar, logo
          tetap 230px tinggi di layar 580px dan menimpa kartu. */
-      #page-login .logo-container { width: min(70%, 39vh); max-width: 300px; top: 2%; }
+      #page-login .logo-container { width: min(64%, 33vh); max-width: 262px; top: 2%; }
       #page-login .character { width: 27%; max-height: 26vh; }
       #page-login .form-card { margin-top: 76px; }
       /* Layar pendek. Kartu tidak bisa sekadar dinaikkan: naik berarti makin
@@ -1380,11 +1404,11 @@
          baru kartunya digeser. */
       @media (max-height: 680px) {
         #page-login .form-card { margin-top: 44px; }
-        #page-login .logo-container { width: min(70%, 34vh); }
+        #page-login .logo-container { width: min(64%, 29vh); }
       }
       @media (max-height: 610px) {
         #page-login .form-card { margin-top: 26px; }
-        #page-login .logo-container { width: min(70%, 32vh); }
+        #page-login .logo-container { width: min(64%, 27vh); }
       }
       #page-play .logo-container { width: 80%; max-width: 360px; top: 8%; }
       #page-play .character { width: 34%; max-height: 28vh; bottom: 22%; }
@@ -2763,8 +2787,16 @@
       if (!el.querySelector('img')) {
         // WebP: 104 KB, bukan 563 KB kalau PNG. Rasionya 1,194 - praktis sama
         // dengan logo lama (1,197), jadi lebar di CSS tidak perlu diubah.
+        //
+        // Keterangan di bawahnya ditulis sebagai TEKS, bukan ikut dipanggang ke
+        // dalam gambar: di berkas aslinya tulisan itu hitam di atas putih, dan
+        // di atas foto sawah tidak akan terbaca sama sekali. Sebagai teks, ia
+        // bisa diberi warna terang berpinggir gelap dan tetap tajam di layar
+        // mana pun.
         el.innerHTML = '<img src="foto/logo-lentera-bali.webp" alt="Lentera Bali" ' +
-                       'class="logo-gambar" loading="eager">';
+                       'class="logo-gambar" loading="eager">' +
+                       '<p class="logo-ket">Game Edukasi Interaktif Berbasis ' +
+                       'Augmented Reality Bermuatan Tri Hita Karana</p>';
       }
     });
     document.querySelectorAll('.ornamen-top, .ornamen-bottom').forEach(function (el) {

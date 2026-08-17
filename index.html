@@ -1384,82 +1384,68 @@
          soal mendatar, jadi 36 dari 45 foto kehilangan lebih dari separuh
          lebarnya karena object-fit: cover. */
       #page-main .quiz-right-panel { flex: 0 0 auto; width: 100%; height: auto; max-height: 58%; }
-      #page-main .panggung { flex-wrap: wrap; align-items: stretch; gap: 6px; }
-      /* Bingkai MEMELUK gambar (width: fit-content), jadi tidak ada bidang krem
-         tersisa di kiri-kanan foto tegak. ::after berperan sebagai pemutus baris
-         supaya foto tetap sendirian di baris atas walau lebarnya menyusut. */
-      #page-main .panggung::after { content: ''; flex-basis: 100%; height: 0; order: -1; }
-      #page-main .panggung .foto-soal {
-        order: -1; flex: 0 0 auto; width: fit-content; max-width: 100%;
-        /* align-self center: .panggung memakai align-items stretch, yang
-           meregangkan BINGKAI setinggi baris sehingga muncul bidang kosong
-           di atas-bawah gambar. */
-        height: auto; align-self: center; margin: 0 auto;
-      }
-      #page-main .panggung .foto-soal img { max-height: 15.5vh; }
-      #page-main .panggung .kar-slot {
-        flex: 1 1 0; width: auto; max-width: 200px; min-width: 0;
-        height: auto; aspect-ratio: auto; align-self: flex-end;
-      }
-      /* Maskot diukur dari TINGGI supaya tidak meluber, tapi tingginya dinaikkan
-         jauh (14vh) supaya busana adat Putu & Ni Luh benar-benar kelihatan.
-         Sebelumnya cuma 50x89 px -- terlalu kecil untuk dikenali anak. */
+      /* ----------------------------------------------------------------
+         MASKOT MENGAPIT FOTO (satu baris), JAWABAN SATU KOLOM.
+         Sebelumnya foto punya baris sendiri dan maskot berbaris di bawahnya:
+         dua pita itu memakan 306px tegak di layar yang tingginya cuma ~700px,
+         menyisakan pita kosong di bawah foto, dan ekor balon soal menunjuk ke
+         ruang hampa. Satu baris memakan ~145px, dan sisanya dipakai untuk
+         huruf soal yang lebih besar serta soal panjang yang tidak lagi
+         tergulir.
 
-      /* .kar mengukur diri dari LEBAR (width:100% + aspect-ratio 375/666), jadi di
-         slot sempit tingginya membengkak 1,78x lebar dan meluber ke bawah sampai
-         menimpa balon soal. Di panggung, karakter diukur dari TINGGI slot. */
-      /* Dua maskot yang sama-sama rapat ke tengah bikin area tengah sesak;
-         didorong ke tepi kiri dan kanan supaya membingkai foto soal. */
-      #page-main .panggung .kar-slot { display: flex; justify-content: center; overflow: visible; }
-      #page-main .panggung > .kar-slot:nth-of-type(1) { justify-content: flex-start; padding-left: 2px; }
-      #page-main .panggung > .kar-slot:nth-of-type(3) { justify-content: flex-end;   padding-right: 2px; }
-      /* SATU aturan saja untuk tinggi maskot. Sebelumnya ada dua: 14vh lalu
-         ditimpa 100% -- dan 100% dari slot bertinggi auto sama dengan NOL,
-         jadi maskotnya hilang sama sekali. */
-      #page-main .panggung .kar-slot .kar { width: auto; height: 15.5vh; max-width: 100%; }
-      /* soal tanpa gambar tetap: karakter mengisi panggung seperti biasa */
-      #page-main .panggung.tanpa-foto .kar-slot {
-        flex: 0 0 auto; width: 44%; max-width: 150px; height: 100%;
+         Maskot diukur dari LEBAR slot, bukan vh. Kalau dari vh, di layar
+         tinggi maskotnya ikut melebar dan justru menggencet foto sampai
+         tinggal seratusan piksel. min(25%, 12vh): lebar yang menentukan di
+         layar biasa, tinggi yang menentukan di layar pendek.
+         (12vh x 375/666 = tinggi maskot ~21vh.)
+         ---------------------------------------------------------------- */
+      #page-main .panggung {
+        flex-wrap: nowrap; align-items: flex-end; justify-content: center; gap: 6px;
       }
+      /* Tinggi foto DIPATOK, tidak dibiarkan mengikuti sisa lebar. Kalau
+         dibiarkan, layar yang makin PENDEK malah membuat fotonya makin BESAR:
+         maskot mengecil ikut vh, lebar sisanya diambil foto, dan karena 4:3
+         tingginya ikut naik - persis kebalikan dari yang dibutuhkan.
+         Patokan px-nya menjaga layar tinggi: tanpa itu foto minta 186px lebar
+         padahal cuma tersedia 151px. */
+      #page-main .panggung .foto-soal {
+        order: 0; flex: 0 1 auto; width: auto; min-width: 0; max-width: 100%;
+        height: min(15.5vh, 113px); align-self: center; margin: 0;
+        /* satu rasio untuk semua foto supaya sederet rapi, tidak naik-turun
+           mengikuti bentuk tiap gambar */
+        aspect-ratio: 4 / 3;
+      }
+      #page-main .panggung .foto-soal img {
+        width: 100%; height: 100%; max-width: none; max-height: none;
+        object-fit: cover;
+      }
+      #page-main .panggung .kar-slot {
+        flex: 0 0 auto; width: min(25%, 12vh); max-width: none; min-width: 56px;
+        height: auto; aspect-ratio: auto; align-self: flex-end;
+        display: flex; justify-content: center; overflow: visible; padding: 0;
+      }
+      #page-main .panggung .kar-slot .kar { width: 100%; height: auto; max-width: none; }
+      /* soal tanpa gambar: kedua maskot melebar mengisi panggung */
+      #page-main .panggung.tanpa-foto .kar-slot { width: 40%; }
+
       #page-main .quiz-left-panel { flex: 1 1 auto; width: 100%; min-height: 0;
         justify-content: flex-start; gap: 14px; }
-      /* gap 10 -> 8 dan sedikit ruang di bawah: tombol terakhir tadinya
-         meluber 26px keluar kartu di layar 830px. */
-      /* Kisi pilihan MELUAP keluar kotaknya sendiri (isi 241px di kotak 223px),
-         jadi tombol terakhir menggantung 14px di luar kartu - di SEMUA soal,
-         bukan cuma yang panjang. Ruangnya diambil dari jarak dan sedikit dari
-         foto; maskot hampir tidak disentuh. min-height 0 + overflow membuat
-         luapan mustahil kembali: kalau kelak ada soal berpilihan lebih
-         panjang, kisinya menggulir di dalam, bukan menjulur keluar kartu. */
+      /* Balon soal dilepas dari batas 40%: soal terpanjang (134 huruf) dulu
+         TERGULIR di dalam balon, jadi anak tidak bisa membacanya utuh. */
+      #page-main .question-text {
+        font-size: 1.15rem; max-height: none; overflow: visible;
+        padding: 13px 15px 13px 17px; gap: 14px;
+      }
+      /* Jawaban SATU kolom, atas ke bawah, selebar kartu. min-height 0 +
+         overflow membuat luapan mustahil: kalau kelak ada soal berpilihan
+         lebih panjang, kisinya menggulir di dalam, bukan menjulur keluar. */
       #page-main .options-grid {
-        grid-template-columns: 1fr; gap: 9px; padding-bottom: 6px;
+        grid-template-columns: 1fr; gap: 10px; padding-bottom: 6px;
         min-height: 0; overflow-y: auto;
       }
-      /* Tombol jawaban adalah pemakan ruang terbesar: aturan dasar memasang
-         min-height 52px, jadi empat tombol menuntut 241px sementara kisinya
-         cuma kebagian 211px di layar HP yang tinggi nyatanya ~700px. Yang
-         dipendekkan tombolnya, bukan maskot atau foto yang dikecilkan --
-         lebarnya tetap penuh 325px jadi masih gampang disentuh jari anak. */
-      #page-main .btn-option { min-height: 42px; padding: 7px 11px; font-size: 1rem; }
-
-      /* Jawaban pendek -> dua kolom: blok jawaban jadi separuh tingginya,
-         ruangnya dikembalikan ke foto dan maskot. */
-      #page-main .options-grid.dua-kolom { grid-template-columns: 1fr 1fr; }
-      #page-main .options-grid.dua-kolom .btn-option { font-size: .95rem; padding: 7px 6px; }
-
-      /* Ruang yang dibebaskan dua kolom dikembalikan ke foto dan maskot -
-         kalau tidak, sisanya lari ke tombol dan jadi tombol setinggi 82px
-         berisi satu kata. Di layar 700px (tinggi NYATA sebuah HP) maskot jadi
-         154px, bukan 98px. */
-      #page-main:not(.pilihan-panjang) .panggung .foto-soal img { max-height: 20vh; }
-      #page-main:not(.pilihan-panjang) .panggung .kar-slot .kar { height: 22vh; }
-
-      /* Soal berjawaban panjang tetap satu kolom; di situ foto, maskot, dan
-         huruf soal yang mengalah supaya keempat tombol tetap terlihat utuh
-         tanpa harus digulir. */
-      #page-main.pilihan-panjang .panggung .foto-soal img { max-height: 13.5vh; }
-      #page-main.pilihan-panjang .panggung .kar-slot .kar { height: 14vh; }
-      #page-main.pilihan-panjang .question-text { font-size: .88rem; }
+      #page-main .btn-option {
+        min-height: 44px; max-height: 62px; padding: 8px 12px; font-size: 1.05rem;
+      }
       #page-materi .main-layout { flex-direction: column; gap: 10px; }
       #page-materi .sidebar-tabs { width: 100%; flex-direction: row; }
       #page-materi .content-board { width: 100%; height: 80%; padding: 12px; }
@@ -1476,23 +1462,27 @@
              (tingginya dari huruf dan padding, bukan dari vh).
        ------------------------------------------------------------------ */
     @media screen and (orientation: portrait) and (min-height: 790px) {
-      #page-main .panggung .foto-soal img { max-height: 18.5vh; }
-      #page-main .panggung .kar-slot .kar { height: 18vh; }
-      #page-main.pilihan-panjang .panggung .foto-soal img { max-height: 16vh; }
-      #page-main.pilihan-panjang .panggung .kar-slot .kar { height: 16.5vh; }
+      #page-main .question-text { font-size: 1.25rem; }
       #page-main .quiz-left-panel { gap: 18px; }
-      #page-main .quiz-content-layout { gap: 12px; }
-      #page-main .options-grid { gap: 11px; padding-bottom: 8px; }
+      #page-main .quiz-content-layout { gap: 14px; }
+      #page-main .options-grid { gap: 12px; padding-bottom: 8px; }
+      #page-main .btn-option { max-height: 72px; font-size: 1.1rem; }
     }
 
     @media screen and (orientation: portrait) and (max-height: 699px) {
-      #page-main .panggung .foto-soal img { max-height: 13vh; }
-      #page-main .panggung .kar-slot .kar { height: 13vh; }
-      #page-main .question-text { font-size: .88rem; padding: 9px 12px 9px 14px; }
-      #page-main .quiz-left-panel { gap: 11px; }
+      #page-main .question-text { font-size: 1rem; padding: 10px 12px 10px 14px; }
+      #page-main .quiz-left-panel { gap: 9px; }
       #page-main .quiz-content-layout { gap: 8px; }
-      #page-main .options-grid { gap: 8px; padding-bottom: 5px; }
-      #page-main .btn-option { min-height: 40px; font-size: .92rem; padding: 6px 9px; }
+      #page-main .options-grid { gap: 7px; padding-bottom: 5px; }
+      #page-main .btn-option { min-height: 42px; max-height: 54px; font-size: 1rem; padding: 6px 10px; }
+    }
+
+    @media screen and (orientation: portrait) and (max-height: 640px) {
+      #page-main .question-text { font-size: .92rem; padding: 8px 11px 8px 13px; }
+      #page-main .quiz-left-panel { gap: 8px; }
+      #page-main .quiz-content-layout { gap: 6px; }
+      #page-main .options-grid { gap: 6px; padding-bottom: 4px; }
+      #page-main .btn-option { min-height: 38px; max-height: 48px; font-size: .9rem; padding: 5px 9px; }
     }
 
     /* layar HP sempit: rampingkan HUD supaya nama level tetap terbaca penuh */
@@ -2010,20 +2000,6 @@
       btn.onclick = function() { processAnswer(idx, this); };
       optContainer.appendChild(btn);
     });
-
-    // Di HP tegak tinggi layarnya cuma ~700px setelah bilah alamat dan bilah
-    // navigasi. Satu kolom untuk empat jawaban memakan 200px dan menyisakan
-    // terlalu sedikit untuk foto dan maskot. Jadi jawaban yang muat satu baris
-    // di kolom selebar 158px dipasang DUA kolom -- tinggi blok jawaban jadi
-    // separuh. Sisanya tetap satu kolom, dan halaman diberi tanda supaya foto
-    // serta maskotnya mengalah.
-    //
-    // Ambang 17 huruf diukur, bukan ditebak: dengan Range.getClientRects() pada
-    // ke-30 soal, 24 soal masih satu baris sampai 17 huruf dan yang pertama
-    // pecah baru di 19 huruf.
-    const pilihanPendek = data.o.every(function (t) { return String(t).length <= 17; });
-    optContainer.classList.toggle('dua-kolom', pilihanPendek);
-    document.getElementById('page-main').classList.toggle('pilihan-panjang', !pilihanPendek);
 
     initTimer();
     // Bacakan soal otomatis -- banyak anak SD belum lancar membaca. Pegangannya

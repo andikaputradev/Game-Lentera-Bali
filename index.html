@@ -1000,6 +1000,45 @@
     .btn-dengar.kecil { width: 38px; height: 38px; font-size: .95rem; border-width: 2px; }
     .kar-slot.mini { flex: 0 0 auto; width: 54px; align-self: flex-end; }
 
+    .daftar-kamus { display: flex; flex-direction: column; gap: 8px; }
+    /* Kotak cari menempel di atas saat digulir: dengan 69 kruna, anak yang
+       sudah menggulir jauh tidak perlu naik lagi untuk mengetik ulang. */
+    .kotak-cari {
+      position: sticky; top: 0; z-index: 5;
+      width: 100%; box-sizing: border-box;
+      padding: 11px 14px; margin-bottom: 6px;
+      font-family: inherit; font-size: 1rem; font-weight: bold; color: #3f2a12;
+      background: #fff7e9; border: 3px solid #b0703c; border-radius: 12px;
+      box-shadow: 0 3px 0 rgba(84,44,14,.3);
+    }
+    .kotak-cari::placeholder { color: #a98a63; font-weight: normal; }
+    /* Diberi #page-materi karena aturan '#page-materi p' (id + elemen) menang
+       atas kelas biasa - tanpa ini teks di bawah berubah cokelat gelap dan
+       hilang di atas foto sawah. */
+    #page-materi .kamus-hitung { margin: 2px 0 6px; font-size: .8rem; color: #ffe9c7;
+      font-weight: bold; text-shadow: 0 1px 3px rgba(0,0,0,.85); }
+    .kamus-baris {
+      display: flex; gap: 10px; align-items: flex-start;
+      background: rgba(255,247,233,.95); border: 2px solid #b0703c;
+      border-left-width: 7px; border-radius: 12px; padding: 10px 12px;
+    }
+    .kamus-foto { flex: 0 0 auto; width: 56px; height: 56px; border-radius: 9px;
+      overflow: hidden; border: 2px solid #b0703c; background: #f4ead8; }
+    .kamus-foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .kamus-isi { flex: 1 1 auto; min-width: 0; }
+    .kamus-kepala { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .kamus-kruna { font-size: 1.12rem; color: #542c0e; }
+    .kamus-kelas { font-size: .74rem; color: #7a5a2a; background: #f0dcb8;
+      padding: 1px 7px; border-radius: 999px; font-style: normal; }
+    #page-materi .kamus-arti { margin: 4px 0 0; font-size: .93rem; line-height: 1.5; color: #3f2a12; }
+    #page-materi .kamus-contoh { margin: 4px 0 0; font-size: .84rem; line-height: 1.45;
+      color: #6b4a1e; font-style: italic; }
+    /* Sanad ditulis di tiap entri, bukan sekali di atas halaman: anak dan guru
+       harus bisa tahu arti MANA yang datang dari mana tanpa menebak. */
+    .kamus-sanad { display: inline-block; margin-top: 5px; font-size: .68rem;
+      color: #8a6a3a; background: #efe1c6; padding: 1px 7px; border-radius: 999px; }
+    #page-materi .kamus-kosong { text-align: center; color: #ffe9c7; padding: 22px 10px;
+      line-height: 1.6; text-shadow: 0 1px 3px rgba(0,0,0,.85); }
     .daftar-kredit { display: flex; flex-direction: column; gap: 8px; }
     .kredit-intro {
       background: rgba(255,255,255,.95); border-radius: 12px; padding: 12px 14px;
@@ -2591,6 +2630,20 @@
   // ================================================================
   //  PUSTAKA: menu berjenjang  Level -> Materi -> Kosakata
   // ================================================================
+  // ================================================================
+  //  KAMUS BASA BALI
+  //  Tiga sanad, dan tiap entri menyebut asalnya sendiri di layar:
+  //    Pustaka   - kruna yang diajarkan game; artinya ditulis untuk game ini
+  //    Wikikamus - id.wiktionary.org bagian {{bahasa|ban}}, sebagian bercontoh
+  //    Soal      - kruna yang definisinya memang sudah ada di dalam soal kuis
+  //
+  //  TIDAK memakai API waktu-jalan. Kamus BASAbali (dictionary.basabali.org)
+  //  sebenarnya sumber terbaik, tapi ia di balik Cloudflare: permintaan dari
+  //  luar peramban ditolak 403. Datanya ikut di dalam berkas ini, jadi anak di
+  //  sekolah tanpa sinyal pun tetap bisa membuka kamus.
+  // ================================================================
+  const KAMUS = [{"k":"abut","a":"cabut","s":"Wikikamus","j":"kata kerja"},{"k":"adung","a":"sesuai; cocok; serasi","s":"Wikikamus","j":"kata sifat"},{"k":"alas","a":"hutan","s":"Wikikamus","j":"kata benda","c":["ada liu buron di alas","ada banyak hewan di hutan"]},{"k":"anak","a":"orang; pemarkah kontras; (Bali Kuno) warga, penduduk; (Bali Kuno) cabang","s":"Wikikamus","j":"kata benda"},{"k":"Banten","a":"Sesajen ané katur ring Sang Hyang Widhi. (Sesajen yang dipersembahkan kepada Tuhan.)","s":"Pustaka","f":"banten","u":"banten"},{"k":"Basa alus","a":"Basa sopan ané kaanggon ngomong ngajak guru lan rerama. (Bahasa halus untuk berbicara dengan guru dan orang tua.)","s":"Pustaka","f":"s22-guru-ngajahin","u":"basa-alus"},{"k":"batik","a":"kain (yang akan) dikerjakan dengan proses batik, yaitu dicelup secara berurutan dengan warna yang berbeda, yang setiap pencelupan didahului dengan pemberian pola lilin pada bagian yang tidak akan menerima warna tersebut.","s":"Wikikamus","j":"kata benda"},{"k":"buron","a":"binatang; hewan","s":"Wikikamus","j":"kata benda","c":["ada liu buron di kebun binatang","ada banyak hewan di kebun binatang"]},{"k":"Canang","a":"Sarana malakar don nyuh medaging bunga. (Sarana persembahyangan dari janur berisi bunga.)","s":"Pustaka","f":"canang","u":"canang"},{"k":"cenik","a":"kecil","s":"Wikikamus","j":"kata sifat","c":["sumangka di tegale cenik-cenik","semangka di kebun kecil-kecil"]},{"k":"Dokter","a":"Anak ané geginané ngubadin anak gelem. (Orang yang pekerjaannya mengobati orang sakit.)","s":"Pustaka","f":"s19-dokter-ngubadin-anak-gelem","u":"dokter"},{"k":"don","a":"daun","s":"Wikikamus","j":"kata benda","c":["I Dadong ngadep don biu di peken","Nenek menjual daun pisang di pasar"]},{"k":"ento","a":"kata penunjuk bagi benda (waktu, hal) yang jauh dari pembicara","s":"Wikikamus","j":"kata ganti"},{"k":"Galeng","a":"Cecimpedan: apaké ngamah acepok betek sesai? (Bantal.)","s":"Pustaka","f":"galeng","u":"galeng"},{"k":"gede","a":"besar","s":"Wikikamus","j":"kata sifat"},{"k":"gedeg","a":"marah","s":"Wikikamus","j":"kata sifat"},{"k":"gedé","a":"besar","s":"Wikikamus","j":"kata sifat","c":["Luh Ayu jani suba gedé","Luh Ayu sekarang sudah besar"]},{"k":"getih","a":"darah","s":"Wikikamus","j":"kata benda","c":["getihne mawarna barak","darahnya berwarna merah"]},{"k":"Gotong royong","a":"Magarapan bareng-bareng, conto rikala mebersih kelas. (Bekerja bersama-sama.)","s":"Pustaka","f":"s21-gotong-royong-kelas","u":"gotong-royong"},{"k":"Guru","a":"Anak ané geginané ngajahin di sekolah. (Orang yang pekerjaannya mengajar di sekolah.)","s":"Pustaka","f":"s22-guru-ngajahin","u":"guru"},{"k":"ida","a":"dia","s":"Wikikamus","j":"kata benda","c":["ida sampun rauh","dia sudah datang"]},{"k":"inggih","a":"iya","s":"Wikikamus","c":["inggih titiang cumpu","iya saya setuju"]},{"k":"iraga","a":"kita","s":"Wikikamus","j":"kata benda","c":["iraga jagi budal","kami akan pulang"]},{"k":"kedis","a":"burung; gigi","s":"Wikikamus","j":"kata benda","c":["Made Adi liu ngelah kedis","Made Adi mempunyai banyak burung"]},{"k":"Kuping","a":"Cecimpedan: apaké tolih ngejoh-ngejohang? (Telinga.)","s":"Pustaka","f":"s30-kuping-telinga-anak","u":"kuping"},{"k":"len","a":"lain","s":"Wikikamus","j":"kata sifat"},{"k":"Lontar","a":"Buku Bali malakar aji don ental. (Buku Bali dari daun lontar.)","s":"Pustaka","f":"s05-lontar-buku","u":"lontar"},{"k":"Luu","a":"Sampah. Luu patutné kaentungang di tong sampah, tusing di tukad. (Sampah harus dibuang di tempat sampah, bukan di sungai.)","s":"Pustaka","f":"luu-tukad","u":"luu"},{"k":"manusa","a":"manusia","s":"Wikikamus","j":"kata benda"},{"k":"Matan ai","a":"Cecimpedan: apaké menék bajang, tuun tua? (Matahari.)","s":"Pustaka","f":"matan-ai","u":"matan-ai"},{"k":"Mayus","a":"Tusing dadi lengit nulungin rerama magarapan. Lengit len raosne....","s":"Soal"},{"k":"Mebakti","a":"Ngaturang sembah bakti ring Ida Sang Hyang Widhi. (Bersembahyang kepada Tuhan.)","s":"Pustaka","f":"mebakti","u":"mebakti"},{"k":"Melasti","a":"Upacara penyucian ka segara sadurung Nyepi. (Upacara penyucian ke laut sebelum Nyepi.)","s":"Pustaka","f":"melasti","u":"melasti"},{"k":"Miara","a":"Tiang ngubuh sampi di désa. Ngubuh patuh artiné…","s":"Soal"},{"k":"Nanem","a":"Ngentungang entik-entikan ka tanah apang mentik. (Menanam tumbuhan.)","s":"Pustaka","f":"nanem-entik","u":"nanem"},{"k":"Nanem entik-entikan","a":"Contoh sane ngamargiang pelestarian alam inggih punika.","s":"Soal"},{"k":"Ngejot","a":"Ngaturang saiban utawi ajengan nasi semengan. (Mempersembahkan sesajen nasi di pagi hari.)","s":"Pustaka","f":"s08-ngejot-saiban","u":"ngejot"},{"k":"ngematiang","a":"membunuh","s":"Wikikamus","j":"kata kerja"},{"k":"ngomong","a":"berbicara","s":"Wikikamus","j":"kata kerja"},{"k":"nunas","a":"meminta; mohon","s":"Wikikamus","j":"kata kerja"},{"k":"Nyampat","a":"Ngedasin natah nganggon sampat. Kruna lingganné: sampat. (Menyapu halaman dengan sapu.)","s":"Pustaka","f":"sampat","u":"nyampat"},{"k":"Padmasana","a":"Genah palinggihan Sang Hyang Widhi Wasa ring pura. (Pelinggih tempat memuja Tuhan.)","s":"Pustaka","f":"padmasana","u":"padmasana"},{"k":"Pajeng","a":"Cecimpedan: apaké balé gedé matampul abesik? (Payung.)","s":"Pustaka","f":"pajeng","u":"pajeng"},{"k":"Penjor","a":"Rerahinan Galungan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin.","s":"Soal"},{"k":"pidan","a":"kapan","s":"Wikikamus","j":"kata ganti","c":["pidan bapa luas ka peken?","kapan bapak pergi ke pasar?"]},{"k":"Prabéya","a":"Biaya. Yén suba hemat énergi lakar ngranayang hemat prabéya. (Hemat energi membuat hemat biaya.)","s":"Pustaka","f":"s36-prabeya-hemat","u":"prabeya"},{"k":"Pura","a":"Genah suci anggén umat Hindu maturan. (Tempat suci umat Hindu untuk bersembahyang.)","s":"Pustaka","f":"pura","u":"pura"},{"k":"Pura Besakih","a":"Pura ané paling gedé ring Bali, ring bucun Gunung Agung. (Pura terbesar di Bali di kaki Gunung Agung.)","s":"Pustaka","f":"s11-pura-besakih","u":"pura-besakih"},{"k":"Pura Tanah Lot","a":"Pura ané majujuk di duur batu ring segara. (Pura yang berdiri di atas batu karang di laut.)","s":"Pustaka","f":"pura-tanah-lot","u":"pura-tanah-lot"},{"k":"Rerama","a":"Bapa lan meme ané sesai maang pitutur. (Orang tua yang selalu memberi nasihat.)","s":"Pustaka","f":"keluarga","u":"rerama"},{"k":"Saling tulungin","a":"Saling tulung ngajak nyama. Nyiriang idupé adung. (Saling menolong sesama, tanda hidup rukun.)","s":"Pustaka","f":"s16-adung-tolong","u":"saling-tulungin"},{"k":"Sampat","a":"I Putu demen nyampat di natahe. Nyampat kruna lingganyane…","s":"Soal"},{"k":"Sampi","a":"Sapi. Ngubuh sampi patuh artiné miara sampi. (Memelihara sapi.)","s":"Pustaka","f":"sampi","u":"sampi"},{"k":"Sang Hyang Widhi Wasa","a":"Tuhan ring agama Hindu kawastanin.","s":"Soal"},{"k":"Siam","a":"Menyiram. Apang entik-entikané tusing layu patut siam. (Agar tanaman tidak layu harus disiram.)","s":"Pustaka","f":"nyiram","u":"siam"},{"k":"sing","a":"tidak","s":"Wikikamus","c":["sing dadi kemu!","tidak boleh kesana!"]},{"k":"Subak","a":"Organisasi pembagian yéh carik ané kapimpin Pekaseh. (Sistem irigasi sawah tradisional Bali.)","s":"Pustaka","f":"subak","u":"subak"},{"k":"taluh","a":"telur","s":"Wikikamus","j":"kata benda","c":["I Meme meli taluh di warung","Ibu membeli telur di warung"]},{"k":"tanah","a":"tanah","s":"Wikikamus","j":"kata benda"},{"k":"tiang","a":"saya","s":"Wikikamus","j":"kata ganti","c":["tiang ampun ngajeng iwawu","saya sudah makan tadi"]},{"k":"timpal","a":"teman, kawan","s":"Wikikamus","j":"kata benda"},{"k":"Tong sampah","a":"Genah ngentungang luu. (Tempat membuang sampah.)","s":"Pustaka","f":"s32-tong-sampah","u":"tong-sampah"},{"k":"Traktor","a":"Mesin anggon ngebuhang tanah di cariké jani. (Mesin untuk membajak sawah zaman sekarang.)","s":"Pustaka","f":"traktor-sawah","u":"traktor"},{"k":"Tresna asih","a":"Saling sayang ngajak timpal. Solah ané melah. (Saling menyayangi teman.)","s":"Pustaka","f":"timpal","u":"tresna-asih"},{"k":"Tukad","a":"Sungai. Tukad patut kajaga apang bersih. (Sungai harus dijaga kebersihannya.)","s":"Pustaka","f":"tukad","u":"tukad"},{"k":"tusing","a":"bukan; tidak","s":"Wikikamus","j":"kata ganti"},{"k":"ujan","a":"hujan","s":"Wikikamus","j":"kata benda","c":["ujane bales pesan","hujannya sangat deras"]},{"k":"ulung","a":"jatuh","s":"Wikikamus","j":"kata kerja"},{"k":"Yéh","a":"Air. Hemat yéh: ngematiang kran yén suba suud manjus. (Hemat air: matikan keran setelah selesai mandi.)","s":"Pustaka","f":"kran-air","u":"yeh"}];
+
   const PUSTAKA = {
     1: { nama: 'Parahyangan', ikon: '🛕', medali: 'foto/level/parahyangan.webp', warna: '#b91c1c', materi: [
       { judul: 'Genah Suci', sub: 'Tempat suci', kata: [
@@ -2659,6 +2712,42 @@
     navigateTo('materi');
   }
 
+  /* Cari DUA arah: anak boleh mengetik krunanya ("tukad") atau artinya dalam
+     bahasa Indonesia ("sungai"). Satu arah saja tidak menolong anak yang tahu
+     maksudnya tapi lupa krunanya - dan justru itu yang paling sering terjadi. */
+  function saringKamus(q) {
+    const cari = (q || '').trim().toLowerCase();
+    const hasil = KAMUS.filter(function (e) {
+      if (!cari) return true;
+      return e.k.toLowerCase().indexOf(cari) >= 0 || e.a.toLowerCase().indexOf(cari) >= 0;
+    });
+    const wadah = document.getElementById('kamus-hasil');
+    const hitung = document.getElementById('kamus-hitung');
+    if (!wadah) return;
+    hitung.innerText = cari ? hasil.length + ' kruna cocok teken "' + q.trim() + '"'
+                            : KAMUS.length + ' kruna, urut abjad';
+    if (!hasil.length) {
+      wadah.innerHTML = '<p class="kamus-kosong">Kruna puniki durung wenten ring kamus.' +
+        '<br><small>(Kata ini belum ada di kamus.)</small></p>';
+      return;
+    }
+    wadah.innerHTML = hasil.map(function (e) {
+      return '<div class="kamus-baris">' +
+        (e.f ? '<div class="kamus-foto"><img src="foto/' + e.f + '.jpg" alt="" loading="lazy"></div>' : '') +
+        '<div class="kamus-isi">' +
+          '<div class="kamus-kepala">' +
+            '<b class="kamus-kruna">' + e.k + '</b>' +
+            (e.j ? '<i class="kamus-kelas">' + e.j + '</i>' : '') +
+            (e.u ? '<button class="btn-dengar kecil" type="button" aria-label="Dengarkan" ' +
+                   'onclick="ucapkanKata(\'' + e.u + '\',\'' + e.k.replace(/'/g, "\'") + '\',this)">🔊</button>' : '') +
+          '</div>' +
+          '<p class="kamus-arti">' + e.a + '</p>' +
+          (e.c && e.c.length ? '<p class="kamus-contoh">' + e.c.join('<br>') + '</p>' : '') +
+          '<span class="kamus-sanad">' + e.s + '</span>' +
+        '</div></div>';
+    }).join('');
+  }
+
   function pilihLevelPustaka(n) { pustakaLevel = n; pustakaMateri = null; renderPustaka(); }
   function pilihMateriPustaka(i) { pustakaMateri = i; renderPustaka(); }
 
@@ -2692,6 +2781,11 @@
           '<small>' + L.materi.length + ' materi · ' + jml + ' kosakata</small></span>' +
           '<span class="menu-panah">›</span></button>';
       }).join('') +
+        '<button class="menu-kartu" style="border-left-color:#0e7490" onclick="pilihLevelPustaka(\'kamus\')">' +
+          '<span class="menu-ikon">🔎</span>' +
+          '<span class="menu-teks"><b>Kamus Basa Bali</b>' +
+          '<small>' + KAMUS.length + ' kruna · cari arti kata</small></span>' +
+          '<span class="menu-panah">›</span></button>' +
         '<button class="menu-kartu" style="border-left-color:#6b7280" onclick="pilihLevelPustaka(\'kredit\')">' +
           '<span class="menu-ikon">📷</span>' +
           '<span class="menu-teks"><b>Sumber Foto</b>' +
@@ -2701,6 +2795,20 @@
     }
 
     // --- halaman kredit foto (kewajiban lisensi CC) ---
+    if (pustakaLevel === 'kamus') {
+      judul.innerHTML = '🔎 Kamus Basa Bali';
+      jalur.innerText = 'Pustaka › Kamus';
+      isi.className = 'pustaka-isi daftar-kamus';
+      isi.innerHTML =
+        '<input id="cari-kamus" class="kotak-cari" type="search" ' +
+        'placeholder="Ketik kruna Bali utawi artine..." ' +
+        'autocomplete="off" oninput="saringKamus(this.value)">' +
+        '<p class="kamus-hitung" id="kamus-hitung"></p>' +
+        '<div id="kamus-hasil"></div>';
+      saringKamus('');
+      return;
+    }
+
     if (pustakaLevel === 'kredit') {
       judul.innerText = '📷 Sumber Foto';
       jalur.innerText = 'Pustaka › Sumber Foto';

@@ -1,0 +1,668 @@
+[
+ {
+  "k": "abut",
+  "arti": "cabut",
+  "sumber": "Wikikamus",
+  "kelas": "kata kerja",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "adung",
+  "arti": "sesuai; cocok; serasi",
+  "sumber": "Wikikamus",
+  "kelas": "kata sifat",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "alas",
+  "arti": "hutan",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [
+   "ada liu buron di alas",
+   "ada banyak hewan di hutan"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "anak",
+  "arti": "orang; pemarkah kontras; (Bali Kuno) warga, penduduk; (Bali Kuno) cabang",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Banten",
+  "arti": "Sesajen ané katur ring Sang Hyang Widhi. (Sesajen yang dipersembahkan kepada Tuhan.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "banten",
+  "au": "banten"
+ },
+ {
+  "k": "Basa alus",
+  "arti": "Basa sopan ané kaanggon ngomong ngajak guru lan rerama. (Bahasa halus untuk berbicara dengan guru dan orang tua.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "s22-guru-ngajahin",
+  "au": "basa-alus"
+ },
+ {
+  "k": "batik",
+  "arti": "kain (yang akan) dikerjakan dengan proses batik, yaitu dicelup secara berurutan dengan warna yang berbeda, yang setiap pencelupan didahului dengan pemberian pola lilin pada bagian yang tidak akan menerima warna tersebut.",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "buron",
+  "arti": "binatang; hewan",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [
+   "ada liu buron di kebun binatang",
+   "ada banyak hewan di kebun binatang"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Canang",
+  "arti": "Sarana malakar don nyuh medaging bunga. (Sarana persembahyangan dari janur berisi bunga.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "canang",
+  "au": "canang"
+ },
+ {
+  "k": "cenik",
+  "arti": "kecil",
+  "sumber": "Wikikamus",
+  "kelas": "kata sifat",
+  "contoh": [
+   "sumangka di tegale cenik-cenik",
+   "semangka di kebun kecil-kecil"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Dokter",
+  "arti": "Anak ané geginané ngubadin anak gelem. (Orang yang pekerjaannya mengobati orang sakit.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "s19-dokter-ngubadin-anak-gelem",
+  "au": "dokter"
+ },
+ {
+  "k": "don",
+  "arti": "daun",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [
+   "I Dadong ngadep don biu di peken",
+   "Nenek menjual daun pisang di pasar"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "ento",
+  "arti": "kata penunjuk bagi benda (waktu, hal) yang jauh dari pembicara",
+  "sumber": "Wikikamus",
+  "kelas": "kata ganti",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Galeng",
+  "arti": "Cecimpedan: apaké ngamah acepok betek sesai? (Bantal.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "galeng",
+  "au": "galeng"
+ },
+ {
+  "k": "gede",
+  "arti": "besar",
+  "sumber": "Wikikamus",
+  "kelas": "kata sifat",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "gedeg",
+  "arti": "marah",
+  "sumber": "Wikikamus",
+  "kelas": "kata sifat",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "gedé",
+  "arti": "besar",
+  "sumber": "Wikikamus",
+  "kelas": "kata sifat",
+  "contoh": [
+   "Luh Ayu jani suba gedé",
+   "Luh Ayu sekarang sudah besar"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "getih",
+  "arti": "darah",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [
+   "getihne mawarna barak",
+   "darahnya berwarna merah"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Gotong royong",
+  "arti": "Magarapan bareng-bareng, conto rikala mebersih kelas. (Bekerja bersama-sama.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "s21-gotong-royong-kelas",
+  "au": "gotong-royong"
+ },
+ {
+  "k": "Guru",
+  "arti": "Anak ané geginané ngajahin di sekolah. (Orang yang pekerjaannya mengajar di sekolah.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "s22-guru-ngajahin",
+  "au": "guru"
+ },
+ {
+  "k": "ida",
+  "arti": "dia",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [
+   "ida sampun rauh",
+   "dia sudah datang"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "inggih",
+  "arti": "iya",
+  "sumber": "Wikikamus",
+  "kelas": null,
+  "contoh": [
+   "inggih titiang cumpu",
+   "iya saya setuju"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "iraga",
+  "arti": "kita",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [
+   "iraga jagi budal",
+   "kami akan pulang"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "kedis",
+  "arti": "burung; gigi",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [
+   "Made Adi liu ngelah kedis",
+   "Made Adi mempunyai banyak burung"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Kuping",
+  "arti": "Cecimpedan: apaké tolih ngejoh-ngejohang? (Telinga.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "s30-kuping-telinga-anak",
+  "au": "kuping"
+ },
+ {
+  "k": "len",
+  "arti": "lain",
+  "sumber": "Wikikamus",
+  "kelas": "kata sifat",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Lontar",
+  "arti": "Buku Bali malakar aji don ental. (Buku Bali dari daun lontar.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "s05-lontar-buku",
+  "au": "lontar"
+ },
+ {
+  "k": "Luu",
+  "arti": "Sampah. Luu patutné kaentungang di tong sampah, tusing di tukad. (Sampah harus dibuang di tempat sampah, bukan di sungai.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "luu-tukad",
+  "au": "luu"
+ },
+ {
+  "k": "manusa",
+  "arti": "manusia",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Matan ai",
+  "arti": "Cecimpedan: apaké menék bajang, tuun tua? (Matahari.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "matan-ai",
+  "au": "matan-ai"
+ },
+ {
+  "k": "Mayus",
+  "arti": "Tusing dadi lengit nulungin rerama magarapan. Lengit len raosne....",
+  "sumber": "Soal",
+  "kelas": null,
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Mebakti",
+  "arti": "Ngaturang sembah bakti ring Ida Sang Hyang Widhi. (Bersembahyang kepada Tuhan.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "mebakti",
+  "au": "mebakti"
+ },
+ {
+  "k": "Melasti",
+  "arti": "Upacara penyucian ka segara sadurung Nyepi. (Upacara penyucian ke laut sebelum Nyepi.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "melasti",
+  "au": "melasti"
+ },
+ {
+  "k": "Miara",
+  "arti": "Tiang ngubuh sampi di désa. Ngubuh patuh artiné…",
+  "sumber": "Soal",
+  "kelas": null,
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Nanem",
+  "arti": "Ngentungang entik-entikan ka tanah apang mentik. (Menanam tumbuhan.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "nanem-entik",
+  "au": "nanem"
+ },
+ {
+  "k": "Nanem entik-entikan",
+  "arti": "Contoh sane ngamargiang pelestarian alam inggih punika.",
+  "sumber": "Soal",
+  "kelas": null,
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Ngejot",
+  "arti": "Ngaturang saiban utawi ajengan nasi semengan. (Mempersembahkan sesajen nasi di pagi hari.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "s08-ngejot-saiban",
+  "au": "ngejot"
+ },
+ {
+  "k": "ngematiang",
+  "arti": "membunuh",
+  "sumber": "Wikikamus",
+  "kelas": "kata kerja",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "ngomong",
+  "arti": "berbicara",
+  "sumber": "Wikikamus",
+  "kelas": "kata kerja",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "nunas",
+  "arti": "meminta; mohon",
+  "sumber": "Wikikamus",
+  "kelas": "kata kerja",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Nyampat",
+  "arti": "Ngedasin natah nganggon sampat. Kruna lingganné: sampat. (Menyapu halaman dengan sapu.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "sampat",
+  "au": "nyampat"
+ },
+ {
+  "k": "Padmasana",
+  "arti": "Genah palinggihan Sang Hyang Widhi Wasa ring pura. (Pelinggih tempat memuja Tuhan.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "padmasana",
+  "au": "padmasana"
+ },
+ {
+  "k": "Pajeng",
+  "arti": "Cecimpedan: apaké balé gedé matampul abesik? (Payung.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "pajeng",
+  "au": "pajeng"
+ },
+ {
+  "k": "Penjor",
+  "arti": "Rerahinan Galungan, umat Hindu mekarya sarana upacara marupa tiing sane lengkung tur kahias antuk janur miwah hasil bumi kawastanin.",
+  "sumber": "Soal",
+  "kelas": null,
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "pidan",
+  "arti": "kapan",
+  "sumber": "Wikikamus",
+  "kelas": "kata ganti",
+  "contoh": [
+   "pidan bapa luas ka peken?",
+   "kapan bapak pergi ke pasar?"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Prabéya",
+  "arti": "Biaya. Yén suba hemat énergi lakar ngranayang hemat prabéya. (Hemat energi membuat hemat biaya.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "s36-prabeya-hemat",
+  "au": "prabeya"
+ },
+ {
+  "k": "Pura",
+  "arti": "Genah suci anggén umat Hindu maturan. (Tempat suci umat Hindu untuk bersembahyang.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "pura",
+  "au": "pura"
+ },
+ {
+  "k": "Pura Besakih",
+  "arti": "Pura ané paling gedé ring Bali, ring bucun Gunung Agung. (Pura terbesar di Bali di kaki Gunung Agung.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "s11-pura-besakih",
+  "au": "pura-besakih"
+ },
+ {
+  "k": "Pura Tanah Lot",
+  "arti": "Pura ané majujuk di duur batu ring segara. (Pura yang berdiri di atas batu karang di laut.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "pura-tanah-lot",
+  "au": "pura-tanah-lot"
+ },
+ {
+  "k": "Rerama",
+  "arti": "Bapa lan meme ané sesai maang pitutur. (Orang tua yang selalu memberi nasihat.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "keluarga",
+  "au": "rerama"
+ },
+ {
+  "k": "Saling tulungin",
+  "arti": "Saling tulung ngajak nyama. Nyiriang idupé adung. (Saling menolong sesama, tanda hidup rukun.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "s16-adung-tolong",
+  "au": "saling-tulungin"
+ },
+ {
+  "k": "Sampat",
+  "arti": "I Putu demen nyampat di natahe. Nyampat kruna lingganyane…",
+  "sumber": "Soal",
+  "kelas": null,
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Sampi",
+  "arti": "Sapi. Ngubuh sampi patuh artiné miara sampi. (Memelihara sapi.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "sampi",
+  "au": "sampi"
+ },
+ {
+  "k": "Sang Hyang Widhi Wasa",
+  "arti": "Tuhan ring agama Hindu kawastanin.",
+  "sumber": "Soal",
+  "kelas": null,
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Siam",
+  "arti": "Menyiram. Apang entik-entikané tusing layu patut siam. (Agar tanaman tidak layu harus disiram.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "nyiram",
+  "au": "siam"
+ },
+ {
+  "k": "sing",
+  "arti": "tidak",
+  "sumber": "Wikikamus",
+  "kelas": null,
+  "contoh": [
+   "sing dadi kemu!",
+   "tidak boleh kesana!"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Subak",
+  "arti": "Organisasi pembagian yéh carik ané kapimpin Pekaseh. (Sistem irigasi sawah tradisional Bali.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "subak",
+  "au": "subak"
+ },
+ {
+  "k": "taluh",
+  "arti": "telur",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [
+   "I Meme meli taluh di warung",
+   "Ibu membeli telur di warung"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "tanah",
+  "arti": "tanah",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "tiang",
+  "arti": "saya",
+  "sumber": "Wikikamus",
+  "kelas": "kata ganti",
+  "contoh": [
+   "tiang ampun ngajeng iwawu",
+   "saya sudah makan tadi"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "timpal",
+  "arti": "teman, kawan",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Tong sampah",
+  "arti": "Genah ngentungang luu. (Tempat membuang sampah.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "s32-tong-sampah",
+  "au": "tong-sampah"
+ },
+ {
+  "k": "Traktor",
+  "arti": "Mesin anggon ngebuhang tanah di cariké jani. (Mesin untuk membajak sawah zaman sekarang.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "traktor-sawah",
+  "au": "traktor"
+ },
+ {
+  "k": "Tresna asih",
+  "arti": "Saling sayang ngajak timpal. Solah ané melah. (Saling menyayangi teman.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "timpal",
+  "au": "tresna-asih"
+ },
+ {
+  "k": "Tukad",
+  "arti": "Sungai. Tukad patut kajaga apang bersih. (Sungai harus dijaga kebersihannya.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "tukad",
+  "au": "tukad"
+ },
+ {
+  "k": "tusing",
+  "arti": "bukan; tidak",
+  "sumber": "Wikikamus",
+  "kelas": "kata ganti",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "ujan",
+  "arti": "hujan",
+  "sumber": "Wikikamus",
+  "kelas": "kata benda",
+  "contoh": [
+   "ujane bales pesan",
+   "hujannya sangat deras"
+  ],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "ulung",
+  "arti": "jatuh",
+  "sumber": "Wikikamus",
+  "kelas": "kata kerja",
+  "contoh": [],
+  "foto": null,
+  "au": null
+ },
+ {
+  "k": "Yéh",
+  "arti": "Air. Hemat yéh: ngematiang kran yén suba suud manjus. (Hemat air: matikan keran setelah selesai mandi.)",
+  "sumber": "Pustaka",
+  "kelas": null,
+  "contoh": [],
+  "foto": "kran-air",
+  "au": "yeh"
+ }
+]

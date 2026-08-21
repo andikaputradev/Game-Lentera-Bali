@@ -1,0 +1,20 @@
+{
+  "name": "Lentera Bali — Belajar Basa Bali Menjaga Harmoni",
+  "short_name": "Lentera Bali",
+  "description": "Game edukasi interaktif basa Bali bermuatan Tri Hita Karana untuk siswa SD.",
+  "lang": "id",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#542c0e",
+  "theme_color": "#542c0e",
+  "categories": ["education", "games"],
+  "icons": [
+    { "src": "ikon/ikon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "ikon/ikon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "ikon/ikon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "ikon/ikon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

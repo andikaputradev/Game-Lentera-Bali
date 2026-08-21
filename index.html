@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Lentera Bali - Belajar Basa Bali Menjaga Harmoni</title>
 
+  <!-- Dipasang sebagai APLIKASI: ada ikon di layar depan HP, dibuka layar penuh
+       tanpa bilah alamat, dan tetap jalan tanpa sinyal. -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="ikon/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="ikon/ikon-192.png">
+  <meta name="theme-color" content="#542c0e">
+  <meta name="description" content="Game edukasi interaktif basa Bali bermuatan Tri Hita Karana untuk siswa SD.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Lentera Bali">
+
 
   <style>
     /* ============================================================
@@ -2499,6 +2511,32 @@
   };
 
   const WARNA_LEVEL = { 1: '#e0533a', 2: '#4aa3e8', 3: '#57b14b' };
+
+  /* ================================================================
+     APLIKASI TERPASANG (PWA)
+     Didaftarkan hanya kalau halaman dilayani lewat http/https - dibuka
+     langsung dari berkas (file://) service worker memang tidak diizinkan,
+     dan kalau dipaksa ia hanya melempar galat di konsol tanpa guna.
+     ================================================================ */
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').then(function (reg) {
+        // Isi sisa aset SESUDAH game terbuka, bukan saat install: kalau semuanya
+        // diunduh di depan, pemasangan gagal di sinyal lambat dan anak tidak
+        // dapat apa-apa.
+        const kirim = function () {
+          if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({ perintah: 'isi-sisa' });
+          }
+        };
+        if (navigator.serviceWorker.controller) kirim();
+        else navigator.serviceWorker.addEventListener('controllerchange', kirim);
+      }).catch(function (e) {
+        console.warn('Service worker gagal didaftarkan:', e);
+      });
+
+    });
+  }
 
   /* Pasang karakter, lentera, dan logo ke semua slot yang ada di halaman. */
   function pasangSemuaKarakter() {

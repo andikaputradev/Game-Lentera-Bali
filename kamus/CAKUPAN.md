@@ -1,12 +1,16 @@
 # Kamus Basa Bali — cakupan dan kekurangan
 
-Kamus di dalam game berisi **69 kruna**, dari tiga sanad:
+Kamus di dalam game berisi **103 kruna**, seluruhnya dari berkas **Kosa Basa.docx** (daftar kosakata dari guru), dalam tiga kelompok:
 
-- **Pustaka** — 32 kruna
-- **Wikikamus** — 31 kruna
-- **Soal** — 6 kruna
+- **Kosa Basa** — 71 kruna (urut abjad)
+- **Adan Dina / Rahina** — 7 nama hari
+- **Adan Angka** — 25 bilangan
 
-Kosakata di soal: **326 kata unik**. Yang sudah tertutup kamus: **71** (21%).
+Pembakuan ejaan Indonesia yang dilakukan: "males" → "malas", "pertunjukkan" → "pertunjukan", "naséhat" → "nasihat". Satu entri ganda di dokumen ("Nganggo") dibuang.
+
+Dibangun ulang dengan `bangun_kamus.py` (scratchpad sesi) dari dokumen tersebut; ganti dokumennya lalu jalankan lagi untuk memperbarui.
+
+Kosakata di soal: **329 kata unik**. Yang sudah tertutup kamus: **38** (12%).
 
 ## Kruna yang BELUM ada artinya
 
@@ -17,76 +21,291 @@ Diurut dari yang paling sering muncul di soal — isi dari atas kalau waktunya t
 | 11x | miwah | |
 | 9x | sane | |
 | 8x | ring | |
-| 6x | patut | |
+| 8x | di | |
 | 6x | hindu | |
 | 6x | ane | |
 | 5x | umat | |
-| 5x | ngaturang | |
 | 5x | kawastanin | |
+| 5x | sang | |
+| 5x | hyang | |
+| 5x | widhi | |
+| 5x | ida | |
+| 5x | banten | |
+| 5x | pura | |
 | 5x | apaké | |
 | 4x | suba | |
+| 4x | tusing | |
+| 3x | wasa | |
 | 3x | upacara | |
-| 3x | sekolah | |
+| 3x | inggih | |
 | 3x | punika | |
-| 3x | lengit | |
+| 3x | tulungin | |
 | 3x | demen | |
 | 3x | dadi | |
-| 2x | yén | |
+| 3x | iraga | |
+| 3x | anak | |
+| 3x | sekolah | |
+| 3x | tanah | |
 | 2x | utawi | |
+| 2x | maturan | |
+| 2x | antuk | |
+| 2x | rerahinan | |
+| 2x | sarana | |
+| 2x | nasi | |
 | 2x | tur | |
-| 2x | tolih | |
+| 2x | patutne | |
+| 2x | saling | |
 | 2x | solah | |
 | 2x | sesai | |
-| 2x | sarana | |
-| 2x | rerahinan | |
 | 2x | putu | |
-| 2x | pitutur | |
-| 2x | patutné | |
-| 2x | patutne | |
+| 2x | dokter | |
+| 2x | geginane | |
+| 2x | guru | |
+| 2x | tresna | |
+| 2x | asih | |
 | 2x | ngutang | |
-| 2x | ngubuh | |
-| 2x | ngelah | |
+| 2x | patutné | |
+| 2x | apang | |
+| 2x | hémat | |
+| 2x | sampi | |
+| 2x | anaké | |
 | 2x | ngebuhang | |
 | 2x | nganggon | |
-| 2x | ngajahin | |
-| 2x | nasi | |
-| 2x | mekarya | |
-| 2x | maturan | |
-| 2x | kalahin | |
-| 2x | jele | |
-| 2x | hémat | |
-| 2x | genah | |
-| 2x | geginane | |
-| 2x | entik | |
-| 2x | cita | |
+| 2x | penjor | |
+| 2x | canang | |
+| 2x | tolih | |
 | 2x | bale | |
-| 2x | apang | |
-| 2x | antuk | |
-| 2x | anaké | |
-| 1x | énergi | |
-| 1x | zaman | |
-| 1x | yên | |
-| 1x | yening | |
-| 1x | wewidangan | |
-| 1x | wewangunan | |
-| 1x | wantilan | |
+| 2x | gede | |
+| 2x | melasti | |
+| 2x | jele | |
+| 2x | kalahin | |
+| 2x | gedeg | |
+| 2x | tukad | |
+| 2x | ngematiang | |
+| 2x | yén | |
+| 1x | suci | |
+| 1x | anggen | |
+| 1x | tuhan | |
+| 1x | agama | |
+| 1x | ica | |
+| 1x | manusia | |
+| 1x | bakti | |
+| 1x | santukan | |
+| 1x | saraswati | |
+| 1x | penyucian | |
+| 1x | ke | |
+| 1x | kalaksanayang | |
+| 1x | olih | |
+| 1x | sedurung | |
+| 1x | nyepi | |
+| 1x | don | |
+| 1x | nyuh | |
+| 1x | medaging | |
+| 1x | bunga | |
+| 1x | kaanggen | |
+| 1x | saiban | |
+| 1x | ajengan | |
+| 1x | semengan | |
+| 1x | palinggihan | |
+| 1x | galungan | |
+| 1x | marupa | |
+| 1x | tiing | |
+| 1x | lengkung | |
+| 1x | kahias | |
+| 1x | janur | |
+| 1x | hasil | |
+| 1x | bumi | |
+| 1x | ngajak | |
+| 1x | nyiriang | |
+| 1x | idupe | |
+| 1x | rai | |
+| 1x | masilihang | |
+| 1x | teken | |
+| 1x | timpale | |
+| 1x | sing | |
+| 1x | ento | |
+| 1x | bacakan | |
+| 1x | maang | |
+| 1x | budi | |
+| 1x | cita-cita | |
+| 1x | tuah | |
+| 1x | ngomong | |
+| 1x | sareng | |
+| 1x | nganggen | |
+| 1x | basa | |
 | 1x | waktu | |
+| 1x | mebersih | |
+| 1x | kelas | |
+| 1x | pianakne | |
+| 1x | pertama | |
+| 1x | sd | |
+| 1x | madan | |
+| 1x | len | |
+| 1x | raosne | |
+| 1x | yening | |
+| 1x | ada | |
+| 1x | metimpal | |
+| 1x | contoh | |
+| 1x | ngamargiang | |
+| 1x | pelestarian | |
+| 1x | alam | |
+| 1x | luu | |
+| 1x | nyaga | |
+| 1x | kabresihan | |
+| 1x | déwék | |
+| 1x | lan | |
+| 1x | lingkungan | |
+| 1x | natahe | |
+| 1x | kruna | |
+| 1x | lingganyane | |
+| 1x | betén | |
+| 1x | ené | |
+| 1x | conto | |
+| 1x | parilaksana | |
+| 1x | yéh | |
+| 1x | yên | |
+| 1x | énergi | |
+| 1x | lakar | |
+| 1x | hemat | |
+| 1x | tiang | |
+| 1x | désa | |
+| 1x | patuh | |
+| 1x | artiné | |
+| 1x | tekén | |
+| 1x | ubuh-ubuhan | |
+| 1x | entik-entikané | |
+| 1x | layu | |
+| 1x | pidan | |
+| 1x | cariké | |
+| 1x | buron | |
+| 1x | zaman | |
+| 1x | carike | |
+| 1x | besakih | |
+| 1x | lot | |
+| 1x | balé | |
+| 1x | gedé | |
+| 1x | matampul | |
+| 1x | abesik | |
+| 1x | ngamah | |
+| 1x | acepok | |
+| 1x | betek | |
+| 1x | cenik | |
+| 1x | ngemu | |
+| 1x | getih | |
+| 1x | menék | |
+| 1x | bajang | |
+| 1x | tuun | |
+| 1x | tua | |
+| 1x | ngejoh-ngejohang | |
+| 1x | banjar | |
+| 1x | pasar | |
+| 1x | ratu | |
+| 1x | jero | |
+| 1x | mpu | |
+| 1x | sesajen | |
+| 1x | pipis | |
+| 1x | perhiasan | |
+| 1x | batik | |
+| 1x | anduk | |
+| 1x | sepatu | |
+| 1x | tas | |
+| 1x | ngasilang | |
+| 1x | keneh | |
+| 1x | nyiptayang | |
+| 1x | jagat | |
+| 1x | lontar | |
+| 1x | buku | |
+| 1x | beras | |
+| 1x | taluh | |
+| 1x | ayam | |
+| 1x | bebek | |
+| 1x | candi | |
+| 1x | arca | |
+| 1x | mepandes | |
+| 1x | mabyakala | |
+| 1x | matur | |
+| 1x | piuning | |
+| 1x | tamas | |
+| 1x | tumpeng | |
+| 1x | lamak | |
+| 1x | melukat | |
+| 1x | ngejot | |
+| 1x | padmasana | |
+| 1x | kulkul | |
+| 1x | wantilan | |
+| 1x | lumbung | |
+| 1x | tamiang | |
+| 1x | sate | |
+| 1x | lawar | |
+| 1x | sugih | |
 | 1x | uyut | |
-| 1x | ubuhan | |
-| 1x | ubuh | |
-
-_...dan 195 kruna lain yang muncul 1–2 kali._
-
-## Cara menambahkannya
-
-Isi tabel di atas, lalu kirimkan kembali — entri baru akan ditandai sanad **Guru** di dalam aplikasi, terpisah dari Wikikamus dan Pustaka, supaya jelas mana yang datang dari siapa.
-
-## Kenapa tidak memakai API kamus
-
-- **BASAbali Wiki** (dictionary.basabali.org) adalah sumber terbaik untuk basa Bali, tapi ia berada di balik Cloudflare: permintaan dari luar peramban dijawab **403**, jadi tidak bisa dipanggil dari dalam game.
-
-- **Wiktionary Bali** (ban.wiktionary) belum jadi wiki tersendiri — masih di Wikimedia Incubator.
-
-- **Wikikamus Indonesia** (id.wiktionary) bisa dipanggil dan mengizinkan CORS, tapi dari 326 kata soal hanya **34** yang punya bagian `{{bahasa|ban}}`. Ke-34 itulah yang dipakai, diunduh sekali lalu disimpan ke dalam berkas.
-
-- Menyimpan datanya di dalam aplikasi juga berarti **kamus tetap bisa dibuka tanpa sinyal** — di sekolah itu yang menentukan.
+| 1x | lacur | |
+| 1x | adung | |
+| 1x | resepang | |
+| 1x | kelidin | |
+| 1x | saruin | |
+| 1x | nyampur | |
+| 1x | ubad | |
+| 1x | ngubadin | |
+| 1x | menahin | |
+| 1x | montor | |
+| 1x | ngae | |
+| 1x | wewangunan | |
+| 1x | kasar | |
+| 1x | alus | |
+| 1x | sopan | |
+| 1x | keras | |
+| 1x | sengit | |
+| 1x | gotong | |
+| 1x | royong | |
+| 1x | melaib | |
+| 1x | nyingakin | |
+| 1x | kemawon | |
+| 1x | macepuk | |
+| 1x | satpam | |
+| 1x | pengacara | |
+| 1x | polisi | |
+| 1x | seleg | |
+| 1x | kedekin | |
+| 1x | corah | |
+| 1x | nanem | |
+| 1x | nembak | |
+| 1x | kedis | |
+| 1x | ngusak | |
+| 1x | alas | |
+| 1x | sémér | |
+| 1x | got | |
+| 1x | tong | |
+| 1x | sampah | |
+| 1x | kual | |
+| 1x | kumel | |
+| 1x | daki | |
+| 1x | sampat | |
+| 1x | sampate | |
+| 1x | nyampatang | |
+| 1x | listrik | |
+| 1x | tengai | |
+| 1x | ngidupang | |
+| 1x | ac | |
+| 1x | masan | |
+| 1x | ujan | |
+| 1x | negakin | |
+| 1x | sepéda | |
+| 1x | ka | |
+| 1x | kran | |
+| 1x | manjus | |
+| 1x | munyi | |
+| 1x | bayu | |
+| 1x | ngebus | |
+| 1x | ngalih | |
+| 1x | madep | |
+| 1x | sayang | |
+| 1x | pedih | |
+| 1x | tumbeg | |
+| 1x | abut | |
+| 1x | tunjel | |
+| 1x | siam | |
+| 1x | traktor | |
+| 1x | kambing | |
+| 1x | hp | |
+| 1x | robot | |

@@ -8,7 +8,7 @@ Kamus di dalam game berisi **103 kruna**, seluruhnya dari berkas **Kosa Basa.doc
 
 Pembakuan ejaan Indonesia yang dilakukan: "males" → "malas", "pertunjukkan" → "pertunjukan", "naséhat" → "nasihat". Satu entri ganda di dokumen ("Nganggo") dibuang.
 
-Dibangun ulang dengan `bangun_kamus.py` (scratchpad sesi) dari dokumen tersebut; ganti dokumennya lalu jalankan lagi untuk memperbarui.
+Dibangun ulang dengan `python alat/bangun_kamus.py [jalur .docx]`; ganti dokumennya lalu jalankan lagi untuk memperbarui.
 
 Kosakata di soal: **329 kata unik**. Yang sudah tertutup kamus: **38** (12%).
 

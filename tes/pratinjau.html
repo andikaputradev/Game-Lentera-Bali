@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Pratinjau ukuran HP - Lentera Bali</title>
+<!--
+  Alat uji tata letak. Memuat game di dalam iframe SEUKURAN HP yang diuji,
+  sehingga media query di dalamnya membaca ukuran itu, bukan ukuran jendela.
+
+    ?halaman=play   -> masuk sebagai pemain, langsung ke halaman bermain
+    ?halaman=login  -> keadaan pemain baru (halaman masuk)
+    ?ukuran=360x610 -> satu ukuran saja, iframe memenuhi jendela
+    (tanpa ?ukuran)  -> deretan semua ukuran uji, untuk dipotret sekali jalan
+
+  Dipakai bersama Playwright/CDP: buka halaman ini, potret seluruh halaman,
+  lalu potong per panel memakai koordinat dari window.PANEL.
+-->
+<style>
+  html, body { margin: 0; padding: 0; background: #111; }
+  body.tunggal { height: 100%; overflow: hidden; }
+  body.tunggal iframe { display: block; border: 0; width: 100vw; height: 100vh; }
+  .deret { display: flex; align-items: flex-start; gap: 0; }
+  .panel { position: relative; flex: 0 0 auto; }
+  .panel iframe { display: block; border: 0; }
+  .panel b {
+    position: absolute; top: 0; left: 0; z-index: 2;
+    background: #000; color: #0f0; font: bold 11px/1.4 monospace; padding: 1px 5px;
+  }
+</style>
+</head>
+<body>
+<script>
+  var q = new URLSearchParams(location.search);
+  var halaman = q.get('halaman') || 'login';
+  if (halaman === 'play') {
+    localStorage.setItem('playerName', 'Putu');
+    localStorage.setItem('playerClass', '4');
+    localStorage.setItem('unlockedLevel', '1');
+  } else {
+    localStorage.removeItem('playerName');
+    localStorage.removeItem('playerClass');
+  }
+  localStorage.setItem('muted', 'true');   // pemotretan tidak perlu bunyi
+
+  var UKURAN = q.get('mode') === 'mendatar'
+    ? ['568x320', '640x360', '740x360', '851x393', '915x412']
+    : ['320x568', '360x592', '360x610', '375x629', '390x664', '393x727', '412x732', '412x869'];
+  var satu = q.get('ukuran');
+  // ?berkas= dipakai untuk membandingkan dengan versi lama saat menguji perbaikan
+  var berkas = (q.get('berkas') || 'index.html').replace(/[^\w.-]/g, '');
+
+  if (satu) {
+    document.body.className = 'tunggal';
+    var f = document.createElement('iframe');
+    f.src = '../' + berkas;
+    document.body.appendChild(f);
+  } else {
+    var deret = document.createElement('div');
+    deret.className = 'deret';
+    window.PANEL = [];
+    var x = 0;
+    UKURAN.forEach(function (uk) {
+      var w = parseInt(uk), h = parseInt(uk.split('x')[1]);
+      var p = document.createElement('div');
+      p.className = 'panel';
+      p.style.width = w + 'px';
+      p.style.height = h + 'px';
+      var lab = document.createElement('b');
+      lab.textContent = uk;
+      var f = document.createElement('iframe');
+      f.src = '../' + berkas;
+      f.width = w; f.height = h;
+      p.appendChild(f); p.appendChild(lab);
+      deret.appendChild(p);
+      window.PANEL.push({ ukuran: uk, x: x, y: 0, w: w, h: h });
+      x += w;
+    });
+    document.body.appendChild(deret);
+  }
+</script>
+</body>
+</html>

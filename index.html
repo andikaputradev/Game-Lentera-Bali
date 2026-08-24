@@ -122,34 +122,63 @@
       background-image: url('foto/bg-utama.jpg');
       background-size: cover;
       background-position: center;
+      /* Logo dan kartu masuk berada dalam SATU aliran kolom, bukan lagi logo
+         melayang (absolute) dan kartu ditengahkan sendiri. Selama keduanya
+         saling mendorong seperti ini, kartu tidak mungkin menutupi keterangan
+         di bawah logo - dulu jaraknya cuma 5px dan langsung tertimpa begitu
+         layar HP sedikit lebih pendek. */
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      gap: 10px;
+      padding: 16px 20px 20px;
     }
     #page-login .logo-container {
-      position: absolute;
-      top: 5%;
-      left: 50%;
-      transform: translateX(-50%);
+      position: static;
+      transform: none;
       width: 26%;
       max-width: 220px;
       text-align: center;
       z-index: 10;
-      animation: logoZoom 3s ease-in-out infinite;
+      flex: 0 1 auto; min-height: 0;
+    }
+    /* Kartu masuk tidak boleh ikut menyusut: isinya kotak isian yang harus tetap
+       bisa disentuh. Yang mengalah saat layar pendek adalah gambar logo. */
+    #page-login .form-card { flex: 0 0 auto; }
+    /* Kolom: gambar logo, aksara, lalu keterangan. Yang boleh MENYUSUT saat
+       layar pendek hanyalah gambarnya (flex 0 1 auto); aksara dan keterangan
+       dikunci 0 0 auto supaya tidak pernah terpotong atau terdorong menimpa
+       apa pun di bawahnya. */
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
     }
     .logo-container svg { width: 100%; height: auto; display: block; }
     .logo-container .logo-gambar {
       width: 100%; height: auto; display: block;
+      flex: 0 1 auto; min-height: 0; object-fit: contain;
       filter: drop-shadow(0 3px 6px rgba(0,0,0,.45));
+      /* Denyut logo dipasang pada GAMBARNYA, bukan pada wadah. Kalau wadahnya
+         yang membesar 1,05x, aksara dan keterangan di dalamnya ikut terdorong
+         ~6px naik-turun setiap detik - cukup untuk menyentuh maskot di bawahnya,
+         dan teks yang bergoyang sendiri melelahkan untuk dibaca anak. */
+      animation: logoZoomStatis 3s ease-in-out infinite;
     }
+    .logo-container .logo-aksara,
+    .logo-container .logo-ket { flex: 0 0 auto; }
     .logo-container .logo-aksara {
-      position: relative; left: 50%; transform: translateX(-50%);
       width: max-content; max-width: 92vw;
-      margin: 2px 0 0;
+      /* jarak agak lega: gambar logo di atasnya berdenyut sampai 1,05x */
+      margin: 7px 0 0;
       font-family: 'Noto Sans Balinese', sans-serif;
       font-size: 1.25rem;
       font-weight: 700;
-      line-height: 1.15;
+      /* Aksara Bali bertumpuk ke atas DAN ke bawah: pada 20px tintanya setinggi
+         36px, jadi line-height 1.15 (23px) membuat glifnya meluber ~13px keluar
+         kotak dan MENIMPA keterangan di bawahnya serta pita logo di atasnya.
+         1.9 membuat tintanya berada utuh di dalam kotak barisnya sendiri. */
+      line-height: 1.9;
       color: #facc15;
       text-align: center;
       text-shadow: 0 2px 3px rgba(0,0,0,.95), 0 0 8px rgba(84,44,14,.95);
@@ -157,8 +186,9 @@
     .logo-container .logo-ket {
       /* Lebarnya BERDIRI SENDIRI, tidak mengikuti wadah logo. Di mode mendatar
          wadahnya cuma ~118px dan kalimat ini membungkus jadi delapan baris,
-         membuat blok logo lebih tinggi daripada logonya sendiri. */
-      position: relative; left: 50%; transform: translateX(-50%);
+         membuat blok logo lebih tinggi daripada logonya sendiri. Wadahnya kini
+         flex-column align-items:center, jadi kelebihan lebarnya terbagi rata
+         kiri-kanan tanpa perlu trik left:50% + translateX. */
       /* Dilebarkan supaya kalimat ini tetap DUA baris. Di 280px ia pecah jadi
          tiga baris, dan baris ketiga itu (+24px) membuat kartu masuk menimpa
          logo di tujuh ukuran layar. */
@@ -180,9 +210,11 @@
       .logo-container .logo-ket { display: none; }
       .logo-container .logo-aksara { font-size: .95rem; margin-top: 0; }
     }
-    @keyframes logoZoom {
-      0%, 100% { transform: translateX(-50%) scale(1); }
-      50% { transform: translateX(-50%) scale(1.05); }
+    /* Denyut logo: dipakai oleh GAMBAR logo di kedua halaman, jadi tidak perlu
+       lagi ikut menggeser wadah yang di-translateX. */
+    @keyframes logoZoomStatis {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
 
     .character {
@@ -287,10 +319,9 @@
       left: 50%;
       transform: translateX(-50%);
       width: 34%;
-      max-width: 300px; 
+      max-width: 300px;
       z-index: 10;
       text-align: center;
-      animation: logoZoom 3s ease-in-out infinite;
     }
 
 
@@ -1478,10 +1509,8 @@
       /* Mendatar tingginya cuma ~360-400px. Lebar logo diikat ke tinggi
          layar juga; kalau hanya dari lebar, logo tetap 109px tinggi dan
          kartu masuk tidak kebagian tempat. */
-      #page-login .logo-container { width: min(16%, 21vh); max-width: 118px; top: 3%; }
-      /* mendatar cuma setinggi ~400px: kartu diberi jarak supaya tidak
-         menimpa pita subjudul di bawah logo */
-      #page-login .form-card { max-width: 420px; padding: 12px 20px; margin-top: 58px; }
+      #page-login .logo-container { width: min(16%, 21vh); max-width: 118px; }
+      #page-login .form-card { max-width: 420px; padding: 12px 20px; }
       #page-play .logo-container { width: 24%; max-width: 190px; top: 1%; }
       #page-play .character { width: 12%; max-height: 48vh; bottom: 0; }
       #page-play #putu { left: 18%; }
@@ -1525,23 +1554,32 @@
          terpakai penuh - kalau terlalu lebar, pitanya tertimpa kartu masuk.
          Lebarnya diikat ke tinggi layar juga: kalau hanya dari lebar, logo
          tetap 230px tinggi di layar 580px dan menimpa kartu. */
-      #page-login .logo-container { width: min(64%, 33vh); max-width: 262px; top: 2%; }
+      #page-login .logo-container { width: min(64%, 33vh); max-width: 262px; }
       #page-login .character { width: 27%; max-height: 26vh; }
-      #page-login .form-card { margin-top: 76px; }
-      /* Layar pendek. Kartu tidak bisa sekadar dinaikkan: naik berarti makin
-         menimpa logo, turun berarti menimpa maskot. Jadi LOGO yang mengecil,
-         baru kartunya digeser. */
+      /* Maskot berdiri di dasar layar dan TIDAK ikut aliran kolom. Tinggi
+         mereka dipesan sebagai padding bawah supaya kolom logo+kartu
+         ditengahkan di ruang DI ATAS maskot - tanpa ini kartu menutupi kepala
+         Putu dan Ni Luh di layar HP yang pendek. */
+      #page-login { padding-bottom: calc(26vh + 20px); }
+      /* Layar pendek: tidak ada lagi margin-top yang perlu ditebak per ukuran -
+         kolomnya saling mendorong sendiri. Logo cukup dibatasi supaya tidak
+         menghabiskan tinggi dan mendesak kartu ke bawah menimpa maskot. */
       @media (max-height: 680px) {
-        #page-login .form-card { margin-top: 44px; }
         #page-login .logo-container { width: min(64%, 29vh); }
       }
       @media (max-height: 610px) {
-        #page-login .form-card { margin-top: 26px; }
         #page-login .logo-container { width: min(58%, 23vh); }
       }
       /* sama seperti halaman depan: kalau hanya diukur dari lebar, logo tetap
          setinggi itu di layar pendek dan menimpa maskot */
-      #page-play .logo-container { width: min(72%, 34vh); max-width: 300px; top: 7%; }
+      #page-play .logo-container {
+        width: min(72%, 34vh); max-width: 300px; top: 7%;
+        /* Langit-langit blok logo = tepi atas maskot (100% - bottom 22% - tinggi
+           28vh) dikurangi posisi atasnya sendiri (7%) dan sedikit jarak aman.
+           Karena gambar logo boleh menyusut, yang mengalah adalah gambarnya -
+           aksara dan keterangan tidak pernah lagi turun menimpa maskot. */
+        max-height: calc(71% - 28vh - 26px);
+      }
       #page-play .character { width: 34%; max-height: 28vh; bottom: 22%; }
       #page-play .controls-container { bottom: 6%; flex-wrap: wrap; justify-content: center; }
       /* 4 level harus muat tanpa perlu digulir di layar HP 740px */

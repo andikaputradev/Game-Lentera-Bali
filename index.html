@@ -1581,7 +1581,12 @@
         max-height: calc(71% - 28vh - 26px);
       }
       #page-play .character { width: 34%; max-height: 28vh; bottom: 22%; }
-      #page-play .controls-container { bottom: 6%; flex-wrap: wrap; justify-content: center; }
+      /* Kedua tombol BERDAMPINGAN, jangan dibungkus ke bawah. Dengan flex-wrap
+         mereka menumpuk vertikal setinggi ~210px, dan tumpukan itu naik sampai
+         ke tengah badan Putu & Ni Luh - label "Pilih Level" jatuh persis di atas
+         kamen Putu. Berdampingan cuma butuh ~210px dari 320px yang tersedia,
+         jadi muat bahkan di layar tersempit, dan barisnya duduk di bawah maskot. */
+      #page-play .controls-container { bottom: 4%; flex-wrap: nowrap; justify-content: center; gap: 18px; }
       /* 4 level harus muat tanpa perlu digulir di layar HP 740px */
       #page-peta .map-scroll-viewport { align-items: flex-start; margin-top: 76px; height: calc(100% - 142px); padding: 8px; }
       #page-peta .map-grid-container { max-width: 300px; gap: 14px; padding: 6px 0 14px; }

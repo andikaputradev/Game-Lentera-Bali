@@ -10,12 +10,22 @@
  *
  *   node gen_tts.js            -> bikin yang belum ada
  *   node gen_tts.js --force    -> bikin ulang semua
+ *   node gen_tts.js --edge     -> bikin MP3 lewat Edge Read Aloud tanpa key
  */
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { execFileSync } = require('child_process');
-const ffmpeg = require('ffmpeg-static');
+let ffmpeg = process.env.FFMPEG_PATH || null;
+
+function jalurFfmpeg() {
+  if (ffmpeg) return ffmpeg;
+  try { ffmpeg = require('ffmpeg-static'); }
+  catch (e) {
+    throw new Error('ffmpeg belum tersedia; pasang ffmpeg-static atau set FFMPEG_PATH');
+  }
+  return ffmpeg;
+}
 
 /* ==================================================================
    JALUR UTAMA (opsional): GOOGLE CLOUD TEXT-TO-SPEECH
@@ -44,6 +54,19 @@ let tokenCache = { token: null, kadaluarsa: 0 };
 // Suara id-ID. Basa Bali memakai ejaan Latin yang dekat dengan bahasa
 // Indonesia, jadi suara id-ID melafalkannya dengan baik.
 const SUARA_CLOUD = { putu: 'id-ID-Wavenet-B', niluh: 'id-ID-Wavenet-A' };
+const SUARA_EDGE = { putu: 'id-ID-ArdiNeural', niluh: 'id-ID-GadisNeural' };
+const PAKAI_EDGE = process.argv.includes('--edge');
+const PYTHON = process.env.PYTHON || 'python';
+
+function ttsEdge(teks, siapa, tujuan) {
+  execFileSync(PYTHON, [
+    '-m', 'edge_tts',
+    '--voice', SUARA_EDGE[siapa] || SUARA_EDGE.putu,
+    '--rate=-12%',
+    '--text', teks,
+    '--write-media', tujuan
+  ], { stdio: ['ignore', 'ignore', 'pipe'] });
+}
 
 function b64url(buf) {
   return Buffer.from(buf).toString('base64')
@@ -111,9 +134,13 @@ async function ttsCloud(teks, siapa) {
    Catatan: pesan 429 "exceeded your current quota" dipakai BAIK untuk batas
    per-menit MAUPUN per-hari, jadi kombinasi yang kena 429 tidak langsung
    dicoret selamanya -- hanya diistirahatkan sebentar lalu boleh dicoba lagi. */
-const KEYS = fs.existsSync('.gemkeys')
-  ? fs.readFileSync('.gemkeys', 'utf8').split(/\r?\n/).map(s => s.trim()).filter(Boolean)
-  : [fs.readFileSync('.gemkey', 'utf8').trim()];
+const KUNCI_ENV = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || '';
+const KEYS = (fs.existsSync('.gemkeys')
+  ? fs.readFileSync('.gemkeys', 'utf8')
+  : fs.existsSync('.gemkey')
+    ? fs.readFileSync('.gemkey', 'utf8')
+    : KUNCI_ENV
+).split(/\r?\n|,/).map(s => s.trim()).filter(Boolean);
 
 const MODEL_TTS = [
   'gemini-3.1-flash-tts-preview',
@@ -178,7 +205,7 @@ function ambilBlok(src, awal, akhir) {
 function bacaData() {
   const src = fs.readFileSync(HTML, 'utf8');
   const quizSrc = ambilBlok(src, 'const quizDatabase = {', '\n  const arDatabaseLinks');
-  const pustakaSrc = ambilBlok(src, 'const PUSTAKA = {', '\n  let pustakaLevel');
+  const pustakaSrc = ambilBlok(src, 'const PUSTAKA = {', '\n  /* Setiap kartu materi');
   const quizDatabase = eval('({' + quizSrc.replace(/;\s*$/, '').replace(/\}\s*$/, '') + '})');
   const PUSTAKA = eval('({' + pustakaSrc.replace(/;\s*$/, '').replace(/\}\s*$/, '') + '})');
   return { quizDatabase, PUSTAKA };
@@ -190,7 +217,7 @@ function daftarKerja({ quizDatabase, PUSTAKA }) {
   // habis di tengah jalan, yang sudah jadi adalah bagian yang paling penting.
   const kerja = [];
   for (const lvl of Object.keys(PUSTAKA)) {
-    PUSTAKA[lvl].materi.forEach((m) => {
+    PUSTAKA[lvl].materi.forEach((m, materiIndex) => {
       m.kata.forEach((k, i) => {
         // sebut krunanya dua kali: sekali biasa, sekali pelan-pelan
         const ucap = lafalkan(k.bali);
@@ -202,9 +229,28 @@ function daftarKerja({ quizDatabase, PUSTAKA }) {
           siapa: i % 2 === 0 ? 'putu' : 'niluh',
           gaya: 'Sebutkan kruna basa Bali ini dengan sangat jelas dan pelan, dua kali, untuk anak SD yang sedang belajar melafalkan'
         });
+        kerja.push({
+          file: `materi-${lvl}-${materiIndex}-${i}`,
+          teks: `${lafalkan(k.bali)}. ${k.arti}`,
+          asli: `${k.bali}. ${k.arti}`,
+          siapa: i % 2 === 0 ? 'putu' : 'niluh',
+          gaya: 'Bacakan istilah dan seluruh penjelasan materi ini dengan pelan, jelas, dan ramah seperti guru SD di Bali. Pertahankan urutan basa Bali lalu terjemahan Indonesia'
+        });
       });
     });
   }
+  kerja.push({
+    file: 'instruksi-cocok-gambar',
+    teks: 'Adungang kruna sareng gambar ring samping mangda patut',
+    siapa: 'putu',
+    gaya: 'Bacakan instruksi permainan basa Bali ini dengan pelan, jelas, dan ramah untuk anak SD'
+  });
+  kerja.push({
+    file: 'instruksi-cecimpedan',
+    teks: 'Adungang cecimpedan sareng gambar ring samping mangda patut',
+    siapa: 'niluh',
+    gaya: 'Bacakan instruksi permainan basa Bali ini dengan pelan, jelas, dan ramah untuk anak SD'
+  });
   // baru soal-soal kuis (nilainya lebih rendah: sudah ada teksnya di layar)
   for (const lvl of Object.keys(quizDatabase)) {
     quizDatabase[lvl].forEach((q, i) => {
@@ -300,7 +346,7 @@ async function tts(teks, gaya, voice) {
 
 /* ---------- PCM -> mp3 ---------- */
 function keMp3(pcm, tujuan) {
-  execFileSync(ffmpeg, [
+  execFileSync(jalurFfmpeg(), [
     '-hide_banner', '-loglevel', 'error', '-y',
     '-f', 's16le', '-ar', '24000', '-ac', '1', '-i', 'pipe:0',
     // buang senyap di awal/akhir, seragamkan volume, mono 48kbps
@@ -314,6 +360,11 @@ function keMp3(pcm, tujuan) {
 (async function main() {
   fs.mkdirSync(OUT, { recursive: true });
   let kerja = daftarKerja(bacaData());
+  const oi = process.argv.indexOf('--only');
+  if (oi > -1) {
+    const awalan = process.argv[oi + 1] || '';
+    kerja = kerja.filter(k => k.file.startsWith(awalan));
+  }
   const li = process.argv.indexOf('--limit');
   if (li > -1) kerja = kerja.slice(0, parseInt(process.argv[li + 1], 10) || 3);
   // --diubah: HANYA klip yang ejaannya benar-benar berubah. Membangkitkan ulang
@@ -326,18 +377,28 @@ function keMp3(pcm, tujuan) {
     return;
   }
 
+  if (!PAKAI_EDGE && !punyaCloudTTS && !JALUR.length) {
+    throw new Error('Tidak ada kredensial TTS. Sediakan .gcp-sa.json, .gemkeys, .gemkey, atau GEMINI_API_KEY.');
+  }
+
   let dibuat = 0, dilewati = 0, gagal = [];
   let cloudMati = false;
-  console.log(punyaCloudTTS
-    ? 'jalur utama: Google Cloud TTS (service account) -- kuota lapang'
-    : `jalur: Gemini API, ${JALUR.length} kombinasi (${KEYS.length} kunci x ${MODEL_TTS.length} model)`);
+  console.log(PAKAI_EDGE
+    ? 'jalur: Edge Read Aloud (MP3 langsung, tanpa key)'
+    : punyaCloudTTS
+      ? 'jalur utama: Google Cloud TTS (service account) -- kuota lapang'
+      : `jalur: Gemini API, ${JALUR.length} kombinasi (${KEYS.length} kunci x ${MODEL_TTS.length} model)`);
   for (const k of kerja) {
     const tujuan = path.join(OUT, k.file + '.mp3');
     if (!FORCE && fs.existsSync(tujuan) && fs.statSync(tujuan).size > 800) { dilewati++; continue; }
     process.stdout.write(`${k.file.padEnd(22)} ${k.siapa.padEnd(6)}`);
     try {
       let asal;
-      if (punyaCloudTTS && !cloudMati) {
+      if (PAKAI_EDGE) {
+        ttsEdge(k.teks, k.siapa, tujuan);
+        asal = 'edge-tts';
+      }
+      if (!asal && punyaCloudTTS && !cloudMati) {
         // jalur lapang: langsung dapat mp3, tanpa ffmpeg
         try {
           fs.writeFileSync(tujuan, await ttsCloud(k.teks, k.siapa));

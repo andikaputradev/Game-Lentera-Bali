@@ -19,6 +19,14 @@
 
 
   <style>
+    @font-face {
+      font-family: 'Noto Sans Balinese';
+      src: url('font/NotoSansBalinese.woff2') format('woff2');
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+    }
+
     /* ============================================================
        RESET & BASE LAYER
        ============================================================ */
@@ -134,6 +142,18 @@
       width: 100%; height: auto; display: block;
       filter: drop-shadow(0 3px 6px rgba(0,0,0,.45));
     }
+    .logo-container .logo-aksara {
+      position: relative; left: 50%; transform: translateX(-50%);
+      width: max-content; max-width: 92vw;
+      margin: 2px 0 0;
+      font-family: 'Noto Sans Balinese', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #facc15;
+      text-align: center;
+      text-shadow: 0 2px 3px rgba(0,0,0,.95), 0 0 8px rgba(84,44,14,.95);
+    }
     .logo-container .logo-ket {
       /* Lebarnya BERDIRI SENDIRI, tidak mengikuti wadah logo. Di mode mendatar
          wadahnya cuma ~118px dan kalimat ini membungkus jadi delapan baris,
@@ -143,7 +163,7 @@
          tiga baris, dan baris ketiga itu (+24px) membuat kartu masuk menimpa
          logo di tujuh ukuran layar. */
       width: 344px; max-width: 92vw;
-      margin: 7px 0 0;
+      margin: 3px 0 0;
       font-size: .86rem;
       font-weight: bold;
       line-height: 1.32;
@@ -158,6 +178,7 @@
        formulir masuk lebih penting, dan permainan ini dirancang untuk tegak. */
     @media screen and (orientation: landscape) and (max-height: 430px) {
       .logo-container .logo-ket { display: none; }
+      .logo-container .logo-aksara { font-size: .95rem; margin-top: 0; }
     }
     @keyframes logoZoom {
       0%, 100% { transform: translateX(-50%) scale(1); }
@@ -290,7 +311,21 @@
       display: flex;
       gap: 20px;
       z-index: 10;
+      align-items: flex-start;
+    }
+    #page-play .home-action {
+      appearance: none;
+      border: 0;
+      background: none;
+      padding: 0;
+      color: #fff;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
       align-items: center;
+      gap: 8px;
+      min-width: 90px;
     }
     #page-play .btn-circle {
       width: 60px;
@@ -299,14 +334,32 @@
       border: 3px solid #542c0e;
       background: #b0703c;
       box-shadow: inset 0 0 0 2px #e5a96b, 0 4px 0px #321602, 0 5px 10px rgba(0,0,0,0.4);
-      cursor: pointer;
+      cursor: inherit;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-    #page-play .btn-circle:active {
+    #page-play .home-action:active .btn-circle {
       transform: translateY(3px);
       box-shadow: 0 1px 0px #321602, 0 2px 4px rgba(0,0,0,0.4);
+    }
+    #page-play .home-action:focus-visible .btn-circle {
+      outline: 4px solid #fff7e0;
+      outline-offset: 3px;
+    }
+    #page-play .home-action-label {
+      min-width: 90px;
+      padding: 5px 9px;
+      border: 2px solid #facc15;
+      border-radius: 9px;
+      background: rgba(58,29,4,.92);
+      color: #fff7e0;
+      font-size: .72rem;
+      font-weight: 900;
+      line-height: 1.15;
+      text-align: center;
+      white-space: nowrap;
+      box-shadow: 0 3px 6px rgba(0,0,0,.35);
     }
     #page-play .inner-circle-white {
       width: 80%;
@@ -805,7 +858,13 @@
       border-radius: 8px;
       margin-bottom: 10px;
       font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
+    .matching-header > span { flex: 1 1 auto; }
+    .matching-header .btn-dengar { width: 38px; height: 38px; font-size: .95rem; }
     .matching-board {
       flex: 1;
       position: relative;
@@ -911,6 +970,60 @@
     .rank-2 { background: #e2e8f0; color: #1e293b; }
     .rank-3 { background: #ca8a04; color: #fff; }
     .rank-other { background: #542c0e; color: #e5a96b; }
+
+    /* Pembesar foto soal. Hanya foto pilihan ganda yang membukanya; gambar
+       pencocokan tetap memakai seluruh bidang sentuh untuk menjawab. */
+    .image-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 58px 16px 18px;
+      background: rgba(0,0,0,.92);
+    }
+    .image-lightbox[hidden] { display: none; }
+    .image-lightbox-frame {
+      width: min(96vw, 980px);
+      height: min(84vh, 760px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .image-lightbox img {
+      display: block;
+      max-width: 100%;
+      max-height: calc(100% - 42px);
+      object-fit: contain;
+      border: 4px solid #facc15;
+      border-radius: 14px;
+      background: #111;
+      box-shadow: 0 10px 30px rgba(0,0,0,.65);
+    }
+    .image-lightbox-caption {
+      min-height: 1.3em;
+      color: #fff7e0;
+      font-size: .85rem;
+      line-height: 1.35;
+      text-align: center;
+    }
+    .image-lightbox-close {
+      position: absolute;
+      top: max(12px, env(safe-area-inset-top));
+      right: max(12px, env(safe-area-inset-right));
+      width: 44px;
+      height: 44px;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      background: #be123c;
+      color: #fff;
+      font: 900 1.35rem/1 Arial, sans-serif;
+      cursor: pointer;
+    }
+    .image-lightbox-close:focus-visible { outline: 4px solid #facc15; outline-offset: 3px; }
 
     /* ============================================================
        MODUL INTERAKTIF BONUS KAMERA AR (VIRTUAL TOUR 360)
@@ -1068,6 +1181,26 @@
       background: rgba(255,255,255,.93); border-radius: 10px; padding: 8px 10px;
       font-size: .86rem; color: #3f2a12;
     }
+    .daftar-pustaka { display: flex; flex-direction: column; gap: 10px; }
+    #page-materi .pustaka-referensi-intro {
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255,247,233,.96);
+      color: #542c0e;
+      font-size: .9rem;
+      line-height: 1.5;
+    }
+    .baris-pustaka {
+      padding: 13px 15px;
+      border: 3px solid #b0703c;
+      border-radius: 13px;
+      background: rgba(255,255,255,.96);
+      color: #3f2a12;
+      box-shadow: 0 3px 0 rgba(84,44,14,.3);
+    }
+    .baris-pustaka b { display: block; margin-bottom: 4px; color: #542c0e; font-size: 1.02rem; }
+    .baris-pustaka .jenis-pustaka { display: block; margin-bottom: 5px; color: #8a5a2b; font-size: .78rem; font-weight: 900; }
+    #page-materi .baris-pustaka p { margin: 0; color: #3f2a12; font-size: .9rem; line-height: 1.5; }
     .baris-kredit img { width: 58px; height: 44px; object-fit: cover; border-radius: 6px; flex: 0 0 auto; }
     .baris-kredit b { color: #542c0e; }
     .baris-kredit i { color: #7a5a2a; }
@@ -1270,7 +1403,27 @@
       background: #f4ead8;
       overflow: hidden;
       box-shadow: 0 4px 10px rgba(0,0,0,.25);
+      padding: 0;
+      font: inherit;
+      cursor: zoom-in;
     }
+    #page-main .foto-soal::after {
+      content: '🔍';
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      background: rgba(58,29,4,.86);
+      font-size: .9rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,.4);
+    }
+    #page-main .foto-soal:focus-visible { outline: 4px solid #facc15; outline-offset: 3px; }
     #page-main .foto-soal img {
       /* TANPA object-fit. Gambar dibiarkan menentukan ukuran kotaknya sendiri:
          lebar dan tinggi ikut isi, dibatasi max-width/max-height. Dengan
@@ -1572,8 +1725,14 @@
 
   <div id="putu" class="character" data-karakter="putu" aria-label="Putu"></div>
   <div class="controls-container">
-    <div class="btn-circle" onclick="navigateTo('peta')" title="Pilih Level"><div class="inner-circle-white"><div class="icon-map-marker"></div></div></div>
-    <div class="btn-circle" onclick="startAutoGame()" title="Mulai Bermain"><div class="inner-circle-green"><div class="icon-play-triangle"></div></div></div>
+    <button class="home-action" type="button" onclick="navigateTo('peta')" aria-label="Pilih Level">
+      <span class="btn-circle" aria-hidden="true"><span class="inner-circle-white"><span class="icon-map-marker"></span></span></span>
+      <span class="home-action-label">Pilih Level</span>
+    </button>
+    <button class="home-action" type="button" onclick="startAutoGame()" aria-label="Mulai Bermain">
+      <span class="btn-circle" aria-hidden="true"><span class="inner-circle-green"><span class="icon-play-triangle"></span></span></span>
+      <span class="home-action-label">Mulai Bermain</span>
+    </button>
   </div>
   <div id="niluh" class="character" data-karakter="niluh" aria-label="Ni Luh"></div>
   <div class="top-right-group">
@@ -1640,10 +1799,11 @@
       <div class="quiz-right-panel">
         <div class="panggung">
           <div class="kar-slot giliran" id="slot-putu" data-karakter="putu"></div>
-          <div class="foto-soal">
+          <button class="foto-soal" id="btn-perbesar-soal" type="button"
+                  onclick="bukaPembesarGambar()" aria-label="Perbesar gambar soal">
             <img id="question-img" alt="Gambar soal" />
-            <div class="kredit-foto" id="kredit-foto"></div>
-          </div>
+            <span class="kredit-foto" id="kredit-foto"></span>
+          </button>
           <div class="kar-slot" id="slot-niluh" data-karakter="niluh"></div>
           <div class="balon-reaksi" id="balon-reaksi" role="status" aria-live="polite"></div>
         </div>
@@ -1659,7 +1819,11 @@
     </div>
 
     <div class="matching-game-layout" id="matching-quiz-layout">
-      <div class="matching-header" id="matching-instruction-text">Adungang kruna sareng gambar ring samping mangda patut</div>
+      <div class="matching-header">
+        <span id="matching-instruction-text">Adungang kruna sareng gambar ring samping mangda patut</span>
+        <button class="btn-dengar" id="btn-dengar-instruksi" type="button"
+                onclick="ucapkanInstruksi()" aria-label="Dengarkan instruksi mencocokkan">🔊</button>
+      </div>
       <div class="matching-board" id="matching-board-area">
         <canvas class="matching-canvas" id="matching-canvas"></canvas>
         <div class="matching-column left-side" id="match-left-col"></div>
@@ -1695,6 +1859,17 @@
     <div class="ar-action-controls">
       <button class="btn-ar-nav btn-ar-back" onclick="exitARToMap()">← Halaman Level</button>
       <button class="btn-ar-nav btn-ar-next" id="btn-ar-next-action" onclick="proceedToNextLevel()">Level Selanjutnya →</button>
+    </div>
+  </div>
+
+  <div class="image-lightbox" id="image-lightbox" role="dialog" aria-modal="true"
+       aria-label="Gambar soal diperbesar" hidden
+       onclick="if (event.target === this) tutupPembesarGambar()">
+    <button class="image-lightbox-close" id="image-lightbox-close" type="button"
+            onclick="tutupPembesarGambar()" aria-label="Tutup gambar diperbesar">✕</button>
+    <div class="image-lightbox-frame">
+      <img id="image-lightbox-img" alt="Gambar soal diperbesar">
+      <p class="image-lightbox-caption" id="image-lightbox-caption"></p>
     </div>
   </div>
 </div>
@@ -1789,6 +1964,8 @@
   let lives = 3;
   let timerInterval;
   let timeLeft = 20;
+  let timerDitundaOlehZoom = false;
+  let fokusSebelumZoom = null;
 
   let selectedLeftNode = null;
   let activeLevelMatches = [];
@@ -1796,6 +1973,12 @@
   let canvas, ctx;
 
   function navigateTo(pageId) {
+    if (pageId !== 'main') {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      tutupPembesarGambar(false);
+      hentikanSuara();
+    }
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById('page-' + pageId);
     if (target) target.classList.add('active');
@@ -1813,6 +1996,7 @@
       bgMusic.play().catch(() => {});
       localStorage.setItem('muted', 'false');
     } else {
+      hentikanSuara();
       bgMusic.pause();
       localStorage.setItem('muted', 'true');
     }
@@ -1921,8 +2105,10 @@
   }
 
   function displayQuestion() {
+    tutupPembesarGambar(false);
     if (questionIndex === 10) {
       clearInterval(timerInterval);
+      timerInterval = null;
       initMatchingGamePage();
       return;
     }
@@ -1943,11 +2129,15 @@
     const panggung = kotak.parentElement;
     panggung.classList.toggle('tanpa-foto', !data.img);
     if (data.img) {
+      kotak.disabled = false;
+      kotak.setAttribute('aria-label', 'Perbesar gambar soal');
       img.onerror = function () { kotak.style.visibility = 'hidden'; };
       img.onload = function () { kotak.style.visibility = 'visible'; };
       img.src = data.img;
       document.getElementById('kredit-foto').innerText = kreditUntuk(data.img);
     } else {
+      kotak.disabled = true;
+      kotak.removeAttribute('aria-label');
       img.removeAttribute('src');
       document.getElementById('kredit-foto').innerText = '';
     }
@@ -2007,23 +2197,64 @@
     return bagian.length ? '📷 ' + bagian.join(' · ') : '';
   }
 
-  function initTimer() {
+  function jalankanTimer(reset) {
     clearInterval(timerInterval);
-    timeLeft = 20;
+    timerInterval = null;
+    if (reset) timeLeft = 20;
     const el = document.getElementById('time-left');
     const chip = el.parentElement;
     el.innerText = timeLeft;
-    chip.classList.remove('waktu-kritis');
+    chip.classList.toggle('waktu-kritis', timeLeft <= 5);
     timerInterval = setInterval(() => {
       timeLeft--;
       el.innerText = timeLeft;
       chip.classList.toggle('waktu-kritis', timeLeft <= 5);
       if (timeLeft <= 0) {
         clearInterval(timerInterval);
+        timerInterval = null;
         handleWrongAnswer();
       }
     }, 1000);
   }
+
+  function initTimer() { jalankanTimer(true); }
+
+  function bukaPembesarGambar() {
+    const sumber = document.getElementById('question-img');
+    if (!sumber || !sumber.getAttribute('src')) return;
+    const overlay = document.getElementById('image-lightbox');
+    const besar = document.getElementById('image-lightbox-img');
+    fokusSebelumZoom = document.activeElement;
+    besar.src = sumber.currentSrc || sumber.src;
+    besar.alt = sumber.alt || 'Gambar soal diperbesar';
+    document.getElementById('image-lightbox-caption').innerText =
+      document.getElementById('kredit-foto').innerText;
+    overlay.hidden = false;
+    timerDitundaOlehZoom = Boolean(timerInterval);
+    if (timerDitundaOlehZoom) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+    document.getElementById('image-lightbox-close').focus();
+  }
+
+  function tutupPembesarGambar(lanjutkanTimer) {
+    const overlay = document.getElementById('image-lightbox');
+    if (!overlay || overlay.hidden) return;
+    overlay.hidden = true;
+    document.getElementById('image-lightbox-img').removeAttribute('src');
+    const perluLanjut = lanjutkanTimer !== false && timerDitundaOlehZoom;
+    timerDitundaOlehZoom = false;
+    const mainAktif = document.getElementById('page-main').classList.contains('active');
+    const soalBiasaAktif = document.getElementById('standard-quiz-layout').style.display !== 'none';
+    if (perluLanjut && mainAktif && soalBiasaAktif && timeLeft > 0) jalankanTimer(false);
+    if (fokusSebelumZoom && lanjutkanTimer !== false) fokusSebelumZoom.focus();
+    fokusSebelumZoom = null;
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') tutupPembesarGambar();
+  });
 
   /* Kalimat balasan basa Bali. Yang menjawab adalah karakter LAWAN bicara --
      kalau Putu yang bertanya, Ni Luh yang menanggapi, dan sebaliknya. */
@@ -2054,6 +2285,7 @@
 
   function processAnswer(selected, btnElement) {
     clearInterval(timerInterval);
+    timerInterval = null;
     const correctIdx = activeQuestions[questionIndex].c;
     const allButtons = document.querySelectorAll('#options-container .btn-option');
     allButtons.forEach(b => b.disabled = true);
@@ -2080,6 +2312,7 @@
     updateHeartsUI();
     if (lives <= 0) {
       clearInterval(timerInterval);
+      timerInterval = null;
       document.getElementById('gameover-popup').style.display = 'flex';
     } else {
       questionIndex++;
@@ -2108,6 +2341,7 @@
   function initMatchingGamePage() {
     document.getElementById('standard-quiz-layout').style.display = 'none';
     document.getElementById('matching-quiz-layout').style.display = 'flex';
+    hentikanSuara();
 
     activeLevelMatches = activeQuestions.slice(10, 15);
     connectedMatches = [];
@@ -2173,6 +2407,13 @@
     setTimeout(resizeMatchingCanvas, 200);
 
     window.addEventListener('resize', resizeMatchingCanvas);
+
+    if (localStorage.getItem('bacaOtomatis') !== 'off') {
+      timerBacaOtomatis = setTimeout(function () {
+        timerBacaOtomatis = null;
+        ucapkanInstruksi();
+      }, 350);
+    }
   }
 
   function handleMatchingClick(node) {
@@ -2214,6 +2455,7 @@
         updateHeartsUI();
         if (lives <= 0) {
           clearInterval(timerInterval);
+          timerInterval = null;
           document.getElementById('gameover-popup').style.display = 'flex';
         }
       }
@@ -2262,6 +2504,7 @@
 
   function endLevelKuis() {
     clearInterval(timerInterval);
+    timerInterval = null;
     document.getElementById('final-score-val').innerText = score;
     document.getElementById('reward-popup').style.display = 'flex';
   }
@@ -2566,6 +2809,8 @@
         // mana pun.
         el.innerHTML = '<img src="foto/logo-lentera-bali.webp" alt="Lentera Bali" ' +
                        'class="logo-gambar" loading="eager">' +
+                       '<div class="logo-aksara" lang="ban-Bali" aria-label="Lentera Bali dalam aksara Bali">' +
+                       'ᬮᭂᬦ᭄ᬢᬾᬭ\u200bᬩᬮᬶ</div>' +
                        '<p class="logo-ket">Game Edukasi Interaktif Berbasis ' +
                        'Augmented Reality Bermuatan Tri Hita Karana</p>';
       }
@@ -2576,10 +2821,11 @@
   }
 
   // ================================================================
-  //  SUARA BASA BALI - MURNI GEMINI TTS
-  //  Semua yang diucapkan game ini sudah dibuatkan mp3 lebih dulu memakai
-  //  Gemini TTS lalu disimpan di folder audio/: 30 soal dan 32 kruna, lengkap
-  //  tanpa sisa. API key TIDAK pernah ada di halaman ini.
+  //  SUARA BASA BALI - MP3 STATIS
+  //  Semua yang diucapkan game ini sudah dibuatkan MP3 lebih dulu lalu disimpan
+  //  di folder audio/: soal, kruna, penjelasan materi, dan instruksi cocok gambar.
+  //  Generator mendukung Cloud/Gemini maupun Edge Read Aloud; tidak ada key atau
+  //  permintaan TTS saat game dijalankan.
   //
   //  TIDAK ADA lagi suara cadangan Web Speech. Dulu ada, dan itulah sumber
   //  "suara dobel": onerror DAN play().catch() sama-sama memanggilnya, lalu di
@@ -2589,6 +2835,8 @@
   // ================================================================
   let audioAktif = null;
   let karakterBicara = null;
+  const VOLUME_MUSIK_NORMAL = 1;
+  const VOLUME_MUSIK_NARASI = 0.18;
   /* Dinaikkan setiap kali suara dihentikan atau diganti. Callback milik bunyi
      lama yang datang terlambat dicocokkan dengan nomor ini lalu diabaikan,
      supaya tidak mematikan animasi bicara milik bunyi yang BARU. */
@@ -2615,10 +2863,11 @@
     }
     if (karakterBicara) { karakterBicara.classList.remove('bicara'); karakterBicara = null; }
     document.querySelectorAll('.btn-dengar.main').forEach(b => b.classList.remove('main'));
+    bgMusic.volume = VOLUME_MUSIK_NORMAL;
   }
 
   /**
-   * Bunyikan satu potong basa Bali dari mp3 Gemini TTS.
+   * Bunyikan satu potong basa Bali dari MP3 statis.
    * @param {string} berkas nama file di folder audio/ (tanpa .mp3)
    * @param {string} teks   tidak dipakai lagi; disimpan agar pemanggil tetap sama
    * @param {Element} slotKarakter slot karakter yang mulutnya digerakkan
@@ -2633,6 +2882,7 @@
     const svgKar = slotKarakter ? slotKarakter.querySelector('.kar') : null;
     const mulai = function () {
       if (token !== tokenSuara) return;
+      bgMusic.volume = VOLUME_MUSIK_NARASI;
       if (svgKar) { svgKar.classList.add('bicara'); karakterBicara = svgKar; }
       if (tombol) tombol.classList.add('main');
     };
@@ -2641,6 +2891,7 @@
       if (svgKar) svgKar.classList.remove('bicara');
       if (tombol) tombol.classList.remove('main');
       karakterBicara = null; audioAktif = null;
+      bgMusic.volume = VOLUME_MUSIK_NORMAL;
     };
 
     const a = new Audio('audio/' + berkas + '.mp3');
@@ -2672,6 +2923,17 @@
     bunyikan('kata-' + slug, teks, slot ? slot.querySelector('.kar-slot') : null, tombol);
   }
 
+  function ucapkanMateri(audioId, teks, tombol) {
+    const slot = tombol ? tombol.closest('.kartu-kata') : null;
+    bunyikan(audioId, teks, slot ? slot.querySelector('.kar-slot') : null, tombol);
+  }
+
+  function ucapkanInstruksi() {
+    const teks = document.getElementById('matching-instruction-text').innerText;
+    const berkas = currentLevel === 2 ? 'instruksi-cecimpedan' : 'instruksi-cocok-gambar';
+    bunyikan(berkas, teks, null, document.getElementById('btn-dengar-instruksi'));
+  }
+
   // ================================================================
   //  PUSTAKA: menu berjenjang  Level -> Materi -> Kosakata
   // ================================================================
@@ -2690,6 +2952,19 @@
   //  di sekolah tanpa sinyal pun tetap bisa membuka kamus.
   // ================================================================
   const KAMUS = [{"k":"Ajiang","a":"menghormati","g":"kata","s":"Kosa Basa"},{"k":"Angob","a":"kagum","g":"kata","s":"Kosa Basa"},{"k":"Dedaran","a":"makanan","g":"kata","s":"Kosa Basa"},{"k":"Dueg","a":"pintar","g":"kata","s":"Kosa Basa"},{"k":"Dura negara","a":"luar negeri","g":"kata","s":"Kosa Basa"},{"k":"Entik-entikan","a":"tanaman","g":"kata","s":"Kosa Basa"},{"k":"Gelem","a":"sakit","g":"kata","s":"Kosa Basa"},{"k":"Genah","a":"tempat","g":"kata","s":"Kosa Basa"},{"k":"Igelan","a":"tarian","g":"kata","s":"Kosa Basa"},{"k":"Jani","a":"sekarang","g":"kata","s":"Kosa Basa"},{"k":"Jemet / Anteng","a":"rajin","g":"kata","s":"Kosa Basa"},{"k":"Kaicén","a":"diberi","g":"kata","s":"Kosa Basa"},{"k":"Kasengguh","a":"disebut","g":"kata","s":"Kosa Basa"},{"k":"Kasub","a":"terkenal","g":"kata","s":"Kosa Basa"},{"k":"Lalemekan","a":"pupuk","g":"kata","s":"Kosa Basa"},{"k":"Legu","a":"nyamuk","g":"kata","s":"Kosa Basa"},{"k":"Luhu","a":"sampah","g":"kata","s":"Kosa Basa","f":"luu-tukad"},{"k":"Magaburan","a":"berantakan","g":"kata","s":"Kosa Basa"},{"k":"Magarapan","a":"bekerja","g":"kata","s":"Kosa Basa"},{"k":"Malakar","a":"terbuat","g":"kata","s":"Kosa Basa"},{"k":"Malancaran","a":"jalan-jalan","g":"kata","s":"Kosa Basa"},{"k":"Mamula","a":"menanam","g":"kata","s":"Kosa Basa","f":"nanem-entik"},{"k":"Manusa","a":"manusia","g":"kata","s":"Kosa Basa"},{"k":"Mapiteket","a":"berpesan","g":"kata","s":"Kosa Basa"},{"k":"Mataluh","a":"bertelur","g":"kata","s":"Kosa Basa"},{"k":"Mayus / Lengit","a":"malas","g":"kata","s":"Kosa Basa"},{"k":"Mebakti","a":"sembahyang","g":"kata","s":"Kosa Basa","f":"mebakti","u":"mebakti"},{"k":"Mekarya","a":"membuat","g":"kata","s":"Kosa Basa"},{"k":"Melah / Becik","a":"baik","g":"kata","s":"Kosa Basa"},{"k":"Miara / Ngubuh","a":"memelihara","g":"kata","s":"Kosa Basa","f":"sampi"},{"k":"Mijil","a":"lahir","g":"kata","s":"Kosa Basa"},{"k":"Milu","a":"ikut","g":"kata","s":"Kosa Basa"},{"k":"Mokoh","a":"gemuk","g":"kata","s":"Kosa Basa"},{"k":"Nabdabang","a":"merapikan","g":"kata","s":"Kosa Basa"},{"k":"Neked","a":"sampai","g":"kata","s":"Kosa Basa"},{"k":"Ngajahin","a":"mengajar","g":"kata","s":"Kosa Basa","f":"s22-guru-ngajahin"},{"k":"Ngandeng","a":"tergenang","g":"kata","s":"Kosa Basa"},{"k":"Nganggo","a":"menggunakan","g":"kata","s":"Kosa Basa"},{"k":"Nganutin","a":"mengikuti","g":"kata","s":"Kosa Basa"},{"k":"Ngaturang","a":"mempersembahkan","g":"kata","s":"Kosa Basa"},{"k":"Ngawi","a":"menciptakan","g":"kata","s":"Kosa Basa"},{"k":"Ngawit","a":"mulai","g":"kata","s":"Kosa Basa"},{"k":"Ngelah","a":"punya","g":"kata","s":"Kosa Basa"},{"k":"Ngranayang","a":"menyebabkan","g":"kata","s":"Kosa Basa"},{"k":"Nulungin / Nguopin","a":"membantu","g":"kata","s":"Kosa Basa"},{"k":"Nunas","a":"memohon","g":"kata","s":"Kosa Basa"},{"k":"Nutug","a":"ikut","g":"kata","s":"Kosa Basa"},{"k":"Nyama","a":"saudara","g":"kata","s":"Kosa Basa"},{"k":"Nyampat","a":"menyapu","g":"kata","s":"Kosa Basa","f":"sampat","u":"nyampat"},{"k":"Patut","a":"harus","g":"kata","s":"Kosa Basa"},{"k":"Peséngan","a":"nama","g":"kata","s":"Kosa Basa"},{"k":"Piteket / Pitutur","a":"nasihat","g":"kata","s":"Kosa Basa"},{"k":"Prabéya","a":"biaya","g":"kata","s":"Kosa Basa","f":"s36-prabeya-hemat","u":"prabeya"},{"k":"Rerama","a":"orang tua","g":"kata","s":"Kosa Basa","f":"keluarga","u":"rerama"},{"k":"Sabilang","a":"setiap","g":"kata","s":"Kosa Basa"},{"k":"Sawiréh","a":"karena","g":"kata","s":"Kosa Basa"},{"k":"Séda","a":"meninggal","g":"kata","s":"Kosa Basa"},{"k":"Segara","a":"pantai","g":"kata","s":"Kosa Basa"},{"k":"Seger","a":"sehat","g":"kata","s":"Kosa Basa"},{"k":"Sekat","a":"semenjak","g":"kata","s":"Kosa Basa"},{"k":"Sesolahan","a":"pertunjukan","g":"kata","s":"Kosa Basa"},{"k":"Setata","a":"selalu","g":"kata","s":"Kosa Basa"},{"k":"Soroh","a":"jenis","g":"kata","s":"Kosa Basa"},{"k":"Suksma","a":"terima kasih","g":"kata","s":"Kosa Basa"},{"k":"Suud","a":"selesai","g":"kata","s":"Kosa Basa"},{"k":"Tetamian","a":"warisan","g":"kata","s":"Kosa Basa"},{"k":"Timpal","a":"teman","g":"kata","s":"Kosa Basa","f":"timpal"},{"k":"Tumuwuh","a":"tumbuhan","g":"kata","s":"Kosa Basa"},{"k":"Ulung","a":"jatuh","g":"kata","s":"Kosa Basa"},{"k":"Urati","a":"perhatian","g":"kata","s":"Kosa Basa"},{"k":"Wewidangan","a":"wilayah","g":"kata","s":"Kosa Basa"},{"k":"Redite","a":"Minggu","g":"dina","s":"Kosa Basa","j":"adan dina"},{"k":"Soma","a":"Senin","g":"dina","s":"Kosa Basa","j":"adan dina"},{"k":"Anggara","a":"Selasa","g":"dina","s":"Kosa Basa","j":"adan dina"},{"k":"Buda","a":"Rabu","g":"dina","s":"Kosa Basa","j":"adan dina"},{"k":"Wraspati","a":"Kamis","g":"dina","s":"Kosa Basa","j":"adan dina"},{"k":"Sukra","a":"Jumat","g":"dina","s":"Kosa Basa","j":"adan dina"},{"k":"Saniscara","a":"Sabtu","g":"dina","s":"Kosa Basa","j":"adan dina"},{"k":"Sa","a":"1 (satu)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Dua","a":"2 (dua)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Telu","a":"3 (tiga)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Papat","a":"4 (empat)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Lima","a":"5 (lima)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Nenem","a":"6 (enam)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Pitu","a":"7 (tujuh)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Kutus","a":"8 (delapan)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Sia","a":"9 (sembilan)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Dasa","a":"10 (sepuluh)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Solas","a":"11 (sebelas)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Roras","a":"12 (dua belas)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Telulas","a":"13 (tiga belas)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Patbelas","a":"14 (empat belas)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Limolas","a":"15 (lima belas)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Nembelas","a":"16 (enam belas)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Pitulas","a":"17 (tujuh belas)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Plekutus","a":"18 (delapan belas)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Siangolas","a":"19 (sembilan belas)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Duang dasa","a":"20 (dua puluh)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Telung dasa","a":"30 (tiga puluh)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Petang dasa","a":"40 (empat puluh)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Seket","a":"50 (lima puluh)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Telung benang","a":"75 (tujuh puluh lima)","g":"angka","s":"Kosa Basa","j":"adan angka"},{"k":"Satus","a":"100 (seratus)","g":"angka","s":"Kosa Basa","j":"adan angka"}];
+
+  const DAFTAR_PUSTAKA = [
+    {
+      judul: 'Kosa Basa.docx',
+      jenis: 'Dokumen pembelajaran internal',
+      keterangan: 'Daftar kosakata dari guru yang menjadi sumber pembentukan kamus. Metadata penulis, tahun, dan penerbit tidak tersedia di repo.'
+    },
+    {
+      judul: 'Bank Soal Lentera Bali',
+      jenis: 'Materi internal pemilik game',
+      keterangan: 'Kumpulan soal dan jawaban yang digunakan oleh game Lentera Bali. Metadata publikasi tidak tersedia di repo.'
+    }
+  ];
 
   const PUSTAKA = {
     1: { nama: 'Parahyangan', ikon: '🛕', medali: 'foto/level/parahyangan.webp', warna: '#b91c1c', materi: [
@@ -2749,6 +3024,16 @@
       ]}
     ]}
   };
+
+  /* Setiap kartu materi punya nama audio stabil tanpa mengulangnya di 32 baris
+     data. Generator TTS memakai pola yang sama. */
+  Object.keys(PUSTAKA).forEach(function (level) {
+    PUSTAKA[level].materi.forEach(function (materi, materiIndex) {
+      materi.kata.forEach(function (kata, kataIndex) {
+        kata.audioMateri = 'materi-' + level + '-' + materiIndex + '-' + kataIndex;
+      });
+    });
+  });
 
   let pustakaLevel = null;   // level yang sedang dibuka
   let pustakaMateri = null;  // indeks materi yang sedang dibuka
@@ -2858,6 +3143,11 @@
           '<span class="menu-ikon">📷</span>' +
           '<span class="menu-teks"><b>Sumber Foto</b>' +
           '<small>Foto asli berlisensi Creative Commons</small></span>' +
+          '<span class="menu-panah">›</span></button>' +
+        '<button class="menu-kartu" style="border-left-color:#7c3aed" onclick="pilihLevelPustaka(\'daftar-pustaka\')">' +
+          '<span class="menu-ikon">📚</span>' +
+          '<span class="menu-teks"><b>Daftar Pustaka</b>' +
+          '<small>Sumber internal materi pembelajaran</small></span>' +
           '<span class="menu-panah">›</span></button>';
       return;
     }
@@ -2897,6 +3187,22 @@
       return;
     }
 
+    if (pustakaLevel === 'daftar-pustaka') {
+      judul.innerText = '📚 Daftar Pustaka';
+      jalur.innerText = 'Pustaka › Daftar Pustaka';
+      isi.className = 'pustaka-isi daftar-pustaka';
+      isi.innerHTML =
+        '<p class="pustaka-referensi-intro">Daftar ini hanya memuat sumber materi yang benar-benar tercatat di repo. ' +
+        'Kredit dan lisensi gambar tetap tersedia secara terpisah pada menu <b>Sumber Foto</b>.</p>' +
+        DAFTAR_PUSTAKA.map(function (s) {
+          return '<article class="baris-pustaka">' +
+            '<b>' + s.judul + '</b>' +
+            '<span class="jenis-pustaka">' + s.jenis + '</span>' +
+            '<p>' + s.keterangan + '</p></article>';
+        }).join('');
+      return;
+    }
+
     const L = PUSTAKA[pustakaLevel];
 
     // --- tingkat 2: daftar materi dalam level ---
@@ -2926,7 +3232,8 @@
         '<div class="kata-isi">' +
           '<div class="kata-baris">' +
             '<span class="kata-bali">' + k.bali + '</span>' +
-            '<button class="btn-dengar kecil" type="button" onclick="ucapkanKata(\'' + k.au + '\',\'' + k.bali.replace(/'/g, "\\'") + '\',this)" aria-label="Dengarkan ' + k.bali + '">🔊</button>' +
+            '<button class="btn-dengar kecil" type="button" onclick="ucapkanMateri(\'' + k.audioMateri + '\',\'' +
+              (k.bali + '. ' + k.arti).replace(/'/g, "\\'") + '\',this)" aria-label="Dengarkan materi ' + k.bali + '">🔊</button>' +
           '</div>' +
           '<p class="kata-arti">' + k.arti + '</p>' +
         '</div>' +

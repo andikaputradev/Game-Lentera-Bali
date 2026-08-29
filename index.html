@@ -1137,6 +1137,22 @@
     .menu-teks small { font-size: .82rem; color: #8a5a2b; font-weight: bold; }
     .menu-panah { flex: 0 0 auto; font-size: 1.8rem; color: #b0703c; font-weight: bold; }
 
+    .btn-ar-materi {
+      display: flex; align-items: center; gap: 12px; width: 100%; min-height: 64px;
+      box-sizing: border-box; padding: 12px 15px; border: 3px solid #93c5fd;
+      border-radius: 16px; background: linear-gradient(145deg, #2563eb, #1d4ed8);
+      color: #fff; text-decoration: none; cursor: pointer;
+      box-shadow: 0 4px 0 rgba(30,64,175,.55), 0 7px 16px rgba(15,23,42,.25);
+    }
+    .btn-ar-materi:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(30,64,175,.55); }
+    .btn-ar-materi:focus-visible { outline: 4px solid #facc15; outline-offset: 3px; }
+    .btn-ar-materi-ikon { flex: 0 0 auto; font-size: 1.8rem; }
+    .btn-ar-materi-teks { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+    #page-materi .btn-ar-materi b { color: #fff; font-size: 1.02rem; }
+    #page-materi .btn-ar-materi small { color: #dbeafe; font-size: .75rem; font-weight: bold; line-height: 1.35; }
+    .btn-ar-materi-panah { flex: 0 0 auto; color: #fff; font-size: 1.35rem; font-weight: 900; }
+    .daftar-kata > .btn-ar-materi { grid-column: 1 / -1; }
+
     .daftar-kata { display: flex; flex-direction: column; gap: 14px; }
     .kartu-kata {
       display: flex; align-items: stretch; gap: 12px;
@@ -3144,6 +3160,19 @@
         '</div></div>';
   }
 
+  function tombolARMateri(level) {
+    const L = PUSTAKA[level];
+    const tautan = arDatabaseLinks[level];
+    if (!L || !tautan) return '';
+    return '<a class="btn-ar-materi" href="' + tautan + '" target="_blank" ' +
+      'rel="noopener noreferrer" onclick="hentikanSuara()" ' +
+      'aria-label="Masuk menu AR ' + L.nama + ' (dibuka di tab baru)">' +
+      '<span class="btn-ar-materi-ikon" aria-hidden="true">📷</span>' +
+      '<span class="btn-ar-materi-teks"><b>Masuk Menu AR ' + L.nama + '</b>' +
+      '<small>Jelajahi tur virtual 360° · membutuhkan internet</small></span>' +
+      '<span class="btn-ar-materi-panah" aria-hidden="true">↗</span></a>';
+  }
+
   function pilihLevelPustaka(n) { pustakaLevel = n; pustakaMateri = null; renderPustaka(); }
   function pilihMateriPustaka(i) { pustakaMateri = i; renderPustaka(); }
 
@@ -3254,7 +3283,7 @@
                         '" alt=""> ' + L.nama;
       jalur.innerText = 'Pustaka › ' + L.nama;
       isi.className = 'pustaka-isi daftar-menu';
-      isi.innerHTML = L.materi.map(function (m, i) {
+      isi.innerHTML = tombolARMateri(pustakaLevel) + L.materi.map(function (m, i) {
         return '<button class="menu-kartu" style="border-left-color:' + L.warna + '" onclick="pilihMateriPustaka(' + i + ')">' +
           '<span class="menu-mini-foto"><img src="foto/' + m.kata[0].foto + '.jpg" alt=""></span>' +
           '<span class="menu-teks"><b>' + m.judul + '</b><small>' + m.sub + ' · ' + m.kata.length + ' kruna</small></span>' +
@@ -3268,7 +3297,7 @@
     judul.innerText = M.judul;
     jalur.innerText = 'Pustaka › ' + L.nama + ' › ' + M.judul;
     isi.className = 'pustaka-isi daftar-kata';
-    isi.innerHTML = M.kata.map(function (k, i) {
+    isi.innerHTML = tombolARMateri(pustakaLevel) + M.kata.map(function (k, i) {
       const siapa = i % 2 === 0 ? 'putu' : 'niluh';
       return '<div class="kartu-kata">' +
         '<div class="kata-foto"><img src="foto/' + k.foto + '.jpg" alt="' + k.bali + '" loading="lazy"></div>' +

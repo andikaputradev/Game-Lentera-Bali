@@ -59,6 +59,20 @@ harus(html.includes('Kosa Basa.docx') && html.includes('Bank Soal Lentera Bali')
 harus(html.includes("pilihLevelPustaka(\\'kredit\\')") && html.includes("pilihLevelPustaka(\\'daftar-pustaka\\')"),
   'Sumber Foto dan Daftar Pustaka harus menjadi menu terpisah');
 
+const tautanAR = {
+  1: 'https://viewer.virtualtoureasy.com/?r=3xVcYDfAtJ',
+  2: 'https://viewer.virtualtoureasy.com/?r=YvLu3pVjMd',
+  3: 'https://viewer.virtualtoureasy.com/?r=TTbPZ8ajNS'
+};
+for (const [level, url] of Object.entries(tautanAR)) {
+  harus(html.includes(level + ': "' + url + '"'), 'tautan AR level ' + level + ' berubah atau hilang');
+}
+harus(html.includes('function tombolARMateri(level)'), 'pembuat tombol AR materi belum ada');
+harus((html.match(/tombolARMateri\(pustakaLevel\)/g) || []).length === 2,
+  'tombol AR harus tampil pada daftar dan rincian materi');
+harus(html.includes('rel="noopener noreferrer"') && html.includes('target="_blank"'),
+  'tautan AR materi harus dibuka aman di tab baru');
+
 harus(html.includes('function ucapkanMateri('), 'pembacaan materi belum tersedia');
 harus(html.includes('function ucapkanInstruksi()'), 'pembacaan instruksi belum tersedia');
 harus(html.includes('VOLUME_MUSIK_NARASI = 0.18'), 'penurunan volume musik saat narasi belum ada');

@@ -30,8 +30,9 @@ const blokScript = html.match(/<script>([\s\S]*?)<\/script>/);
 harus(blokScript, 'blok JavaScript index.html tidak ditemukan');
 new Function(blokScript[1]);
 
-harus(html.includes('ᬮᬾᬦ᭄ᬢᬾᬭ\\u200bᬩᬮᬶ') || html.includes('ᬮᬾᬦ᭄ᬢᬾᬭ​ᬩᬮᬶ'),
+harus(html.includes('ᬍᬦ᭄ᬢᬾᬭ\\u200bᬩᬮᬶ') || html.includes('ᬍᬦ᭄ᬢᬾᬭ​ᬩᬮᬶ'),
   'aksara Bali nama game tidak ditemukan');
+harus(!html.includes('ᬮᬾᬦ᭄ᬢᬾᬭ'), 'aksara lama masih memakai La + taling, bukan La Lenga');
 harus(html.includes('font/NotoSansBalinese.woff2'), 'font aksara Bali belum dirujuk');
 const font = fs.readFileSync(path.join(repo, 'font', 'NotoSansBalinese.woff2'));
 harus(font.subarray(0, 4).toString('ascii') === 'wOF2', 'font lokal bukan WOFF2 yang valid');

@@ -30,7 +30,7 @@ const blokScript = html.match(/<script>([\s\S]*?)<\/script>/);
 harus(blokScript, 'blok JavaScript index.html tidak ditemukan');
 new Function(blokScript[1]);
 
-harus(html.includes('ᬮᭂᬦ᭄ᬢᬾᬭ\\u200bᬩᬮᬶ') || html.includes('ᬮᭂᬦ᭄ᬢᬾᬭ​ᬩᬮᬶ'),
+harus(html.includes('ᬮᬾᬦ᭄ᬢᬾᬭ\\u200bᬩᬮᬶ') || html.includes('ᬮᬾᬦ᭄ᬢᬾᬭ​ᬩᬮᬶ'),
   'aksara Bali nama game tidak ditemukan');
 harus(html.includes('font/NotoSansBalinese.woff2'), 'font aksara Bali belum dirujuk');
 const font = fs.readFileSync(path.join(repo, 'font', 'NotoSansBalinese.woff2'));

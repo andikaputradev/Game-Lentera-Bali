@@ -57,11 +57,15 @@ self.addEventListener('fetch', function (e) {
   if (req.mode === 'navigate' || url.pathname.endsWith('index.html')) {
     e.respondWith(
       fetch(req).then(function (r) {
-        const salin = r.clone();
-        caches.open(NAMA).then(function (c) { c.put(req, salin); });
+        if (r && r.status === 200) {
+          const salin = r.clone();
+          caches.open(NAMA).then(function (c) { c.put(req, salin); });
+        }
         return r;
       }).catch(function () {
-        return caches.match(req).then(function (c) { return c || caches.match('index.html'); });
+        return caches.match(req).then(function (c) { 
+          return c || caches.match('./') || caches.match('index.html'); 
+        });
       })
     );
     return;
@@ -94,10 +98,12 @@ self.addEventListener('message', function (e) {
       try {
         if (await c.match(jalur)) { jadi++; continue; }
         const r = await fetch(jalur, { cache: 'no-cache' });
-        if (r && r.status === 200) await c.put(jalur, r);
-        jadi++;
+        if (r && r.status === 200) {
+          await c.put(jalur, r);
+          jadi++;
+        }
       } catch (err) { /* satu berkas gagal tidak boleh menghentikan sisanya */ }
-      if (jadi % 10 === 0) await new Promise(function (s) { setTimeout(s, 60); });
+      if (jadi > 0 && jadi % 10 === 0) await new Promise(function (s) { setTimeout(s, 60); });
     }
     const semua = await self.clients.matchAll();
     semua.forEach(function (k) { k.postMessage({ kabar: 'sisa-selesai', jumlah: jadi }); });

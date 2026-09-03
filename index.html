@@ -3302,10 +3302,11 @@
       return '<div class="kartu-kata">' +
         '<div class="kata-foto"><img src="foto/' + k.foto + '.jpg" alt="' + k.bali + '" loading="lazy"></div>' +
         '<div class="kata-isi">' +
+          // Kartu kosakata sengaja TANPA tombol suara. Pelafalan di halaman
+          // materi ditiadakan atas permintaan; yang tetap bersuara hanyalah
+          // Kamus Basa Bali dan pembacaan soal kuis.
           '<div class="kata-baris">' +
             '<span class="kata-bali">' + k.bali + '</span>' +
-            '<button class="btn-dengar kecil" type="button" onclick="ucapkanMateri(\'' + k.audioMateri + '\',\'' +
-              (k.bali + '. ' + k.arti).replace(/'/g, "\\'") + '\',this)" aria-label="Dengarkan materi ' + k.bali + '">🔊</button>' +
           '</div>' +
           '<p class="kata-arti">' + k.arti + '</p>' +
         '</div>' +
